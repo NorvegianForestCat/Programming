@@ -1,4 +1,4 @@
-﻿public enum FormOfEducation
+﻿public enum EducationForm
 {
     FullTime,
     Distant,
