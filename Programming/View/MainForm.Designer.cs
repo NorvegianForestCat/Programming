@@ -35,7 +35,7 @@
             ChooseSeasonComboBox = new ComboBox();
             ChooseSeasonLabel = new Label();
             WeekdayGroupBox = new GroupBox();
-            SeasonValidLabel = new Label();
+            WeekdayValidLabel = new Label();
             ParseWeekdayButton = new Button();
             WeekdayValueTextBox = new TextBox();
             ParseValTypeLabel = new Label();
@@ -96,6 +96,7 @@
             ChooseSeasonButton.TabIndex = 3;
             ChooseSeasonButton.Text = "Go!";
             ChooseSeasonButton.UseVisualStyleBackColor = true;
+            ChooseSeasonButton.Click += ChooseSeasonButton_Click;
             // 
             // ChooseSeasonComboBox
             // 
@@ -116,7 +117,7 @@
             // 
             // WeekdayGroupBox
             // 
-            WeekdayGroupBox.Controls.Add(SeasonValidLabel);
+            WeekdayGroupBox.Controls.Add(WeekdayValidLabel);
             WeekdayGroupBox.Controls.Add(ParseWeekdayButton);
             WeekdayGroupBox.Controls.Add(WeekdayValueTextBox);
             WeekdayGroupBox.Controls.Add(ParseValTypeLabel);
@@ -127,14 +128,14 @@
             WeekdayGroupBox.TabStop = false;
             WeekdayGroupBox.Text = "Weekday Parsing";
             // 
-            // SeasonValidLabel
+            // WeekdayValidLabel
             // 
-            SeasonValidLabel.AutoSize = true;
-            SeasonValidLabel.Location = new Point(6, 93);
-            SeasonValidLabel.Name = "SeasonValidLabel";
-            SeasonValidLabel.Size = new Size(38, 15);
-            SeasonValidLabel.TabIndex = 3;
-            SeasonValidLabel.Text = "label1";
+            WeekdayValidLabel.AutoSize = true;
+            WeekdayValidLabel.Location = new Point(6, 93);
+            WeekdayValidLabel.Name = "WeekdayValidLabel";
+            WeekdayValidLabel.Size = new Size(38, 15);
+            WeekdayValidLabel.TabIndex = 3;
+            WeekdayValidLabel.Text = "label1";
             // 
             // ParseWeekdayButton
             // 
@@ -144,6 +145,7 @@
             ParseWeekdayButton.TabIndex = 2;
             ParseWeekdayButton.Text = "Parse";
             ParseWeekdayButton.UseVisualStyleBackColor = true;
+            ParseWeekdayButton.Click += ParseWeekdayButton_Click;
             // 
             // WeekdayValueTextBox
             // 
@@ -238,6 +240,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(tabControl1);
+            MaximizeBox = false;
             Name = "MainForm";
             Text = "Programming Demo";
             tabControl1.ResumeLayout(false);
@@ -270,6 +273,6 @@
         private Label ChooseSeasonLabel;
         private Button ChooseSeasonButton;
         private ComboBox ChooseSeasonComboBox;
-        private Label SeasonValidLabel;
+        private Label WeekdayValidLabel;
     }
 }
