@@ -1,9 +1,10 @@
-﻿public enum SmartphoneMaker
+﻿// Smartphone manufactories enumeration
+public enum SmartphoneMaker
 {
     Samsang,
     ReeleMe,
     Xaiomo,
     Appel,
     Hinor,
-    Boco
+    Boco,
 }

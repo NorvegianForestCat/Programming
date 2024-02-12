@@ -1,10 +1,11 @@
-﻿public enum Weekday
+﻿// Enumeration of days of week
+public enum Weekday
 {
-    Monday,
+    Monday = 1,
     Tuesday,
     Wednesday,
     Thursday,
     Friday,
     Saturday,
-    Sunday
+    Sunday,
 }

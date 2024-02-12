@@ -1,4 +1,5 @@
-﻿public enum Color
+﻿// Color enumeration
+public enum Color
 {
     Red,
     Green,
@@ -6,5 +7,5 @@
     Yellow,
     White,
     Black,
-    Cyan
+    Cyan,
 }
