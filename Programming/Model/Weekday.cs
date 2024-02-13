@@ -8,5 +8,4 @@ public enum Weekday
     Friday,
     Saturday,
     Sunday,
-    NullDay,
 }
