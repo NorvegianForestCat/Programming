@@ -94,7 +94,7 @@ namespace Programming
             if (ChooseSeasonComboBox.SelectedItem == null) return;
 
             // Performing some operations according to selected season 
-            switch(ChooseSeasonComboBox.SelectedItem) 
+            switch (ChooseSeasonComboBox.SelectedItem)
             {
                 case Season.Summer:
                     // Showing a message box with some text (Ура! Солнце!)
