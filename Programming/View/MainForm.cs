@@ -154,6 +154,9 @@ namespace Programming
 
         private void rectangleListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Fools-check
+            if (rectangleListBox.SelectedIndex > rectangleListBox.Items.Count) return;
+
             // Choose a correct rectangle following selected
             _currentRectangle = _rectangles[rectangleListBox.SelectedIndex];
 
@@ -240,6 +243,9 @@ namespace Programming
 
         private void filmsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Fools-check
+            if (filmsListBox.SelectedIndex > filmsListBox.Items.Count) return;
+
             // Choose a correct film following selected
             _currentFilm = _films[filmsListBox.SelectedIndex];
 
