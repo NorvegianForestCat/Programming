@@ -8,21 +8,22 @@ namespace Programming.Model
 {
     class Rectangular
     {
-        double length;
-        double width;
-        string? color;
+        double _length;
+        double _width;
+        string? _color;
 
+        // int Length, int value above 0. In another cases - ArgumentException
         public double Length
         {
             get
             {
-                return length;
+                return _length;
             }
             set
             {
                 if(value > 0)
                 {
-                    length = value;
+                    _length = value;
                 }
                 else
                 {
@@ -30,17 +31,19 @@ namespace Programming.Model
                 }
             }
         }
+
+        // int Width, int value above 0. In another cases - ArgumentException
         public double Width
         {
             get
             {
-                return width;
+                return _width;
             }
             set
             {
                 if (value > 0)
                 {
-                    width = value;
+                    _width = value;
                 }
                 else
                 {
@@ -49,25 +52,10 @@ namespace Programming.Model
             }
         }
 
-        public string? Color
-        {
-            get
-            {
-                return color;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    color = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Color must be");
-                }
-            }
-        }
+        // string Color, all values
+        public string? Color { get; set; }
 
+        // Base constructor without arguments
         public Rectangular()
         {
             Color = "Black";
@@ -76,7 +64,7 @@ namespace Programming.Model
             Width = 15;
         }
 
-
+        // Constructor with arguments
         public Rectangular(int length, int width, string color)
         {
             Color = color;
