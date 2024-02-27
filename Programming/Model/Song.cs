@@ -8,24 +8,26 @@ namespace Programming.Model
 {
     class Song
     {
-        int durationInSeconds;
+        int _durationInSeconds;
+        string? _songName;
+        string? _artistName;
 
-        string? songName;
-        string? artistName;
-
+        // string SongName, any string value
         public string? SongName { get; set; }
+        //string ArtistName, any string value
         public string? ArtistName { get; set; }
+        // int DurationInSeconds, int value above 0. In another cases - ArgumentException
         public int DurationInSeconds
         {
             get 
             { 
-                return durationInSeconds; 
+                return _durationInSeconds; 
             }
             set
             {
                 if(value > 0)
                 {
-                    durationInSeconds = value;
+                    _durationInSeconds = value;
                 }
                 else
                 {
@@ -34,6 +36,7 @@ namespace Programming.Model
             }
         }
 
+        // Base constructor without arguments
         public Song()
         {
             SongName = "Wind of Changes";
@@ -42,6 +45,7 @@ namespace Programming.Model
             DurationInSeconds = 311;
         }
 
+        // Constructor with arguments
         public Song(string songName, string artistName, int duration)
         {
             SongName = songName;

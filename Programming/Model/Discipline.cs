@@ -8,25 +8,26 @@ namespace Programming.Model
 {
     class Discipline
     {
-        string? title;
+        string? _title;
+        int _durationInHours;
+        int _score;
 
-        int durationInHours;
-        int score;
-
+        // string Title, any string value
         public string? Title { get; set; }
 
+        // int DurationInHours, int value above 0. In another cases - ArgumentException
         public int DurationInHours 
         { 
             get 
             {
-                return durationInHours;
+                return _durationInHours;
 
             } 
             set 
             {
                 if(value > 0)
                 {
-                    durationInHours = value;
+                    _durationInHours = value;
                 }
                 else
                 {
@@ -34,17 +35,19 @@ namespace Programming.Model
                 }
             }
         }
+
+        // int Score, int value in range between 0 and 5: [0, 5]. In another cases - ArgumentException
         public int Score
         {
             get
             {
-                return score;
+                return _score;
             }
             set
             {
                 if (value > 0 && value < 6)
                 {
-                    score = value;
+                    _score = value;
                 }
                 else
                 {
@@ -53,6 +56,7 @@ namespace Programming.Model
             }
         }
 
+        // Base constructor without arguments
         public Discipline()
         {
             Title = "Programming";
@@ -61,6 +65,7 @@ namespace Programming.Model
             Score = 5;
         }
 
+        // Constructor with arguments
         public Discipline(string? title, int durationInHours, int score)
         {
             Title = title;

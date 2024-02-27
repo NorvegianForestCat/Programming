@@ -8,25 +8,27 @@ namespace Programming.Model
 {
     class Flight
     {
-        string? departurePoint;
-        string? destinationPoint;
+        string? _departurePoint;
+        string? _destinationPoint;
+        int _flightTimeInMinutes;
 
-        int flightTimeInMinutes;
-
+        // string DeparturePoint, any string values
         public string? DeparturePoint { get; set; }
-        public string? DestinationPoint { get; set; }        
+        // string DestinationPoint, any string values
+        public string? DestinationPoint { get; set; }
 
+        // int FlightTimeInMinutes, int value above 0. In another cases - ArgumentException
         public int FlightTimeInMinutes
         {
             get
             {
-                return FlightTimeInMinutes;
+                return _flightTimeInMinutes;
             }
             set
             {
                 if (value > 0)
                 {
-                    flightTimeInMinutes = value;
+                    _flightTimeInMinutes = value;
                 }
                 else
                 {
@@ -35,11 +37,19 @@ namespace Programming.Model
             }
         }
 
+        // Base constructor without arguments
+        public Flight()
+        {
+            DestinationPoint = "PL/Lodz";
+            DeparturePoint = "RU/Novosibirsk";
+            FlightTimeInMinutes = 306;
+        }
+
+        // Constructor with arguments
         public Flight(string? departurePoint, string? destinationPoint, int flightTimeInMinutes)
         {
             DeparturePoint = departurePoint;
             DestinationPoint = destinationPoint;
-
             FlightTimeInMinutes = flightTimeInMinutes;
         }
     }

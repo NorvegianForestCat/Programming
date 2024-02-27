@@ -8,17 +8,20 @@ namespace Programming.Model
 {
     class Contact
     {
-        string? number;
-        string? adressName;
-        string? region;
+        string? _number;
+        string? _adressName;
+        string? _region;
 
+        // string AdressName, any string values
         public string? AdressName { get; set; }
+        // string Region, any string values
         public string? Region { get; set; }
+        // string Number, string values with length in range between 0 and 18: [0, 18). In another cases - ArgumentException
         public string? Number
         {
             get
             {
-                return number;
+                return _number;
             }
             set
             {
@@ -28,10 +31,12 @@ namespace Programming.Model
                 }
                 else
                 {
-                    number = value;
+                    _number = value;
                 }
             }
         }
+
+        // Base constructor without arguments
         public Contact()
         {
             Number = "+1234567890";
@@ -39,6 +44,7 @@ namespace Programming.Model
             Region = "UK/GB";
         }
 
+        // Constructor with arguments
         public Contact(string? number, string? adressName, string? region)
         {
             Number = number;

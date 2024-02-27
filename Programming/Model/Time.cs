@@ -8,21 +8,22 @@ namespace Programming.Model
 {
     class Time
     {
-        int hour;
-        int minute;
-        int second;
+        int _hour;
+        int _minute;
+        int _second;
 
+        // int Hour, int value in range between 0 and 24: [0, 24). In another cases - ArgumentException
         public int Hour
         {
             get
             {
-                return hour; 
+                return _hour; 
             } 
             set
             {
                 if(value >= 0 && value < 24)
                 {
-                    hour = value;
+                    _hour = value;
                 }
                 else
                 {
@@ -31,17 +32,18 @@ namespace Programming.Model
             }
         }
 
+        // int Minute, int value in range between 0 and 60: [0, 60). In another cases - ArgumentException
         public int Minute
         {
             get
             {
-                return minute;
+                return _minute;
             }
             set
             {
                 if (value >= 0 && value < 60)
                 {
-                    minute = value;
+                    _minute = value;
                 }
                 else
                 {
@@ -49,17 +51,19 @@ namespace Programming.Model
                 }
             }
         }
+
+        // int Second, int value in range between 0 and 60: [0, 60). In another cases - ArgumentException
         public int Second
         {
             get
             {
-                return second;
+                return _second;
             }
             set
             {
                 if (value >= 0 && value < 60)
                 {
-                    second = value;
+                    _second = value;
                 }
                 else
                 {
@@ -68,6 +72,7 @@ namespace Programming.Model
             }
         }
 
+        // Base constructor without arguments
         public Time()
         {
             Second = 0;
@@ -75,6 +80,7 @@ namespace Programming.Model
             Hour = 0;
         }
 
+        // Constructor with arguments
         public Time(int second, int hour, int minute)
         {
             Second = second;
