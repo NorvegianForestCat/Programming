@@ -23,16 +23,10 @@ namespace Programming.Model
                 return _durationInHours;
 
             } 
-            set 
+            set
             {
-                if(value > 0)
-                {
-                    _durationInHours = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Duration must be more than 0 hours");
-                }
+                Validator.AssertOnPositiveValue(value, "Duration");
+                _durationInHours = value;
             }
         }
 

@@ -26,14 +26,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 0)
-                {
-                    _flightTimeInMinutes = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Flight time must be greater than 0 minutes");
-                }
+                Validator.AssertOnPositiveValue(value, "Flight time in minutes");
+                _flightTimeInMinutes = value;
             }
         }
 

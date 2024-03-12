@@ -21,14 +21,8 @@ namespace Programming.Model
             }
             set
             {
-                if(value > 0)
-                {
-                    _length = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Length must be greater than 0");
-                }
+                Validator.AssertOnPositiveValue(value, "Length");
+                _length = value;
             }
         }
 
@@ -41,14 +35,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 0)
-                {
-                    _width = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Width must be greater than 0");
-                }
+                Validator.AssertOnPositiveValue(value, "Width");
+                _width = value;
             }
         }
 

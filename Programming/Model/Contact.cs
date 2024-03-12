@@ -9,20 +9,44 @@ namespace Programming.Model
     class Contact
     {
         string? _number;
-        string? _adressName;
+        string? _name;
+        string? _surname;
         string? _region;
 
-        // string AdressName, any string values
-        public string? AdressName { get; set; }
-        // string Region, any string values
-        public string? Region { get; set; }
+        // string Name, only latin letters
+        public string? Name 
+        { 
+            get => _name; 
+            set
+            {
+                AssertStringContainsOnlyLetters(value, "Name");
+                _name = value;
+            }
+        }
+        // string Surname, only latin letters
+        public string? Surname 
+        {
+            get => _surname;
+            set
+            {
+                AssertStringContainsOnlyLetters(value, "Surname");
+                _surname = value;
+            }
+        }
+        // string Region, only latin letters
+        public string? Region 
+        {
+            get => _region;
+            set
+            {
+                AssertStringContainsOnlyLetters(value, "Region");                
+                _region = value;              
+            }
+        }
         // string Number, string values with length in range between 0 and 18: [0, 18). In another cases - ArgumentException
         public string? Number
         {
-            get
-            {
-                return _number;
-            }
+            get => _number;
             set
             {
                 if ((value == null) || (value.Length < 18))
@@ -40,16 +64,30 @@ namespace Programming.Model
         public Contact()
         {
             Number = "+1234567890";
-            AdressName = "UTC";
+            Name = "Fiodor";
+            Surname = "Aikui";
             Region = "UK/GB";
         }
 
         // Constructor with arguments
-        public Contact(string? number, string? adressName, string? region)
+        public Contact(string? number, string? name, string? surname, string? region)
         {
             Number = number;
-            AdressName = adressName;
+            Name = name;
+            Surname = surname;
             Region = region;
+        }
+
+        // Check string for consists of only latin letters
+        private void AssertStringContainsOnlyLetters(string value, string propertyName)
+        {
+            foreach (char letter in value.ToUpper())
+            {
+                if (((int)letter < 65) || ((int)letter > 90))
+                {
+                    throw new ArgumentException($"{propertyName} must consists of only latin letters");
+                }
+            }
         }
     }
 }

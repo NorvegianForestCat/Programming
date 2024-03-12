@@ -27,14 +27,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 0)
-                {
-                    _duration = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Duration must be greater than 0");
-                }
+                Validator.AssertOnPositiveValue(value, "Duration");
+                _duration = value;
             }
         }
         // int ReleaseYear, int value in range between 1900 and this year: [1900, this year]. In another cases - ArgumentException

@@ -25,14 +25,8 @@ namespace Programming.Model
             }
             set
             {
-                if(value > 0)
-                {
-                    _durationInSeconds = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Duration must be more than 0 seconds");
-                }
+                Validator.AssertOnPositiveValue(value, "Duration");
+                _durationInSeconds = value;                
             }
         }
 
