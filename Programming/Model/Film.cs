@@ -27,7 +27,7 @@ namespace Programming.Model
             }
             set
             {
-                Validator.AssertOnPositiveValue(value, "Duration");
+                Validator.AssertOnPositiveValue(value, "Film.Duration");
                 _duration = value;
             }
         }
@@ -40,14 +40,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 1900 && value <= DateTime.Now.Year)
-                {
-                    _releaseYear = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Release year be greater than 1900 and less than present year");
-                }
+                Validator.AssertValueInRange(value, 1900, DateTime.Now.Year, "Film.ReleaseYear");
+                _releaseYear = value;
             }
         }
         // // double rating, double value in range between 0.0 and 10.0: [0.0, 10.0]. In another cases - ArgumentException
@@ -59,14 +53,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 0.0 && value <= 10.0)
-                {
-                    _rating = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Rating must be in interval 0-10");
-                }
+                Validator.AssertValueInRange(value, 0.0, 10.0, "Film.Rating");
+                _rating = value;
             }
         }
 

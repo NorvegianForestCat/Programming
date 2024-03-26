@@ -61,6 +61,10 @@
             titleTextBox = new TextBox();
             filmsListBox = new ListBox();
             rectangleGroupBox = new GroupBox();
+            rectangleIDTextBox = new TextBox();
+            rectangleIDLabel = new Label();
+            rectangleCenterTextBox = new TextBox();
+            centerRectangleLabel = new Label();
             rectFindButton = new Button();
             colorListBox = new Label();
             rectColorTextBox = new TextBox();
@@ -69,6 +73,12 @@
             lengthLabel = new Label();
             lengthTextBox = new TextBox();
             rectangleListBox = new ListBox();
+            rectTabPage = new TabPage();
+            panel1 = new Panel();
+            listBox1 = new ListBox();
+            label1 = new Label();
+            button1 = new Button();
+            button2 = new Button();
             mainTabControl.SuspendLayout();
             enumTabPage.SuspendLayout();
             seasonHandleGroupBox.SuspendLayout();
@@ -77,12 +87,14 @@
             classesTabPage.SuspendLayout();
             filmsGroupBox.SuspendLayout();
             rectangleGroupBox.SuspendLayout();
+            rectTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // mainTabControl
             // 
             mainTabControl.Controls.Add(enumTabPage);
             mainTabControl.Controls.Add(classesTabPage);
+            mainTabControl.Controls.Add(rectTabPage);
             mainTabControl.Dock = DockStyle.Fill;
             mainTabControl.Location = new Point(0, 0);
             mainTabControl.Name = "mainTabControl";
@@ -402,6 +414,10 @@
             // 
             // rectangleGroupBox
             // 
+            rectangleGroupBox.Controls.Add(rectangleIDTextBox);
+            rectangleGroupBox.Controls.Add(rectangleIDLabel);
+            rectangleGroupBox.Controls.Add(rectangleCenterTextBox);
+            rectangleGroupBox.Controls.Add(centerRectangleLabel);
             rectangleGroupBox.Controls.Add(rectFindButton);
             rectangleGroupBox.Controls.Add(colorListBox);
             rectangleGroupBox.Controls.Add(rectColorTextBox);
@@ -418,11 +434,45 @@
             rectangleGroupBox.TabStop = false;
             rectangleGroupBox.Text = "Rectangle";
             // 
+            // rectangleIDTextBox
+            // 
+            rectangleIDTextBox.Location = new Point(560, 81);
+            rectangleIDTextBox.Name = "rectangleIDTextBox";
+            rectangleIDTextBox.Size = new Size(166, 23);
+            rectangleIDTextBox.TabIndex = 11;
+            rectangleIDTextBox.KeyPress += rectangleIDTextBox_KeyPress;
+            // 
+            // rectangleIDLabel
+            // 
+            rectangleIDLabel.AutoSize = true;
+            rectangleIDLabel.Location = new Point(560, 63);
+            rectangleIDLabel.Name = "rectangleIDLabel";
+            rectangleIDLabel.Size = new Size(18, 15);
+            rectangleIDLabel.TabIndex = 10;
+            rectangleIDLabel.Text = "ID";
+            // 
+            // rectangleCenterTextBox
+            // 
+            rectangleCenterTextBox.Location = new Point(560, 37);
+            rectangleCenterTextBox.Name = "rectangleCenterTextBox";
+            rectangleCenterTextBox.Size = new Size(166, 23);
+            rectangleCenterTextBox.TabIndex = 9;
+            rectangleCenterTextBox.KeyPress += rectangleCenterTextBox_KeyPress;
+            // 
+            // centerRectangleLabel
+            // 
+            centerRectangleLabel.AutoSize = true;
+            centerRectangleLabel.Location = new Point(560, 19);
+            centerRectangleLabel.Name = "centerRectangleLabel";
+            centerRectangleLabel.Size = new Size(42, 15);
+            centerRectangleLabel.TabIndex = 8;
+            centerRectangleLabel.Text = "Center";
+            // 
             // rectFindButton
             // 
-            rectFindButton.Location = new Point(388, 154);
+            rectFindButton.Location = new Point(244, 153);
             rectFindButton.Name = "rectFindButton";
-            rectFindButton.Size = new Size(338, 23);
+            rectFindButton.Size = new Size(310, 23);
             rectFindButton.TabIndex = 7;
             rectFindButton.Text = "Find";
             rectFindButton.UseVisualStyleBackColor = true;
@@ -431,7 +481,7 @@
             // colorListBox
             // 
             colorListBox.AutoSize = true;
-            colorListBox.Location = new Point(388, 107);
+            colorListBox.Location = new Point(244, 107);
             colorListBox.Name = "colorListBox";
             colorListBox.Size = new Size(36, 15);
             colorListBox.TabIndex = 5;
@@ -439,16 +489,16 @@
             // 
             // rectColorTextBox
             // 
-            rectColorTextBox.Location = new Point(388, 125);
+            rectColorTextBox.Location = new Point(244, 125);
             rectColorTextBox.Name = "rectColorTextBox";
-            rectColorTextBox.Size = new Size(338, 23);
+            rectColorTextBox.Size = new Size(310, 23);
             rectColorTextBox.TabIndex = 6;
             rectColorTextBox.TextChanged += rectColorTextBox_TextChanged;
             // 
             // widthLabel
             // 
             widthLabel.AutoSize = true;
-            widthLabel.Location = new Point(388, 63);
+            widthLabel.Location = new Point(244, 63);
             widthLabel.Name = "widthLabel";
             widthLabel.Size = new Size(39, 15);
             widthLabel.TabIndex = 3;
@@ -456,16 +506,16 @@
             // 
             // widthTextBox
             // 
-            widthTextBox.Location = new Point(388, 81);
+            widthTextBox.Location = new Point(244, 81);
             widthTextBox.Name = "widthTextBox";
-            widthTextBox.Size = new Size(338, 23);
+            widthTextBox.Size = new Size(310, 23);
             widthTextBox.TabIndex = 4;
             widthTextBox.TextChanged += widthTextBox_TextChanged;
             // 
             // lengthLabel
             // 
             lengthLabel.AutoSize = true;
-            lengthLabel.Location = new Point(388, 19);
+            lengthLabel.Location = new Point(244, 19);
             lengthLabel.Name = "lengthLabel";
             lengthLabel.Size = new Size(44, 15);
             lengthLabel.TabIndex = 1;
@@ -473,9 +523,9 @@
             // 
             // lengthTextBox
             // 
-            lengthTextBox.Location = new Point(388, 37);
+            lengthTextBox.Location = new Point(244, 37);
             lengthTextBox.Name = "lengthTextBox";
-            lengthTextBox.Size = new Size(338, 23);
+            lengthTextBox.Size = new Size(310, 23);
             lengthTextBox.TabIndex = 2;
             lengthTextBox.TextChanged += lengthTextBox_TextChanged;
             // 
@@ -485,9 +535,69 @@
             rectangleListBox.ItemHeight = 15;
             rectangleListBox.Location = new Point(6, 22);
             rectangleListBox.Name = "rectangleListBox";
-            rectangleListBox.Size = new Size(376, 154);
+            rectangleListBox.Size = new Size(232, 154);
             rectangleListBox.TabIndex = 0;
             rectangleListBox.SelectedIndexChanged += rectangleListBox_SelectedIndexChanged;
+            // 
+            // rectTabPage
+            // 
+            rectTabPage.Controls.Add(button2);
+            rectTabPage.Controls.Add(button1);
+            rectTabPage.Controls.Add(label1);
+            rectTabPage.Controls.Add(listBox1);
+            rectTabPage.Controls.Add(panel1);
+            rectTabPage.Location = new Point(4, 24);
+            rectTabPage.Name = "rectTabPage";
+            rectTabPage.Size = new Size(792, 422);
+            rectTabPage.TabIndex = 2;
+            rectTabPage.Text = "Rectangles";
+            rectTabPage.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Location = new Point(303, 8);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(481, 406);
+            panel1.TabIndex = 0;
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(8, 26);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(277, 169);
+            listBox1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(8, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 1;
+            label1.Text = "label1";
+            // 
+            // button1
+            // 
+            button1.BackgroundImageLayout = ImageLayout.Center;
+            button1.Location = new Point(8, 201);
+            button1.Name = "button1";
+            button1.Size = new Size(38, 38);
+            button1.TabIndex = 2;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.BackgroundImageLayout = ImageLayout.Center;
+            button2.Location = new Point(247, 201);
+            button2.Name = "button2";
+            button2.Size = new Size(38, 38);
+            button2.TabIndex = 3;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -512,6 +622,8 @@
             filmsGroupBox.PerformLayout();
             rectangleGroupBox.ResumeLayout(false);
             rectangleGroupBox.PerformLayout();
+            rectTabPage.ResumeLayout(false);
+            rectTabPage.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -558,5 +670,15 @@
         private TextBox releaseYearTextBox;
         private Label genreLabel;
         private TextBox genreTextBox;
+        private TextBox rectangleCenterTextBox;
+        private Label centerRectangleLabel;
+        private TextBox rectangleIDTextBox;
+        private Label rectangleIDLabel;
+        private TabPage rectTabPage;
+        private Label label1;
+        private ListBox listBox1;
+        private Panel panel1;
+        private Button button2;
+        private Button button1;
     }
 }

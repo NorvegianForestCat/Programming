@@ -39,14 +39,8 @@ namespace Programming.Model
             }
             set
             {
-                if (value > 0 && value < 6)
-                {
-                    _score = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Score must be in interval behind 1 and 5");
-                }
+                Validator.AssertValueInRange(value, 0, 6, "Discipline.Score");
+                _score = value;
             }
         }
 
