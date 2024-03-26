@@ -34,7 +34,7 @@ namespace Programming
             // Filling rectangular array and "linked" each with rectangleListBox element
             for (int i = 0; i < _numberOfRectangles; i++)
             {
-                _rectangles[i] = new Rectangular(rand.Next(), rand.Next(), "White");
+                _rectangles[i] = new Rectangular(rand.Next(100), rand.Next(100), "White");
                 rectangleListBox.Items.Add($"Rectangular {i + 1}");
             }
 
@@ -164,6 +164,10 @@ namespace Programming
             lengthTextBox.Text = _currentRectangle.Length.ToString();
             widthTextBox.Text = _currentRectangle.Width.ToString();
             rectColorTextBox.Text = _currentRectangle.Color.ToString();
+            rectangleCenterTextBox.Text = _currentRectangle.Center.ToString();
+            rectangleIDTextBox.Text = _currentRectangle.ID.ToString();
+
+            MessageBox.Show(CollisionManager.IsCollision(_currentRectangle, _rectangles[0]).ToString());
         }
 
         private void lengthTextBox_TextChanged(object sender, EventArgs e)
@@ -210,7 +214,7 @@ namespace Programming
         {
             _currentRectangle.Color = rectColorTextBox.Text; // Collecting color value
         }
-        
+
         // Finding index of rectangular with max width
         private int FindRectangleWithMaxWidth(Rectangular[] rectangularArray)
         {
@@ -345,6 +349,16 @@ namespace Programming
         {
             int maxRatingIndex = FindFilmWithMaxRating(_films); // Found max rating index
             filmsListBox.SelectedIndex = maxRatingIndex; // Changing index of selected element
+        }
+
+        private void rectangleCenterTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            rectangleCenterTextBox.Text = _currentRectangle.Center.ToString();
+        }
+
+        private void rectangleIDTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            rectangleIDTextBox.Text = _currentRectangle.ID.ToString();
         }
     }
 }
