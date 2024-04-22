@@ -74,11 +74,22 @@
             lengthTextBox = new TextBox();
             rectangleListBox = new ListBox();
             rectTabPage = new TabPage();
-            panel1 = new Panel();
-            listBox1 = new ListBox();
-            label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
+            selectedRectangleHeightTextBox = new TextBox();
+            selectedRectangleWidthTextBox = new TextBox();
+            selectedRectangleYTextBox = new TextBox();
+            selectedRectangleXTextBox = new TextBox();
+            selectedRectangleIDTextBox = new TextBox();
+            selectedRectangleWidthLabel = new Label();
+            selectedRectangleXLabel = new Label();
+            selectedRectangleHeightLabel = new Label();
+            selecetedRectangleYLabel = new Label();
+            selectedRectangleIDLabel = new Label();
+            selectedRectLabel = new Label();
+            removeRectangleButton = new Button();
+            addRectangleButton = new Button();
+            rectLabel = new Label();
+            rectangleColListBox = new ListBox();
+            rectangleCanvasPanel = new Panel();
             mainTabControl.SuspendLayout();
             enumTabPage.SuspendLayout();
             seasonHandleGroupBox.SuspendLayout();
@@ -440,7 +451,6 @@
             rectangleIDTextBox.Name = "rectangleIDTextBox";
             rectangleIDTextBox.Size = new Size(166, 23);
             rectangleIDTextBox.TabIndex = 11;
-            rectangleIDTextBox.KeyPress += rectangleIDTextBox_KeyPress;
             // 
             // rectangleIDLabel
             // 
@@ -541,11 +551,22 @@
             // 
             // rectTabPage
             // 
-            rectTabPage.Controls.Add(button2);
-            rectTabPage.Controls.Add(button1);
-            rectTabPage.Controls.Add(label1);
-            rectTabPage.Controls.Add(listBox1);
-            rectTabPage.Controls.Add(panel1);
+            rectTabPage.Controls.Add(selectedRectangleHeightTextBox);
+            rectTabPage.Controls.Add(selectedRectangleWidthTextBox);
+            rectTabPage.Controls.Add(selectedRectangleYTextBox);
+            rectTabPage.Controls.Add(selectedRectangleXTextBox);
+            rectTabPage.Controls.Add(selectedRectangleIDTextBox);
+            rectTabPage.Controls.Add(selectedRectangleWidthLabel);
+            rectTabPage.Controls.Add(selectedRectangleXLabel);
+            rectTabPage.Controls.Add(selectedRectangleHeightLabel);
+            rectTabPage.Controls.Add(selecetedRectangleYLabel);
+            rectTabPage.Controls.Add(selectedRectangleIDLabel);
+            rectTabPage.Controls.Add(selectedRectLabel);
+            rectTabPage.Controls.Add(removeRectangleButton);
+            rectTabPage.Controls.Add(addRectangleButton);
+            rectTabPage.Controls.Add(rectLabel);
+            rectTabPage.Controls.Add(rectangleColListBox);
+            rectTabPage.Controls.Add(rectangleCanvasPanel);
             rectTabPage.Location = new Point(4, 24);
             rectTabPage.Name = "rectTabPage";
             rectTabPage.Size = new Size(792, 422);
@@ -553,51 +574,149 @@
             rectTabPage.Text = "Rectangles";
             rectTabPage.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // selectedRectangleHeightTextBox
             // 
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Location = new Point(303, 8);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(481, 406);
-            panel1.TabIndex = 0;
+            selectedRectangleHeightTextBox.Location = new Point(58, 383);
+            selectedRectangleHeightTextBox.Name = "selectedRectangleHeightTextBox";
+            selectedRectangleHeightTextBox.Size = new Size(100, 23);
+            selectedRectangleHeightTextBox.TabIndex = 14;
+            selectedRectangleHeightTextBox.MouseLeave += selectedRectangleHeightTextBox_MouseLeave;
             // 
-            // listBox1
+            // selectedRectangleWidthTextBox
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(8, 26);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(277, 169);
-            listBox1.TabIndex = 0;
+            selectedRectangleWidthTextBox.Location = new Point(58, 354);
+            selectedRectangleWidthTextBox.Name = "selectedRectangleWidthTextBox";
+            selectedRectangleWidthTextBox.Size = new Size(100, 23);
+            selectedRectangleWidthTextBox.TabIndex = 13;
+            selectedRectangleWidthTextBox.MouseLeave += selectedRectangleWidthTextBox_MouseLeave;
             // 
-            // label1
+            // selectedRectangleYTextBox
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(8, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 1;
-            label1.Text = "label1";
+            selectedRectangleYTextBox.Location = new Point(58, 325);
+            selectedRectangleYTextBox.Name = "selectedRectangleYTextBox";
+            selectedRectangleYTextBox.Size = new Size(100, 23);
+            selectedRectangleYTextBox.TabIndex = 12;
+            selectedRectangleYTextBox.MouseLeave += selectedRectangleYTextBox_MouseLeave;
             // 
-            // button1
+            // selectedRectangleXTextBox
             // 
-            button1.BackgroundImageLayout = ImageLayout.Center;
-            button1.Location = new Point(8, 201);
-            button1.Name = "button1";
-            button1.Size = new Size(38, 38);
-            button1.TabIndex = 2;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            selectedRectangleXTextBox.Location = new Point(58, 296);
+            selectedRectangleXTextBox.Name = "selectedRectangleXTextBox";
+            selectedRectangleXTextBox.Size = new Size(100, 23);
+            selectedRectangleXTextBox.TabIndex = 11;
+            selectedRectangleXTextBox.MouseLeave += selectedRectangleXTextBox_MouseLeave;
+
             // 
-            // button2
+            // selectedRectangleIDTextBox
             // 
-            button2.BackgroundImageLayout = ImageLayout.Center;
-            button2.Location = new Point(247, 201);
-            button2.Name = "button2";
-            button2.Size = new Size(38, 38);
-            button2.TabIndex = 3;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            selectedRectangleIDTextBox.Location = new Point(58, 267);
+            selectedRectangleIDTextBox.Name = "selectedRectangleIDTextBox";
+            selectedRectangleIDTextBox.Size = new Size(100, 23);
+            selectedRectangleIDTextBox.TabIndex = 10;
+            selectedRectangleIDTextBox.TextChanged += selectedRectangleIDTextBox_TextChanged;
+            // 
+            // selectedRectangleWidthLabel
+            // 
+            selectedRectangleWidthLabel.AutoSize = true;
+            selectedRectangleWidthLabel.Location = new Point(13, 357);
+            selectedRectangleWidthLabel.Name = "selectedRectangleWidthLabel";
+            selectedRectangleWidthLabel.Size = new Size(39, 15);
+            selectedRectangleWidthLabel.TabIndex = 0;
+            selectedRectangleWidthLabel.Text = "Width";
+            // 
+            // selectedRectangleXLabel
+            // 
+            selectedRectangleXLabel.AutoSize = true;
+            selectedRectangleXLabel.Location = new Point(38, 299);
+            selectedRectangleXLabel.Name = "selectedRectangleXLabel";
+            selectedRectangleXLabel.Size = new Size(14, 15);
+            selectedRectangleXLabel.TabIndex = 9;
+            selectedRectangleXLabel.Text = "X";
+            // 
+            // selectedRectangleHeightLabel
+            // 
+            selectedRectangleHeightLabel.AutoSize = true;
+            selectedRectangleHeightLabel.Location = new Point(9, 386);
+            selectedRectangleHeightLabel.Name = "selectedRectangleHeightLabel";
+            selectedRectangleHeightLabel.Size = new Size(43, 15);
+            selectedRectangleHeightLabel.TabIndex = 8;
+            selectedRectangleHeightLabel.Text = "Height";
+            // 
+            // selecetedRectangleYLabel
+            // 
+            selecetedRectangleYLabel.AutoSize = true;
+            selecetedRectangleYLabel.Location = new Point(38, 328);
+            selecetedRectangleYLabel.Name = "selecetedRectangleYLabel";
+            selecetedRectangleYLabel.Size = new Size(14, 15);
+            selecetedRectangleYLabel.TabIndex = 7;
+            selecetedRectangleYLabel.Text = "Y";
+            // 
+            // selectedRectangleIDLabel
+            // 
+            selectedRectangleIDLabel.AutoSize = true;
+            selectedRectangleIDLabel.Location = new Point(34, 270);
+            selectedRectangleIDLabel.Name = "selectedRectangleIDLabel";
+            selectedRectangleIDLabel.Size = new Size(18, 15);
+            selectedRectangleIDLabel.TabIndex = 5;
+            selectedRectangleIDLabel.Text = "ID";
+            // 
+            // selectedRectLabel
+            // 
+            selectedRectLabel.AutoSize = true;
+            selectedRectLabel.Location = new Point(7, 249);
+            selectedRectLabel.Name = "selectedRectLabel";
+            selectedRectLabel.Size = new Size(106, 15);
+            selectedRectLabel.TabIndex = 4;
+            selectedRectLabel.Text = "Selected rectangle:";
+            // 
+            // removeRectangleButton
+            // 
+            removeRectangleButton.BackgroundImageLayout = ImageLayout.Center;
+            removeRectangleButton.Location = new Point(247, 201);
+            removeRectangleButton.Name = "removeRectangleButton";
+            removeRectangleButton.Size = new Size(38, 38);
+            removeRectangleButton.TabIndex = 3;
+            removeRectangleButton.Text = "-";
+            removeRectangleButton.UseVisualStyleBackColor = true;
+            removeRectangleButton.Click += removeRectangleButton_Click;
+            // 
+            // addRectangleButton
+            // 
+            addRectangleButton.BackgroundImageLayout = ImageLayout.Center;
+            addRectangleButton.Location = new Point(7, 201);
+            addRectangleButton.Name = "addRectangleButton";
+            addRectangleButton.Size = new Size(38, 38);
+            addRectangleButton.TabIndex = 2;
+            addRectangleButton.Text = "+";
+            addRectangleButton.UseVisualStyleBackColor = true;
+            addRectangleButton.Click += addRectangleButton_Click;
+            // 
+            // rectLabel
+            // 
+            rectLabel.AutoSize = true;
+            rectLabel.Location = new Point(7, 8);
+            rectLabel.Name = "rectLabel";
+            rectLabel.Size = new Size(64, 15);
+            rectLabel.TabIndex = 1;
+            rectLabel.Text = "Rectangles";
+            // 
+            // rectangleColListBox
+            // 
+            rectangleColListBox.FormattingEnabled = true;
+            rectangleColListBox.ItemHeight = 15;
+            rectangleColListBox.Location = new Point(8, 26);
+            rectangleColListBox.Name = "rectangleColListBox";
+            rectangleColListBox.Size = new Size(277, 169);
+            rectangleColListBox.TabIndex = 0;
+            rectangleColListBox.SelectedIndexChanged += rectangleColListBox_SelectedIndexChanged;
+            // 
+            // rectangleCanvasPanel
+            // 
+            rectangleCanvasPanel.BorderStyle = BorderStyle.FixedSingle;
+            rectangleCanvasPanel.Location = new Point(303, 8);
+            rectangleCanvasPanel.Name = "rectangleCanvasPanel";
+            rectangleCanvasPanel.Size = new Size(481, 406);
+            rectangleCanvasPanel.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -675,10 +794,21 @@
         private TextBox rectangleIDTextBox;
         private Label rectangleIDLabel;
         private TabPage rectTabPage;
-        private Label label1;
-        private ListBox listBox1;
-        private Panel panel1;
-        private Button button2;
-        private Button button1;
+        private Label rectLabel;
+        private ListBox rectangleColListBox;
+        private Panel rectangleCanvasPanel;
+        private Button removeRectangleButton;
+        private Button addRectangleButton;
+        private Label selectedRectangleWidthLabel;
+        private Label selectedRectangleXLabel;
+        private Label selectedRectangleHeightLabel;
+        private Label selecetedRectangleYLabel;
+        private Label selectedRectangleIDLabel;
+        private Label selectedRectLabel;
+        private TextBox selectedRectangleHeightTextBox;
+        private TextBox selectedRectangleWidthTextBox;
+        private TextBox selectedRectangleYTextBox;
+        private TextBox selectedRectangleXTextBox;
+        private TextBox selectedRectangleIDTextBox;
     }
 }

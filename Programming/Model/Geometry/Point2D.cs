@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Programming.Model.Services;
 
-namespace Programming.Model
+namespace Programming.Model.Geometry
 {
     class Point2D
     {
@@ -14,9 +15,9 @@ namespace Programming.Model
         public double X
         {
             get => _x;
-            private set
+            set
             {
-                Validator.AssertValueInRange(value, 0.0, 100.0, "Podouble2D.X");
+                Validator.AssertValueInRange(value, 0.0, 500.0, "Point2D.X");
                 _x = value;
             }
         }
@@ -24,9 +25,9 @@ namespace Programming.Model
         public double Y
         {
             get => _y;
-            private set
+            set
             {
-                Validator.AssertValueInRange(value, 0.0, 100.0, "Podouble2D.Y");
+                Validator.AssertValueInRange(value, 0.0, 500.0, "Point2D.Y");
                 _y = value;
             }
         }

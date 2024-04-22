@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Programming.Model.Services;
 
 namespace Programming.Model
 {
     class Discipline
     {
-        string? _title;
+        string? 
+            
+            
+            
+            
+  _title;
         int _durationInHours;
         int _score;
 

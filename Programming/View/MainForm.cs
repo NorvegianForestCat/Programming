@@ -5,6 +5,10 @@ using System.Runtime.CompilerServices;
 using System.Windows.Markup;
 using System.Drawing;
 using System.Drawing.Design;
+using System.Windows.Forms;
+using System;
+using Programming.Model.Services;
+using Programming.Model.Geometry;
 
 namespace Programming
 {
@@ -13,28 +17,39 @@ namespace Programming
         private Rectangular[] _rectangles;
         private Rectangular _currentRectangle;
         private Film[] _films;
+        private List<Rectangular> _rectangulars;
+        private Rectangular _currentRectangular;
+        private List<Panel> _rectanglePanels;
         private Film _currentFilm;
         private const int _numberOfFilms = 5;
         private const int _numberOfRectangles = 5;
+        private Random rand;
+        private bool dtFlag;
 
         public MainForm()
         {
+            if (this == null) return;
+
             InitializeComponent();
 
             weekdayValidLabel.Text = String.Empty; // Clear the label for selected weekday
             enumsListBox.SelectedIndex = 0; // Set a base element for enums list
-
-            chooseSeasonComboBox.DataSource = Enum.GetValues(typeof(Season)); // Filling a season ComboBox
+            dtFlag = true;
 
             _rectangles = new Rectangular[_numberOfRectangles]; // Initialize rectangulars array
             _films = new Film[_numberOfFilms]; // Initialize films array
+            _rectangulars = new List<Rectangular>();
+            _rectanglePanels = new List<Panel>();
 
-            Random rand = new Random(); // Create a Random object
+
+            chooseSeasonComboBox.DataSource = Enum.GetValues(typeof(Season)); // Filling a season ComboBox
+
+            rand = new Random(); // Create a Random object
 
             // Filling rectangular array and "linked" each with rectangleListBox element
             for (int i = 0; i < _numberOfRectangles; i++)
             {
-                _rectangles[i] = new Rectangular(rand.Next(100), rand.Next(100), "White");
+                _rectangles[i] = new Rectangular(rand.Next(100), rand.Next(100), 1, 1, "White");
                 rectangleListBox.Items.Add($"Rectangular {i + 1}");
             }
 
@@ -354,11 +369,237 @@ namespace Programming
         private void rectangleCenterTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             rectangleCenterTextBox.Text = _currentRectangle.Center.ToString();
+            rectangleColListBox.Items.Add("text");
         }
 
-        private void rectangleIDTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void addRectangleButton_Click(object sender, EventArgs e)
         {
-            rectangleIDTextBox.Text = _currentRectangle.ID.ToString();
+            _rectangulars.Add(RectangleFactory.Randomize());
+            rectangleColListBox.Items.Add(_rectangulars[_rectangulars.Count - 1]);
+
+            var newPanel = new Panel();
+
+            newPanel.Location = new Point((int)_rectangulars[_rectangulars.Count - 1].Center.X - (int)_rectangulars[_rectangulars.Count - 1].Width / 2,
+            (int)_rectangulars[_rectangulars.Count - 1].Center.Y - (int)_rectangulars[_rectangulars.Count - 1].Length / 2);
+
+            newPanel.Width = (int)_rectangulars[_rectangulars.Count - 1].Width;
+            newPanel.Height = (int)_rectangulars[_rectangulars.Count - 1].Length;
+            newPanel.BackColor = System.Drawing.Color.FromArgb(127, 127, 255, 127);
+            newPanel.BorderStyle = BorderStyle.FixedSingle;
+
+            _rectanglePanels.Add(newPanel);
+            rectangleCanvasPanel.Controls.Add(newPanel);
+
+            FindCollision();
+        }
+
+        private void removeRectangleButton_Click(object sender, EventArgs e)
+        {
+            if (_rectangulars == null || rectangleColListBox.SelectedIndex == -1) return;
+            int index = rectangleColListBox.SelectedIndex;
+            _rectangulars.RemoveAt(index);
+
+            rectangleColListBox.Items.RemoveAt(index);
+            rectangleCanvasPanel.Controls.Remove(_rectanglePanels[index]);
+            _rectanglePanels.RemoveAt(index);
+
+            FindCollision();
+        }
+
+        private void rectangleColListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+                if (rectangleColListBox.SelectedIndex == -1)
+                {
+                    ClearRectangleInfo();
+                }
+                else
+                {
+                    if (dtFlag)
+                    {
+                        var index = rectangleColListBox.SelectedIndex;
+                        UpdateRectangleInfo(_rectangulars[index]);
+                    }
+                }
+        }
+
+        private void selectedRectangleIDTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (rectangleColListBox.SelectedIndex == -1) return;
+            var value = _rectangulars[rectangleColListBox.SelectedIndex].ID;
+            selectedRectangleIDTextBox.Text = value.ToString();
+        }
+
+        private void selectedRectangleXTextBox_MouseLeave(object sender, EventArgs e)
+        {          
+            // Error-checker
+            try
+            {
+                var value = int.Parse(selectedRectangleXTextBox.Text);
+
+                var index = rectangleColListBox.SelectedIndex;
+                Validator.AssertOnPositiveValue(value, selectedRectangleXTextBox.ToString());
+
+                dtFlag = false;
+                _rectangulars[index].Center.X = value;
+
+                _rectanglePanels[index].Location = new Point(value - (int)_rectangulars[index].Width / 2, (int)_rectangulars[index].Center.Y - (int)_rectangulars[index].Length / 2);
+
+                rectangleColListBox.Items.RemoveAt(index);
+                rectangleColListBox.Items.Insert(index, _rectangulars[index]);
+
+                dtFlag = true;
+
+                FindCollision();
+                // Changing TextBox color to white
+                if (selectedRectangleXTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
+                {
+                    selectedRectangleXTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                }
+            }
+            catch
+            {
+                // Changing TextBox color to LightPink
+                selectedRectangleXTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+            }
+        }
+
+        private void selectedRectangleYTextBox_MouseLeave(object sender, EventArgs e)
+        {
+            // Error-checker
+            try
+            {
+                var value = int.Parse(selectedRectangleYTextBox.Text);
+
+                var index = rectangleColListBox.SelectedIndex;
+                Validator.AssertOnPositiveValue(value, selectedRectangleYTextBox.ToString());
+
+                dtFlag = false;
+
+                _rectangulars[index].Center.Y = value;
+                _rectanglePanels[index].Location = new Point((int)_rectangulars[index].Center.X - (int)_rectangulars[index].Length / 2, value - (int)_rectangulars[index].Width / 2);
+
+                rectangleColListBox.Items.RemoveAt(index);
+                rectangleColListBox.Items.Insert(index, _rectangulars[index]);
+
+                dtFlag = true;
+                FindCollision();
+
+                // Changing TextBox color to white
+                if (selectedRectangleYTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
+                {
+                    selectedRectangleYTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                }
+            }
+            catch
+            {
+                // Changing TextBox color to LightPink
+                selectedRectangleYTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+            }
+        }
+
+        private void selectedRectangleWidthTextBox_MouseLeave(object sender, EventArgs e)
+        {
+            // Error-checker
+            try
+            {
+                var value = int.Parse(selectedRectangleWidthTextBox.Text);
+                var index = rectangleColListBox.SelectedIndex;
+
+                Validator.AssertOnPositiveValue(value, selectedRectangleWidthTextBox.ToString());
+
+                dtFlag = false;
+
+                _rectangulars[index].Width = value;
+                _rectanglePanels[index].Width = value;
+
+                rectangleColListBox.Items.RemoveAt(index);
+                rectangleColListBox.Items.Insert(index, _rectangulars[index]);
+
+                dtFlag = true;
+                FindCollision();
+
+                // Changing TextBox color to white
+                if (selectedRectangleWidthTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
+                {
+                    selectedRectangleWidthTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                }
+            }
+            catch
+            {
+                // Changing TextBox color to LightPink
+                selectedRectangleWidthTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+            }
+        }
+
+        private void selectedRectangleHeightTextBox_MouseLeave(object sender, EventArgs e)
+        {
+            // Error-checker
+            try
+            {
+                var value = int.Parse(selectedRectangleHeightTextBox.Text);
+                var index = rectangleColListBox.SelectedIndex;
+
+                Validator.AssertOnPositiveValue(value, selectedRectangleHeightTextBox.ToString());
+
+                dtFlag = false;
+
+                _rectangulars[index].Length = value;
+                _rectanglePanels[index].Height = value;
+
+                rectangleColListBox.Items.RemoveAt(index);
+                rectangleColListBox.Items.Insert(index, _rectangulars[index]);
+
+                dtFlag = true;
+                FindCollision();
+
+                // Changing TextBox color to white
+                if (selectedRectangleHeightTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
+                {
+                    selectedRectangleHeightTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                }
+            }
+            catch
+            {
+                // Changing TextBox color to LightPink
+                selectedRectangleHeightTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+            }
+        }
+
+        private void FindCollision()
+        {
+            foreach (Panel panel in _rectanglePanels)
+            {
+                panel.BackColor = System.Drawing.Color.FromArgb(127, 127, 255, 127);
+            }
+            for (int i = 0; i < _rectanglePanels.Count - 1; i++)
+            {
+                for (int j = i + 1; j < _rectanglePanels.Count; j++)
+                {
+                    if (CollisionManager.IsCollision(_rectangulars[i], _rectangulars[j]))
+                    {
+                        _rectanglePanels[i].BackColor = System.Drawing.Color.FromArgb(127, 255, 127, 127);
+                        _rectanglePanels[j].BackColor = System.Drawing.Color.FromArgb(127, 255, 127, 127);
+                    }
+                }
+            }
+        }
+
+        private void UpdateRectangleInfo(Rectangular rectangle)
+        {
+            selectedRectangleIDTextBox.Text = rectangle.ID.ToString();
+            selectedRectangleXTextBox.Text = rectangle.Center.X.ToString();
+            selectedRectangleYTextBox.Text = rectangle.Center.Y.ToString();
+            selectedRectangleWidthTextBox.Text = rectangle.Width.ToString();
+            selectedRectangleHeightTextBox.Text = rectangle.Length.ToString();
+        }
+        private void ClearRectangleInfo()
+        {
+            selectedRectangleIDTextBox.Text = String.Empty;
+            selectedRectangleXTextBox.Text = String.Empty;
+            selectedRectangleYTextBox.Text = String.Empty;
+            selectedRectangleWidthTextBox.Text = String.Empty;
+            selectedRectangleHeightTextBox.Text = String.Empty;
         }
     }
 }

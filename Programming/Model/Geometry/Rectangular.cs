@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Programming.Model.Services;
 
-namespace Programming.Model
+namespace Programming.Model.Geometry
 {
     class Rectangular
     {
@@ -48,7 +49,7 @@ namespace Programming.Model
             get => _id;
         }
 
-        public int AllRectanglesCount
+        public static int AllRectanglesCount
         {
             get => _allRectanglesCount;
         }
@@ -64,7 +65,7 @@ namespace Programming.Model
             Color = "Black";
             Length = 15;
             Width = 15;
-            Center = new Point2D(7.5, 7.5);
+            Center = new Point2D(1, 1);
 
             _id = AllRectanglesCount;
 
@@ -72,16 +73,21 @@ namespace Programming.Model
         }
 
         // Constructor with arguments
-        public Rectangular(int length, int width, string color)
+        public Rectangular(int length, int width, int x, int y, string color)
         {
             Color = color;
             Length = length;
             Width = width;
-            Center = new Point2D(Length / 2, Width / 2);
+            Center = new Point2D(x, y);
 
             _id = AllRectanglesCount;
 
             _allRectanglesCount++;
+        }
+
+        public override string ToString()
+        {
+            return $"{ID}. (X={Center.X}, Y={Center.Y}, W={Width}, H={Length})";
         }
     }
 }
