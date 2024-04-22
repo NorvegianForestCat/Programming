@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Programming.Model.Services;
 
 namespace Programming.Model
 {
@@ -19,7 +20,7 @@ namespace Programming.Model
             get => _name; 
             set
             {
-                AssertStringContainsOnlyLetters(value, "Name");
+                Validator.AssertStringContainsOnlyLetters(value, "Name");
                 _name = value;
             }
         }
@@ -29,7 +30,7 @@ namespace Programming.Model
             get => _surname;
             set
             {
-                AssertStringContainsOnlyLetters(value, "Surname");
+                Validator.AssertStringContainsOnlyLetters(value, "Surname");
                 _surname = value;
             }
         }
@@ -39,7 +40,7 @@ namespace Programming.Model
             get => _region;
             set
             {
-                AssertStringContainsOnlyLetters(value, "Region");                
+                Validator.AssertStringContainsOnlyLetters(value, "Region");                
                 _region = value;              
             }
         }
@@ -78,16 +79,6 @@ namespace Programming.Model
             Region = region;
         }
 
-        // Check string for consists of only latin letters
-        private void AssertStringContainsOnlyLetters(string value, string propertyName)
-        {
-            foreach (char letter in value.ToUpper())
-            {
-                if (((int)letter < 65) || ((int)letter > 90))
-                {
-                    throw new ArgumentException($"{propertyName} must consists of only latin letters");
-                }
-            }
-        }
+        
     }
 }
