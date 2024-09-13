@@ -13,7 +13,7 @@ namespace ObjectOrientedPractics.Model
 
         private string? _fullname;
         private string? _adress;
-        
+
         public int Id { get; }
         public string? Fullname
         {
@@ -29,7 +29,7 @@ namespace ObjectOrientedPractics.Model
                 _fullname = value;
             }
         }
-        public string? Adress 
+        public string? Adress
         {
             get
             {
@@ -44,12 +44,25 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        public Customer()
+        {
+            Fullname = "name";
+            Adress = "name";
+
+            Id = -1;
+        }
+
         public Customer(string fullname, string adress)
         {
             Fullname = fullname;
             Adress = adress;
 
             Id = IdGenerator.GetNextId();
+        }
+
+        public override string ToString() 
+        {
+            return $"{Id}: {Fullname}";
         }
     }
 }
