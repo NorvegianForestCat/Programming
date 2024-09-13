@@ -28,15 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ItemsShowPanel = new Panel();
-            ButtonsPanel = new Panel();
-            AnotherButtonPanel = new Panel();
-            AddButtonPanel = new Panel();
-            AddButton = new Button();
-            RemoveButtonPanel = new Panel();
-            RemoveButton = new Button();
-            ItemsLabel = new Label();
-            ItemsListBox = new ListBox();
             SelectedItemsPanel = new Panel();
             label5 = new Label();
             IdLabel = new Label();
@@ -48,112 +39,20 @@
             IdTextBox = new TextBox();
             DescriptionTextBox = new TextBox();
             panel2 = new Panel();
-            ItemsShowPanel.SuspendLayout();
+            ItemsListBox = new ListBox();
+            ItemsLabel = new Label();
+            ButtonsPanel = new Panel();
+            AddButtonPanel = new Panel();
+            AddButton = new Button();
+            RemoveButtonPanel = new Panel();
+            RemoveButton = new Button();
+            ItemsShowPanel = new Panel();
+            SelectedItemsPanel.SuspendLayout();
             ButtonsPanel.SuspendLayout();
             AddButtonPanel.SuspendLayout();
             RemoveButtonPanel.SuspendLayout();
-            SelectedItemsPanel.SuspendLayout();
+            ItemsShowPanel.SuspendLayout();
             SuspendLayout();
-            // 
-            // ItemsShowPanel
-            // 
-            ItemsShowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            ItemsShowPanel.Controls.Add(ButtonsPanel);
-            ItemsShowPanel.Controls.Add(ItemsLabel);
-            ItemsShowPanel.Controls.Add(ItemsListBox);
-            ItemsShowPanel.Location = new Point(0, 0);
-            ItemsShowPanel.Name = "ItemsShowPanel";
-            ItemsShowPanel.Size = new Size(334, 545);
-            ItemsShowPanel.TabIndex = 0;
-            // 
-            // ButtonsPanel
-            // 
-            ButtonsPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            ButtonsPanel.Controls.Add(AnotherButtonPanel);
-            ButtonsPanel.Controls.Add(AddButtonPanel);
-            ButtonsPanel.Controls.Add(RemoveButtonPanel);
-            ButtonsPanel.Location = new Point(3, 489);
-            ButtonsPanel.Name = "ButtonsPanel";
-            ButtonsPanel.Size = new Size(328, 53);
-            ButtonsPanel.TabIndex = 0;
-            // 
-            // AnotherButtonPanel
-            // 
-            AnotherButtonPanel.Dock = DockStyle.Right;
-            AnotherButtonPanel.Location = new Point(219, 0);
-            AnotherButtonPanel.Margin = new Padding(0);
-            AnotherButtonPanel.Name = "AnotherButtonPanel";
-            AnotherButtonPanel.Size = new Size(109, 53);
-            AnotherButtonPanel.TabIndex = 24;
-            // 
-            // AddButtonPanel
-            // 
-            AddButtonPanel.Controls.Add(AddButton);
-            AddButtonPanel.Dock = DockStyle.Left;
-            AddButtonPanel.Location = new Point(0, 0);
-            AddButtonPanel.Margin = new Padding(0);
-            AddButtonPanel.Name = "AddButtonPanel";
-            AddButtonPanel.Size = new Size(109, 53);
-            AddButtonPanel.TabIndex = 24;
-            // 
-            // AddButton
-            // 
-            AddButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            AddButton.AutoSize = true;
-            AddButton.Location = new Point(5, 5);
-            AddButton.Margin = new Padding(5);
-            AddButton.Name = "AddButton";
-            AddButton.Padding = new Padding(10);
-            AddButton.Size = new Size(99, 45);
-            AddButton.TabIndex = 1;
-            AddButton.Text = "Add";
-            AddButton.UseVisualStyleBackColor = true;
-            AddButton.Click += AddButton_Click;
-            // 
-            // RemoveButtonPanel
-            // 
-            RemoveButtonPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            RemoveButtonPanel.Controls.Add(RemoveButton);
-            RemoveButtonPanel.Location = new Point(109, 0);
-            RemoveButtonPanel.Margin = new Padding(0);
-            RemoveButtonPanel.Name = "RemoveButtonPanel";
-            RemoveButtonPanel.Size = new Size(109, 53);
-            RemoveButtonPanel.TabIndex = 23;
-            // 
-            // RemoveButton
-            // 
-            RemoveButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            RemoveButton.AutoSize = true;
-            RemoveButton.Location = new Point(5, 5);
-            RemoveButton.Margin = new Padding(5);
-            RemoveButton.Name = "RemoveButton";
-            RemoveButton.Padding = new Padding(10);
-            RemoveButton.Size = new Size(99, 45);
-            RemoveButton.TabIndex = 2;
-            RemoveButton.Text = "Remove";
-            RemoveButton.UseVisualStyleBackColor = true;
-            RemoveButton.Click += RemoveButton_Click;
-            // 
-            // ItemsLabel
-            // 
-            ItemsLabel.AutoSize = true;
-            ItemsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            ItemsLabel.Location = new Point(3, 11);
-            ItemsLabel.Name = "ItemsLabel";
-            ItemsLabel.Size = new Size(39, 15);
-            ItemsLabel.TabIndex = 1;
-            ItemsLabel.Text = "Items";
-            // 
-            // ItemsListBox
-            // 
-            ItemsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            ItemsListBox.FormattingEnabled = true;
-            ItemsListBox.ItemHeight = 15;
-            ItemsListBox.Location = new Point(3, 29);
-            ItemsListBox.Name = "ItemsListBox";
-            ItemsListBox.Size = new Size(328, 454);
-            ItemsListBox.TabIndex = 0;
-            ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
             // 
             // SelectedItemsPanel
             // 
@@ -263,6 +162,96 @@
             panel2.Size = new Size(0, 545);
             panel2.TabIndex = 13;
             // 
+            // ItemsListBox
+            // 
+            ItemsListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ItemsListBox.FormattingEnabled = true;
+            ItemsListBox.ItemHeight = 15;
+            ItemsListBox.Location = new Point(3, 29);
+            ItemsListBox.Name = "ItemsListBox";
+            ItemsListBox.Size = new Size(328, 454);
+            ItemsListBox.TabIndex = 0;
+            ItemsListBox.SelectedIndexChanged += ItemsListBox_SelectedIndexChanged;
+            // 
+            // ItemsLabel
+            // 
+            ItemsLabel.AutoSize = true;
+            ItemsLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            ItemsLabel.Location = new Point(3, 11);
+            ItemsLabel.Name = "ItemsLabel";
+            ItemsLabel.Size = new Size(39, 15);
+            ItemsLabel.TabIndex = 1;
+            ItemsLabel.Text = "Items";
+            // 
+            // ButtonsPanel
+            // 
+            ButtonsPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ButtonsPanel.Controls.Add(AddButtonPanel);
+            ButtonsPanel.Controls.Add(RemoveButtonPanel);
+            ButtonsPanel.Location = new Point(3, 489);
+            ButtonsPanel.Name = "ButtonsPanel";
+            ButtonsPanel.Size = new Size(328, 53);
+            ButtonsPanel.TabIndex = 0;
+            // 
+            // AddButtonPanel
+            // 
+            AddButtonPanel.Controls.Add(AddButton);
+            AddButtonPanel.Dock = DockStyle.Left;
+            AddButtonPanel.Location = new Point(0, 0);
+            AddButtonPanel.Margin = new Padding(0);
+            AddButtonPanel.Name = "AddButtonPanel";
+            AddButtonPanel.Size = new Size(109, 53);
+            AddButtonPanel.TabIndex = 24;
+            // 
+            // AddButton
+            // 
+            AddButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            AddButton.AutoSize = true;
+            AddButton.Location = new Point(5, 5);
+            AddButton.Margin = new Padding(5);
+            AddButton.Name = "AddButton";
+            AddButton.Padding = new Padding(10);
+            AddButton.Size = new Size(99, 45);
+            AddButton.TabIndex = 1;
+            AddButton.Text = "Add";
+            AddButton.UseVisualStyleBackColor = true;
+            AddButton.Click += AddButton_Click;
+            // 
+            // RemoveButtonPanel
+            // 
+            RemoveButtonPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            RemoveButtonPanel.Controls.Add(RemoveButton);
+            RemoveButtonPanel.Location = new Point(109, 0);
+            RemoveButtonPanel.Margin = new Padding(0);
+            RemoveButtonPanel.Name = "RemoveButtonPanel";
+            RemoveButtonPanel.Size = new Size(109, 53);
+            RemoveButtonPanel.TabIndex = 23;
+            // 
+            // RemoveButton
+            // 
+            RemoveButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            RemoveButton.AutoSize = true;
+            RemoveButton.Location = new Point(5, 5);
+            RemoveButton.Margin = new Padding(5);
+            RemoveButton.Name = "RemoveButton";
+            RemoveButton.Padding = new Padding(10);
+            RemoveButton.Size = new Size(99, 45);
+            RemoveButton.TabIndex = 2;
+            RemoveButton.Text = "Remove";
+            RemoveButton.UseVisualStyleBackColor = true;
+            RemoveButton.Click += RemoveButton_Click;
+            // 
+            // ItemsShowPanel
+            // 
+            ItemsShowPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ItemsShowPanel.Controls.Add(ButtonsPanel);
+            ItemsShowPanel.Controls.Add(ItemsLabel);
+            ItemsShowPanel.Controls.Add(ItemsListBox);
+            ItemsShowPanel.Location = new Point(0, 0);
+            ItemsShowPanel.Name = "ItemsShowPanel";
+            ItemsShowPanel.Size = new Size(334, 545);
+            ItemsShowPanel.TabIndex = 0;
+            // 
             // ItemsTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -271,24 +260,19 @@
             Controls.Add(ItemsShowPanel);
             Name = "ItemsTab";
             Size = new Size(801, 545);
-            ItemsShowPanel.ResumeLayout(false);
-            ItemsShowPanel.PerformLayout();
+            SelectedItemsPanel.ResumeLayout(false);
+            SelectedItemsPanel.PerformLayout();
             ButtonsPanel.ResumeLayout(false);
             AddButtonPanel.ResumeLayout(false);
             AddButtonPanel.PerformLayout();
             RemoveButtonPanel.ResumeLayout(false);
             RemoveButtonPanel.PerformLayout();
-            SelectedItemsPanel.ResumeLayout(false);
-            SelectedItemsPanel.PerformLayout();
+            ItemsShowPanel.ResumeLayout(false);
+            ItemsShowPanel.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Panel ItemsShowPanel;
-        private Label ItemsLabel;
-        private ListBox ItemsListBox;
-        private Panel ButtonsPanel;
         private Panel SelectedItemsPanel;
         private Label label5;
         private Label IdLabel;
@@ -300,10 +284,13 @@
         private TextBox IdTextBox;
         private TextBox DescriptionTextBox;
         private Panel panel2;
-        private Panel AnotherButtonPanel;
+        private ListBox ItemsListBox;
+        private Label ItemsLabel;
+        private Panel ButtonsPanel;
         private Panel AddButtonPanel;
-        private Panel RemoveButtonPanel;
         private Button AddButton;
+        private Panel RemoveButtonPanel;
         private Button RemoveButton;
+        private Panel ItemsShowPanel;
     }
 }
