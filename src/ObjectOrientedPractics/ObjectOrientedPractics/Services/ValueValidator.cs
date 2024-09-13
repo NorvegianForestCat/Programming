@@ -8,11 +8,19 @@ namespace ObjectOrientedPractics.Services
 {
     internal static class ValueValidator
     {
-        public static void AssertStringOnLength(int value, int maxLength, string propertyName)
+        public static void AssertStringOnLength(string value, int maxLength, string propertyName)
         {
-            if (value > maxLength)
+            if (value.Length > maxLength)
             {
                 throw new ArgumentException($"{propertyName} must be less than {maxLength} symbols");
+            }
+        }
+
+        public static void AssertNumberOnLength(double value, double maxLength, string propertyName)
+        {
+            if(value > maxLength)
+            {
+                throw new ArgumentException($"{propertyName} must be less than {maxLength}");
             }
         }
     }
