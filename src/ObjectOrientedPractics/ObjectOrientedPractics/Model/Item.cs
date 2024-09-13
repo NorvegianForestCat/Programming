@@ -8,14 +8,22 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace ObjectOrientedPractics.Model
 {
+    /// <summary>
+    /// Representation of item
+    /// </summary>
     internal class Item
     {
+        /// <summary>
+        /// Class fields
+        /// </summary>
         private readonly int _id;
-
         private string _name;
         private string? _info;
         private double _cost;
 
+        /// <summary>
+        /// Property Id. Only returns ID.
+        /// </summary>
         public int Id
         { 
             get
@@ -23,6 +31,9 @@ namespace ObjectOrientedPractics.Model
                 return _id;
             } 
         }
+        /// <summary>
+        /// Property Name. Gets string name and returns name string.
+        /// </summary>
         public string Name
         {
             get
@@ -37,6 +48,9 @@ namespace ObjectOrientedPractics.Model
                 _name = value;
             }
         }
+        /// <summary>
+        /// Property Info. Gets string info and returns info string.
+        /// </summary>
         public string? Info
         {
             get
@@ -51,6 +65,9 @@ namespace ObjectOrientedPractics.Model
                 _info = value;
             } 
         }
+        /// <summary>
+        /// Property Cost. Gets double cost and returns cost double.
+        /// </summary>
         public double Cost
         {
             get
@@ -66,6 +83,9 @@ namespace ObjectOrientedPractics.Model
             }
         }
 
+        /// <summary>
+        /// Class constructor without params
+        /// </summary>
         public Item()
         {
             Name = "test";
@@ -75,6 +95,12 @@ namespace ObjectOrientedPractics.Model
             _id = -1;
         }
 
+        /// <summary>
+        /// Class constructor with params
+        /// </summary>
+        /// <param name="name">Item name</param>
+        /// <param name="info">Item desciption</param>
+        /// <param name="cost">Item cost</param>
         public Item(string name, string info, double cost)
         {
             Name = name;
@@ -84,6 +110,10 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextId();
         }
 
+        /// <summary>
+        /// Overrided ToString() method.
+        /// </summary>
+        /// <returns>String presentation of item</returns>
         public override string ToString() 
         {
             return $"{Id}: {Name} - {Cost}";

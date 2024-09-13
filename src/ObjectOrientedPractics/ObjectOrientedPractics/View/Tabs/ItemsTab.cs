@@ -13,6 +13,7 @@ namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class ItemsTab : UserControl
     {
+        // class fields
         private BindingList<Item> _items;
         private Item? _item;
         private Form errorMessageForm;
@@ -20,6 +21,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         public ItemsTab()
         {
+            // Component initializing
             _items = new BindingList<Item>();
             errorMessageForm = new Form();
             errorLabel = new Label();
@@ -30,8 +32,10 @@ namespace ObjectOrientedPractics.View.Tabs
             InitializeComponent();
         }
 
+        // AddButtom logic
         private void AddButton_Click(object sender, EventArgs e)
         {
+            // fool-check
             if (String.IsNullOrEmpty(NameTextBox.Text) || String.IsNullOrEmpty(CostTextBox.Text) ||
                 String.IsNullOrEmpty(DescriptionTextBox.Text)) return;
             try
@@ -45,6 +49,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             catch (Exception exception)
             {
+                //if exception
                 {
                     errorLabel.Text = String.Empty;
                     errorLabel.Text = exception.Message;
@@ -54,21 +59,25 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        // RemoveButton logic
         private void RemoveButton_Click(object sender, EventArgs e)
         {
+            // fool-check
             if (ItemsListBox.SelectedItem == null) return;
 
             _items.Remove((Item)ItemsListBox.SelectedItem);
             ItemsListBox.SelectedItem = null;
         }
 
+        // ItemsListBox logic
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // fool-check
             if (ItemsListBox.SelectedItem == null) return;
+            
             ClearFields();
-
+            // Changing fields
             _item = (Item)ItemsListBox.SelectedItem;
-
             IdTextBox.Text = _item.Id.ToString();
             CostTextBox.Text = _item.Cost.ToString();
             NameTextBox.Text = _item.Name;
@@ -80,8 +89,10 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        // IdTextBox logic
         private void IdTextBox_TextChanged(object sender, EventArgs e)
         {
+            // fool-check
             if (_item == null) return;
 
             if (_item.Id.ToString() != IdTextBox.Text)
@@ -90,8 +101,10 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        // CostTextBox logic
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
+            // fool-check
             if (_item == null || CostTextBox.Text == String.Empty || ItemsListBox.SelectedIndex == -1) return;
             try
             {
@@ -101,6 +114,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             catch (Exception exception)
             {
+                // if exception
                 CostTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
 
                 errorLabel.Text = String.Empty;
@@ -110,6 +124,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        // Clearing the fields
         private void ClearFields()
         {
             IdTextBox.Text = String.Empty;
@@ -118,6 +133,7 @@ namespace ObjectOrientedPractics.View.Tabs
             DescriptionTextBox.Text = String.Empty;
         }
 
+        // Updating listbox
         private void UpdateListBox(BindingList<Item> list)
         {
             list.Add(new Item());
@@ -126,13 +142,16 @@ namespace ObjectOrientedPractics.View.Tabs
             ItemsListBox.DataSource = _items;
         }
 
+        // Clearing selected index
         private void SelectedItemsPanel_Click(object sender, EventArgs e)
         {
             ItemsListBox.SelectedIndex = -1;
         }
 
+        // NameTextBox logic
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
+            // fool-check
             if (_item == null || NameTextBox.Text == String.Empty || ItemsListBox.SelectedIndex == -1) return;
             try
             {
@@ -142,6 +161,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             catch (Exception exception)
             {
+                // if exception
                 NameTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
                 errorLabel.Text = String.Empty;
                 errorLabel.Text = exception.Message;
@@ -150,8 +170,10 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        // DescriptionTextBox logic
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
+            // fool-check
             if (_item == null || ItemsListBox.SelectedIndex == -1 || DescriptionTextBox.Text == String.Empty) return;
             try
             {
@@ -160,6 +182,7 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             catch (Exception exception)
             {
+                // if exception
                 DescriptionTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
                 errorLabel.Text = String.Empty;
                 errorLabel.Text = exception.Message;
