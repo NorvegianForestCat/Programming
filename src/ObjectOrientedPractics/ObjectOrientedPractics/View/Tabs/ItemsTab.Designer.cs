@@ -172,6 +172,7 @@
             SelectedItemsPanel.Name = "SelectedItemsPanel";
             SelectedItemsPanel.Size = new Size(467, 545);
             SelectedItemsPanel.TabIndex = 1;
+            SelectedItemsPanel.Click += SelectedItemsPanel_Click;
             // 
             // label5
             // 
@@ -226,6 +227,7 @@
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(462, 114);
             NameTextBox.TabIndex = 17;
+            NameTextBox.TextChanged += NameTextBox_TextChanged;
             // 
             // CostTextBox
             // 
@@ -233,6 +235,7 @@
             CostTextBox.Name = "CostTextBox";
             CostTextBox.Size = new Size(215, 23);
             CostTextBox.TabIndex = 16;
+            CostTextBox.TextChanged += CostTextBox_TextChanged;
             // 
             // IdTextBox
             // 
@@ -240,6 +243,7 @@
             IdTextBox.Name = "IdTextBox";
             IdTextBox.Size = new Size(215, 23);
             IdTextBox.TabIndex = 15;
+            IdTextBox.TextChanged += IdTextBox_TextChanged;
             // 
             // DescriptionTextBox
             // 
@@ -248,6 +252,7 @@
             DescriptionTextBox.Name = "DescriptionTextBox";
             DescriptionTextBox.Size = new Size(462, 162);
             DescriptionTextBox.TabIndex = 14;
+            DescriptionTextBox.TextChanged += DescriptionTextBox_TextChanged;
             // 
             // panel2
             // 

@@ -31,14 +31,26 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (value == String.Empty)
-                {
-                    throw new ArgumentException("String name must be not empty");
-                }
+                if (string.IsNullOrEmpty(value)) return;
+
+                ValueValidator.AssertStringOnLength(value, 200, "Name");
                 _name = value;
             }
         }
-        public string? Info { get; set; }
+        public string? Info
+        {
+            get
+            { 
+                return _info;
+            }
+            set
+            {
+                if(string.IsNullOrEmpty(value)) return;
+
+                ValueValidator.AssertStringOnLength(value, 1000, "Info");
+                _info = value;
+            } 
+        }
         public double Cost
         {
             get
@@ -47,23 +59,29 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (!(value > 0.0))
-                {
-                    throw new ArgumentException("Price must be positive value");
-                }
+                if (!double.IsPositive(value)) return;
+
+                ValueValidator.AssertNumberOnLength(value, 100000.0, "Cost");
                 _cost = value;
             }
         }
 
+        public Item()
+        {
+            Name = "test";
+            Info = "test";
+            Cost = 1.0;
 
+            _id = -1;
+        }
 
         public Item(string name, string info, double cost)
         {
-            _id = IdGenerator.GetNextId();
             Name = name;
             Info = info;
             Cost = cost;
 
+            _id = IdGenerator.GetNextId();
         }
 
         public override string ToString() 

@@ -25,7 +25,7 @@ namespace ObjectOrientedPractics.Model
             {
                 if (value == null) return;
 
-                ValueValidator.AssertStringOnLength(value.Length, 200, "Fullname");
+                ValueValidator.AssertStringOnLength(value, 200, "Fullname");
                 _fullname = value;
             }
         }
@@ -39,7 +39,7 @@ namespace ObjectOrientedPractics.Model
             {
                 if (value == null) return;
 
-                ValueValidator.AssertStringOnLength(value.Length, 500, "Adress");
+                ValueValidator.AssertStringOnLength(value, 500, "Adress");
                 _adress = value;
             }
         }
