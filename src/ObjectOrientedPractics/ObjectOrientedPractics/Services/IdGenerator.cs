@@ -13,7 +13,7 @@ namespace ObjectOrientedPractics.Services
 
         public static int GetNextId()
         {
-            return ++IdCounter;
+            return IdCounter++;
         }
     }
 }
