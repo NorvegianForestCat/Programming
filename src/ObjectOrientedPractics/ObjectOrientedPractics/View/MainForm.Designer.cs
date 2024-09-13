@@ -72,7 +72,6 @@
             Controls.Add(TabControl);
             Name = "MainForm";
             Text = "Form1";
-            Load += MainForm_Load;
             TabControl.ResumeLayout(false);
             ItemsPage.ResumeLayout(false);
             ResumeLayout(false);
