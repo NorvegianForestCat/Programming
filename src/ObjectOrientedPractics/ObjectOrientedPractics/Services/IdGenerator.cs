@@ -19,7 +19,7 @@ namespace ObjectOrientedPractics.Services
         /// <summary>
         /// Property IdCounter. Gets and returns ints.
         /// </summary>
-        private static int IdCounter { get; set; }
+        private static int idCounter { get; set; }
 
         /// <summary>
         /// Method generating inline IDs
@@ -27,7 +27,7 @@ namespace ObjectOrientedPractics.Services
         /// <returns>ID</returns>
         public static int GetNextId()
         {
-            return IdCounter++;
+            return idCounter++;
         }
     }
 }
