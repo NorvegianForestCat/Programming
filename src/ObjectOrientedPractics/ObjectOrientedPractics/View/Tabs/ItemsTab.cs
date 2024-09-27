@@ -23,6 +23,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             // Component initializing
             _items = new BindingList<Item>();
+
             errorMessageForm = new Form();
             errorLabel = new Label();
             errorLabel.Dock = DockStyle.Fill;
@@ -30,6 +31,8 @@ namespace ObjectOrientedPractics.View.Tabs
             errorMessageForm.Controls.Add(errorLabel);
 
             InitializeComponent();
+
+            CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
         }
 
         // AddButtom logic
@@ -40,7 +43,11 @@ namespace ObjectOrientedPractics.View.Tabs
                 String.IsNullOrEmpty(DescriptionTextBox.Text)) return;
             try
             {
-                Item item = new Item((string)NameTextBox.Text, (string)DescriptionTextBox.Text, Double.Parse(CostTextBox.Text));
+                Item item = new Item
+                    (
+                    (string)NameTextBox.Text, (string)DescriptionTextBox.Text, Double.Parse(CostTextBox.Text),
+                    (Category)CategoryComboBox.SelectedItem
+                    );
                 _items.Add(item);
 
                 ItemsListBox.SelectedIndex = -1;
@@ -74,7 +81,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             // fool-check
             if (ItemsListBox.SelectedItem == null) return;
-            
+
             ClearFields();
             // Changing fields
             _item = (Item)ItemsListBox.SelectedItem;
@@ -82,6 +89,7 @@ namespace ObjectOrientedPractics.View.Tabs
             CostTextBox.Text = _item.Cost.ToString();
             NameTextBox.Text = _item.Name;
             DescriptionTextBox.Text = _item.Info;
+            CategoryComboBox.SelectedItem = _item.Category;
 
             if (ItemsListBox.SelectedIndex == -1)
             {
@@ -189,6 +197,15 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 errorMessageForm.ShowDialog();
             }
+        }
+
+        // CategoryComboBox logic
+        private void CategoryComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            // fool-check
+            if (_item == null || ItemsListBox.SelectedIndex == -1 || CategoryComboBox.SelectedItem == null) return;
+
+            _items[ItemsListBox.SelectedIndex].Category = (Category)CategoryComboBox.SelectedItem;
         }
     }
 }
