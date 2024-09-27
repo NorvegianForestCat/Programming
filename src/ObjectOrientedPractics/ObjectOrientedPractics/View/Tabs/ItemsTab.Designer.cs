@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             SelectedItemsPanel = new Panel();
+            CategoryComboBox = new ComboBox();
+            label1 = new Label();
             label5 = new Label();
             IdLabel = new Label();
             DescriptionLabel = new Label();
@@ -57,6 +59,8 @@
             // SelectedItemsPanel
             // 
             SelectedItemsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            SelectedItemsPanel.Controls.Add(CategoryComboBox);
+            SelectedItemsPanel.Controls.Add(label1);
             SelectedItemsPanel.Controls.Add(label5);
             SelectedItemsPanel.Controls.Add(IdLabel);
             SelectedItemsPanel.Controls.Add(DescriptionLabel);
@@ -72,6 +76,24 @@
             SelectedItemsPanel.Size = new Size(467, 545);
             SelectedItemsPanel.TabIndex = 1;
             SelectedItemsPanel.Click += SelectedItemsPanel_Click;
+            // 
+            // CategoryComboBox
+            // 
+            CategoryComboBox.FormattingEnabled = true;
+            CategoryComboBox.Location = new Point(69, 110);
+            CategoryComboBox.Name = "CategoryComboBox";
+            CategoryComboBox.Size = new Size(215, 23);
+            CategoryComboBox.TabIndex = 24;
+            CategoryComboBox.SelectedValueChanged += CategoryComboBox_SelectedValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(11, 113);
+            label1.Name = "label1";
+            label1.Size = new Size(58, 15);
+            label1.TabIndex = 23;
+            label1.Text = "Category:";
             // 
             // label5
             // 
@@ -95,7 +117,7 @@
             // DescriptionLabel
             // 
             DescriptionLabel.AutoSize = true;
-            DescriptionLabel.Location = new Point(11, 249);
+            DescriptionLabel.Location = new Point(11, 303);
             DescriptionLabel.Name = "DescriptionLabel";
             DescriptionLabel.Size = new Size(70, 15);
             DescriptionLabel.TabIndex = 20;
@@ -104,7 +126,7 @@
             // NameLabel
             // 
             NameLabel.AutoSize = true;
-            NameLabel.Location = new Point(11, 114);
+            NameLabel.Location = new Point(11, 168);
             NameLabel.Name = "NameLabel";
             NameLabel.Size = new Size(42, 15);
             NameLabel.TabIndex = 19;
@@ -121,7 +143,7 @@
             // 
             // NameTextBox
             // 
-            NameTextBox.Location = new Point(2, 132);
+            NameTextBox.Location = new Point(2, 186);
             NameTextBox.Multiline = true;
             NameTextBox.Name = "NameTextBox";
             NameTextBox.Size = new Size(462, 114);
@@ -130,7 +152,7 @@
             // 
             // CostTextBox
             // 
-            CostTextBox.Location = new Point(55, 78);
+            CostTextBox.Location = new Point(69, 78);
             CostTextBox.Name = "CostTextBox";
             CostTextBox.Size = new Size(215, 23);
             CostTextBox.TabIndex = 16;
@@ -138,7 +160,7 @@
             // 
             // IdTextBox
             // 
-            IdTextBox.Location = new Point(55, 49);
+            IdTextBox.Location = new Point(69, 49);
             IdTextBox.Name = "IdTextBox";
             IdTextBox.Size = new Size(215, 23);
             IdTextBox.TabIndex = 15;
@@ -146,7 +168,7 @@
             // 
             // DescriptionTextBox
             // 
-            DescriptionTextBox.Location = new Point(2, 267);
+            DescriptionTextBox.Location = new Point(2, 321);
             DescriptionTextBox.Multiline = true;
             DescriptionTextBox.Name = "DescriptionTextBox";
             DescriptionTextBox.Size = new Size(462, 162);
@@ -292,5 +314,7 @@
         private Panel RemoveButtonPanel;
         private Button RemoveButton;
         private Panel ItemsShowPanel;
+        private Label label1;
+        private ComboBox CategoryComboBox;
     }
 }

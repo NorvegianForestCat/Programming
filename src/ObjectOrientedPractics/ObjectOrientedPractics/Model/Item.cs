@@ -20,6 +20,7 @@ namespace ObjectOrientedPractics.Model
         private string _name;
         private string? _info;
         private double _cost;
+        private Category _category;
 
         /// <summary>
         /// Property Id. Only returns ID.
@@ -82,6 +83,10 @@ namespace ObjectOrientedPractics.Model
                 _cost = value;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Category Category { get; set; }
 
         /// <summary>
         /// Class constructor without params
@@ -91,6 +96,7 @@ namespace ObjectOrientedPractics.Model
             Name = "test";
             Info = "test";
             Cost = 1.0;
+            Category = Category.Chancellery;
 
             _id = -1;
         }
@@ -101,11 +107,13 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Item name</param>
         /// <param name="info">Item desciption</param>
         /// <param name="cost">Item cost</param>
-        public Item(string name, string info, double cost)
+        /// <param name="category"></param>
+        public Item(string name, string info, double cost, Category category)
         {
             Name = name;
             Info = info;
             Cost = cost;
+            Category = category;
 
             _id = IdGenerator.GetNextId();
         }
