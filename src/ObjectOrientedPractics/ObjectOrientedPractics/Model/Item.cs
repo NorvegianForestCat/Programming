@@ -107,7 +107,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="name">Item name</param>
         /// <param name="info">Item desciption</param>
         /// <param name="cost">Item cost</param>
-        /// <param name="category"></param>
+        /// <param name="category">Item category</param>
         public Item(string name, string info, double cost, Category category)
         {
             Name = name;

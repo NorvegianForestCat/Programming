@@ -28,17 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Model.Adress adress1 = new Model.Adress();
             ItemsLabel = new Label();
             label5 = new Label();
             IdLabel = new Label();
-            AdressLabel = new Label();
             FullnameLabel = new Label();
-            AdressTextBox = new TextBox();
             FullnameTextBox = new TextBox();
             IdTextBox = new TextBox();
             panel2 = new Panel();
             SelectedItemsPanel = new Panel();
-            panel1 = new Panel();
             panel3 = new Panel();
             ButtonsPanel = new Panel();
             RemoveButtonPanel = new Panel();
@@ -47,6 +45,7 @@
             AddButton = new Button();
             CustomerLabel = new Label();
             CustomersListBox = new ListBox();
+            AdressControl = new AdressControl();
             SelectedItemsPanel.SuspendLayout();
             panel3.SuspendLayout();
             ButtonsPanel.SuspendLayout();
@@ -83,15 +82,6 @@
             IdLabel.TabIndex = 21;
             IdLabel.Text = "ID:";
             // 
-            // AdressLabel
-            // 
-            AdressLabel.AutoSize = true;
-            AdressLabel.Location = new Point(11, 114);
-            AdressLabel.Name = "AdressLabel";
-            AdressLabel.Size = new Size(45, 15);
-            AdressLabel.TabIndex = 19;
-            AdressLabel.Text = "Adress:";
-            // 
             // FullnameLabel
             // 
             FullnameLabel.AutoSize = true;
@@ -100,15 +90,6 @@
             FullnameLabel.Size = new Size(64, 15);
             FullnameLabel.TabIndex = 18;
             FullnameLabel.Text = "Full Name:";
-            // 
-            // AdressTextBox
-            // 
-            AdressTextBox.Location = new Point(81, 114);
-            AdressTextBox.Multiline = true;
-            AdressTextBox.Name = "AdressTextBox";
-            AdressTextBox.Size = new Size(383, 210);
-            AdressTextBox.TabIndex = 17;
-            AdressTextBox.TextChanged += AdressTextBox_TextChanged;
             // 
             // FullnameTextBox
             // 
@@ -132,7 +113,7 @@
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(467, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(0, 328);
+            panel2.Size = new Size(0, 143);
             panel2.TabIndex = 13;
             // 
             // SelectedItemsPanel
@@ -140,24 +121,15 @@
             SelectedItemsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             SelectedItemsPanel.Controls.Add(label5);
             SelectedItemsPanel.Controls.Add(IdLabel);
-            SelectedItemsPanel.Controls.Add(AdressLabel);
             SelectedItemsPanel.Controls.Add(FullnameLabel);
-            SelectedItemsPanel.Controls.Add(AdressTextBox);
             SelectedItemsPanel.Controls.Add(FullnameTextBox);
             SelectedItemsPanel.Controls.Add(IdTextBox);
             SelectedItemsPanel.Controls.Add(panel2);
             SelectedItemsPanel.Location = new Point(334, 0);
             SelectedItemsPanel.Name = "SelectedItemsPanel";
-            SelectedItemsPanel.Size = new Size(467, 328);
+            SelectedItemsPanel.Size = new Size(467, 143);
             SelectedItemsPanel.TabIndex = 3;
             SelectedItemsPanel.Click += SelectedCustomersPanel_Click;
-            // 
-            // panel1
-            // 
-            panel1.Location = new Point(334, 330);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(467, 212);
-            panel1.TabIndex = 4;
             // 
             // panel3
             // 
@@ -249,12 +221,26 @@
             CustomersListBox.TabIndex = 6;
             CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
             // 
+            // AdressControl
+            // 
+            adress1.Apartment = "0";
+            adress1.Building = "building";
+            adress1.City = "city";
+            adress1.Country = "country";
+            adress1.Index = 0;
+            adress1.Street = "street";
+            AdressControl.Address = adress1;
+            AdressControl.Location = new Point(342, 149);
+            AdressControl.Name = "AdressControl";
+            AdressControl.Size = new Size(429, 143);
+            AdressControl.TabIndex = 6;
+            // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(AdressControl);
             Controls.Add(panel3);
-            Controls.Add(panel1);
             Controls.Add(SelectedItemsPanel);
             Name = "CustomersTab";
             Size = new Size(801, 545);
@@ -276,14 +262,11 @@
         private Label ItemsLabel;
         private Label label5;
         private Label IdLabel;
-        private Label AdressLabel;
         private Label FullnameLabel;
-        private TextBox AdressTextBox;
         private TextBox FullnameTextBox;
         private TextBox IdTextBox;
         private Panel panel2;
         private Panel SelectedItemsPanel;
-        private Panel panel1;
         private Panel panel3;
         private ListBox CustomersListBox;
         private Panel ButtonsPanel;
@@ -292,5 +275,6 @@
         private Button AddButton;
         private Panel RemoveButtonPanel;
         private Button RemoveButton;
+        private AdressControl AdressControl;
     }
 }
