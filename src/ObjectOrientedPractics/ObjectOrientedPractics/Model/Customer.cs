@@ -17,7 +17,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         private readonly int _id;
         private string? _fullname;
-        private string? _adress;
+        private Adress _adress;
 
         /// <summary>
         /// Property Id. Only returns ID.
@@ -43,7 +43,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Property Adress. Gets string Adress and returns adress string.
         /// </summary>
-        public string? Adress
+        public Adress Adress
         {
             get
             {
@@ -52,8 +52,6 @@ namespace ObjectOrientedPractics.Model
             set
             {
                 if (value == null) return;
-
-                ValueValidator.AssertStringOnLength(value, 500, "Adress");
                 _adress = value;
             }
         }
@@ -64,7 +62,7 @@ namespace ObjectOrientedPractics.Model
         public Customer()
         {
             Fullname = "name";
-            Adress = "name";
+            Adress = new Adress();
 
             Id = -1;
         }
@@ -74,7 +72,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="fullname">Customer fullname</param>
         /// <param name="adress">Customer adress</param>
-        public Customer(string fullname, string adress)
+        public Customer(string fullname, Adress adress)
         {
             Fullname = fullname;
             Adress = adress;

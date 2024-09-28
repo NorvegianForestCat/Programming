@@ -40,5 +40,20 @@ namespace ObjectOrientedPractics.Services
                 throw new ArgumentException($"{propertyName} must be less than {maxLength}");
             }
         }
+
+        /// <summary>
+        /// Assertion int with value
+        /// </summary>
+        /// <param name="value">Number</param>
+        /// <param name="maxLength">Max current</param>
+        /// <param name="propertyName">Property name</param>
+        /// <exception cref="ArgumentException">Throw if not asserted</exception>
+        public static void AssertNumberOnLength(int value, int maxLength, string propertyName)
+        {
+            if (value > maxLength)
+            {
+                throw new ArgumentException($"{propertyName} must be less than {maxLength}");
+            }
+        }
     }
 }

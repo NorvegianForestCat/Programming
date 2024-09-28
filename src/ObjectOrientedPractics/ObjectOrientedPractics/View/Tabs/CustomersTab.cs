@@ -37,11 +37,11 @@ namespace ObjectOrientedPractics.View.Tabs
         private void AddButton_Click(object sender, EventArgs e)
         {
             // fool-check
-            if (String.IsNullOrEmpty(FullnameTextBox.Text) || String.IsNullOrEmpty(AdressTextBox.Text)) return;
+            if (String.IsNullOrEmpty(FullnameTextBox.Text)) return;
             try
             {
                 // Create new entity
-                Customer customer = new Customer((string)FullnameTextBox.Text, (string)AdressTextBox.Text);
+                Customer customer = new Customer((string)FullnameTextBox.Text, AdressControl.Address);
                 _customers.Add(customer);
 
                 CustomersListBox.SelectedIndex = -1;
@@ -55,7 +55,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 errorLabel.Text = String.Empty;
                 errorLabel.Text = exception.Message;
                 errorMessageForm.ShowDialog();
-                
+
             }
         }
 
@@ -75,13 +75,13 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             // fool-check
             if (CustomersListBox.SelectedItem == null) return;
-            
+
             ClearFields();
             // Changing textboxes
             _customer = (Customer)CustomersListBox.SelectedItem;
             IdTextBox.Text = _customer.Id.ToString();
             FullnameTextBox.Text = _customer.Fullname.ToString();
-            AdressTextBox.Text = _customer.Adress.ToString();
+        //    AdressTextBox.Text = _customer.Adress.ToString();
 
             if (CustomersListBox.SelectedIndex == -1)
             {
@@ -130,7 +130,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             IdTextBox.Text = String.Empty;
             FullnameTextBox.Text = String.Empty;
-            AdressTextBox.Text = String.Empty;
+            AdressControl.Address = null;
         }
 
         // Updating listbox
@@ -152,22 +152,10 @@ namespace ObjectOrientedPractics.View.Tabs
         private void AdressTextBox_TextChanged(object sender, EventArgs e)
         {
             // fool-check
-            if (_customer == null || AdressTextBox.Text == String.Empty || CustomersListBox.SelectedIndex == -1) return;
-            try
-            {
-                AdressTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                _customers[CustomersListBox.SelectedIndex].Adress = AdressTextBox.Text;
-                UpdateListBox(_customers);
-            }
-            catch (Exception exception)
-            {
-                // if exception
-                AdressTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
+            if (_customer == null || AdressControl.Address == null || CustomersListBox.SelectedIndex == -1) return;
+            _customers[CustomersListBox.SelectedIndex].Adress = AdressControl.Address;
+            UpdateListBox(_customers);
 
-                errorMessageForm.ShowDialog();
-            }
         }
     }
 }
