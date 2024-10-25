@@ -13,10 +13,20 @@ namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class AdressControl : UserControl
     {
+        /// <summary>
+        /// Class fields
+        /// </summary>
         private Form errorMessageForm;
         private Label errorLabel;
 
+        /// <summary>
+        /// Autoproperty Address, gets and sets
+        /// </summary>
         public Adress? Address { get; set; }
+
+        /// <summary>
+        /// Control construction
+        /// </summary>
         public AdressControl()
         {
             errorMessageForm = new Form();
@@ -29,6 +39,11 @@ namespace ObjectOrientedPractics.View.Tabs
             InitializeComponent();
         }
 
+        /// <summary>
+        /// When building text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
             if (BuildingTextBox.Text == String.Empty) return;
@@ -50,6 +65,11 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// When apartament text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
         {
             if (ApartmentTextBox.Text == String.Empty) return;
@@ -71,6 +91,11 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// When street text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void StreetTextBox_TextChanged(object sender, EventArgs e)
         {
             if (StreetTextBox.Text == String.Empty) return;
@@ -92,6 +117,11 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// When post index text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
        {
             if (PostIndexTextBox.Text == String.Empty) return;
@@ -113,6 +143,11 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// When City text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void CityTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CityTextBox.Text == String.Empty) return;
@@ -134,6 +169,11 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// When country text changed
+        /// </summary>
+        /// <param name="sender">Object-sender</param>
+        /// <param name="e">Array of arguments</param>
         private void CountryTextBox_TextChanged(object sender, EventArgs e)
         {
             if (CountryTextBox.Text == String.Empty) return;
@@ -155,6 +195,9 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Clearing adress texts
+        /// </summary>
         public void Clear()
         {
             PostIndexTextBox.Clear();
@@ -165,6 +208,9 @@ namespace ObjectOrientedPractics.View.Tabs
             ApartmentTextBox.Clear();
         }
 
+        /// <summary>
+        /// Updating adress value
+        /// </summary>
         public void AdressUpdate()
         {
             PostIndexTextBox.Text = Address.Index.ToString();

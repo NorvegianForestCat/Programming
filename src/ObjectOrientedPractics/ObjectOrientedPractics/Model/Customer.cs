@@ -10,7 +10,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Representation of customer
     /// </summary>
-    internal class Customer
+    public class Customer
     {
         /// <summary>
         /// Customer fields

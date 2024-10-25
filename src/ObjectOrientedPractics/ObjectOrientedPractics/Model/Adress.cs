@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// 
+    /// Adress information
     /// </summary>
     public class Adress
     {
         /// <summary>
-        /// 
+        /// Class fields
         /// </summary>
         private int? _index;
         private string _country;
@@ -41,7 +41,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// 
+        /// Gets country string value, returns country
         /// </summary>
         public string Country
         {
@@ -58,7 +58,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// 
+        /// Gets city string value, returns city
         /// </summary>
         public string City
         {
@@ -75,7 +75,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// 
+        /// Gets street string value, returns street
         /// </summary>
         public string Street
         {
@@ -92,7 +92,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// 
+        /// Gets building string value, returns building
         /// </summary>
         public string Building
         {
@@ -109,7 +109,7 @@ namespace ObjectOrientedPractics.Model
             }
         }
         /// <summary>
-        /// 
+        /// Gets apartament string value, returns apartament
         /// </summary>
         public string Apartment
         {
@@ -127,7 +127,7 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// 
+        /// Base constructor without params
         /// </summary>
         public Adress()
         {
@@ -140,14 +140,14 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// 
+        /// Constructor with params
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="country"></param>
-        /// <param name="city"></param>
-        /// <param name="street"></param>
-        /// <param name="building"></param>
-        /// <param name="apartment"></param>
+        /// <param name="index">Adress index</param>
+        /// <param name="country">Adress country</param>
+        /// <param name="city">Adress city</param>
+        /// <param name="street">Adress street</param>
+        /// <param name="building">Adress building</param>
+        /// <param name="apartment">Adress apartament</param>
         public Adress(int index, string country, string city, string street, string building, string apartment)
         {
             Index = index;
@@ -159,14 +159,9 @@ namespace ObjectOrientedPractics.Model
         }
 
         /// <summary>
-        /// 
+        /// Constructor of cloning
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="country"></param>
-        /// <param name="city"></param>
-        /// <param name="street"></param>
-        /// <param name="building"></param>
-        /// <param name="apartment"></param>
+        /// <param name="adress">Cloned adress</param>
         public Adress(Adress adress)
         {
             Index = adress.Index;

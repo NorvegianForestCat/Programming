@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +20,22 @@ namespace ObjectOrientedPractics.View.Tabs
         private Form errorMessageForm;
         private Label errorLabel;
 
+        /// <summary>
+        /// Get BindingList<Item>, returns list of items
+        /// </summary>
+        public BindingList<Item> Items
+        {
+            get => _items;
+            set
+            {
+                _items = value;
+                UpdateListBox(_items);
+            }
+        }
+
+        /// <summary>
+        /// Tab constructor
+        /// </summary>
         public ItemsTab()
         {
             // Component initializing
@@ -132,7 +149,9 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
-        // Clearing the fields
+        /// <summary>
+        /// Clearing the fields
+        /// </summary>
         private void ClearFields()
         {
             IdTextBox.Text = String.Empty;
@@ -141,7 +160,10 @@ namespace ObjectOrientedPractics.View.Tabs
             DescriptionTextBox.Text = String.Empty;
         }
 
-        // Updating listbox
+        /// <summary>
+        /// Updating ListBox
+        /// </summary>
+        /// <param name="list">list for to be updated</param>
         private void UpdateListBox(BindingList<Item> list)
         {
             list.Add(new Item());

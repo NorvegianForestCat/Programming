@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Representation of item
     /// </summary>
-    internal class Item
+    public class Item
     {
         /// <summary>
         /// Class fields

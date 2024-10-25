@@ -19,7 +19,22 @@ namespace ObjectOrientedPractics.View.Tabs
         private Form errorMessageForm;
         private Label errorLabel;
 
-        // Constructor
+        /// <summary>
+        /// Gets list of customers, returns list of customers
+        /// </summary>
+        public BindingList<Customer> Customers
+        {
+            get => _customers;
+            set
+            {
+                _customers = value;
+                UpdateListBox(_customers);
+            }
+        }
+
+        /// <summary>
+        /// CustomersTab constructor
+        /// </summary>
         public CustomersTab()
         {
             // Initializing components
@@ -132,7 +147,9 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
-        // Clearing fields
+        /// <summary>
+        /// Clearing fields
+        /// </summary>
         private void ClearFields()
         {
             adressControl.Address = new Adress();
@@ -141,7 +158,10 @@ namespace ObjectOrientedPractics.View.Tabs
             adressControl.Clear();
         }
 
-        // Updating listbox
+        /// <summary>
+        /// Updating listbox
+        /// </summary>
+        /// <param name="list">list to be updated</param>
         private void UpdateListBox(BindingList<Customer> list)
         {
             list.Add(new Customer());
