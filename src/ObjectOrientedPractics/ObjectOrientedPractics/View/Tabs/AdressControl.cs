@@ -13,11 +13,10 @@ namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class AdressControl : UserControl
     {
-        private Adress _address;
         private Form errorMessageForm;
         private Label errorLabel;
 
-        public Adress Address { get; set; }
+        public Adress? Address { get; set; }
         public AdressControl()
         {
             errorMessageForm = new Form();
@@ -32,7 +31,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (BuildingTextBox.Text == String.Empty || Address == null) return;
+            if (BuildingTextBox.Text == String.Empty) return;
 
             BuildingTextBox.Focus();
             try
@@ -53,7 +52,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void ApartmentTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (ApartmentTextBox.Text == String.Empty || Address == null) return;
+            if (ApartmentTextBox.Text == String.Empty) return;
 
             ApartmentTextBox.Focus();
             try
@@ -74,7 +73,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void StreetTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (StreetTextBox.Text == String.Empty || Address == null) return;
+            if (StreetTextBox.Text == String.Empty) return;
 
             StreetTextBox.Focus();
             try
@@ -94,8 +93,8 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         private void PostIndexTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (PostIndexTextBox.Text == String.Empty || Address == null) return;
+       {
+            if (PostIndexTextBox.Text == String.Empty) return;
 
             PostIndexTextBox.Focus();
             try
@@ -116,12 +115,12 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void CityTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CityTextBox.Text == String.Empty || Address == null) return;
+            if (CityTextBox.Text == String.Empty) return;
 
             CityTextBox.Focus();
             try
             {
-                Address.City = StreetTextBox.Text;
+                Address.City = CityTextBox.Text;
                 CityTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
             }
             catch (Exception exception)
@@ -137,12 +136,12 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void CountryTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CountryTextBox.Text == String.Empty || Address == null) return;
+            if (CountryTextBox.Text == String.Empty) return;
 
             CountryTextBox.Focus();
             try
             {
-                Address.Country = StreetTextBox.Text;
+                Address.Country = CountryTextBox.Text;
                 CountryTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
             }
             catch (Exception exception)
@@ -154,6 +153,26 @@ namespace ObjectOrientedPractics.View.Tabs
 
                 errorMessageForm.ShowDialog();
             }
+        }
+
+        public void Clear()
+        {
+            PostIndexTextBox.Clear();
+            CountryTextBox.Clear();
+            CityTextBox.Clear();
+            StreetTextBox.Clear();
+            BuildingTextBox.Clear();
+            ApartmentTextBox.Clear();
+        }
+
+        public void AdressUpdate()
+        {
+            PostIndexTextBox.Text = Address.Index.ToString();
+            CountryTextBox.Text = Address.Country.ToString();
+            CityTextBox.Text = Address.City.ToString();
+            StreetTextBox.Text = Address.Street.ToString();
+            BuildingTextBox.Text = Address.Building.ToString();
+            ApartmentTextBox.Text = Address.Apartment.ToString();
         }
     }
 }

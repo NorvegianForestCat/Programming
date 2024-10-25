@@ -26,28 +26,34 @@ namespace ObjectOrientedPractics.View.Tabs
             _customers = new BindingList<Customer>();
             errorMessageForm = new Form();
             errorLabel = new Label();
+            BindingSource source = new BindingSource();
+
             errorLabel.Dock = DockStyle.Fill;
 
             errorMessageForm.Controls.Add(errorLabel);
 
             InitializeComponent();
+
+            source.DataSource = _customers;
+            // Attach list to listbox
+            CustomersListBox.DataSource = source;
+            
         }
 
         // AddButton logic
         private void AddButton_Click(object sender, EventArgs e)
         {
             // fool-check
-            if (String.IsNullOrEmpty(FullnameTextBox.Text)) return;
+            if (String.IsNullOrEmpty(FullnameTextBox.Text) || adressControl.Address?.Index == -1) return;
+
             try
             {
                 // Create new entity
-                Customer customer = new Customer((string)FullnameTextBox.Text, AdressControl.Address);
+                Customer customer = new Customer((string)FullnameTextBox.Text,
+                    new Adress(this.adressControl.Address));
                 _customers.Add(customer);
 
                 CustomersListBox.SelectedIndex = -1;
-
-                // Attach list to listbox
-                CustomersListBox.DataSource = _customers;
             }
             catch (Exception exception)
             {
@@ -63,7 +69,7 @@ namespace ObjectOrientedPractics.View.Tabs
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             // fool-check
-            if (CustomersListBox.SelectedItem == null) return;
+            if (CustomersListBox.SelectedIndex == -1) return;
 
             // Deleting entity
             _customers.Remove((Customer)CustomersListBox.SelectedItem);
@@ -74,14 +80,15 @@ namespace ObjectOrientedPractics.View.Tabs
         private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // fool-check
-            if (CustomersListBox.SelectedItem == null) return;
+            if (CustomersListBox.SelectedIndex == -1) return;
 
             ClearFields();
             // Changing textboxes
             _customer = (Customer)CustomersListBox.SelectedItem;
             IdTextBox.Text = _customer.Id.ToString();
             FullnameTextBox.Text = _customer.Fullname.ToString();
-        //    AdressTextBox.Text = _customer.Adress.ToString();
+            adressControl.Address = _customer.Adress;
+            adressControl.AdressUpdate();
 
             if (CustomersListBox.SelectedIndex == -1)
             {
@@ -128,9 +135,10 @@ namespace ObjectOrientedPractics.View.Tabs
         // Clearing fields
         private void ClearFields()
         {
+            adressControl.Address = new Adress();
             IdTextBox.Text = String.Empty;
             FullnameTextBox.Text = String.Empty;
-            AdressControl.Address = null;
+            adressControl.Clear();
         }
 
         // Updating listbox
@@ -145,17 +153,9 @@ namespace ObjectOrientedPractics.View.Tabs
         // Clearing selection index
         private void SelectedCustomersPanel_Click(object sender, EventArgs e)
         {
+            //_customer = null;
             CustomersListBox.SelectedIndex = -1;
-        }
-
-        // AdressTextBox logic
-        private void AdressTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // fool-check
-            if (_customer == null || AdressControl.Address == null || CustomersListBox.SelectedIndex == -1) return;
-            _customers[CustomersListBox.SelectedIndex].Adress = AdressControl.Address;
-            UpdateListBox(_customers);
-
+            ClearFields();
         }
     }
 }
