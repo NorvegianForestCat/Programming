@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// 
         /// </summary>
-        private int _index;
+        private int? _index;
         private string _country;
         private string _city;
         private string _street;
@@ -25,7 +25,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// 
         /// </summary>
-        public int Index
+        public int? Index
         {
             get
             {
@@ -33,8 +33,9 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (!int.IsPositive(value)) return;
-                ValueValidator.AssertNumberOnLength(value, 6, "Index");
+                if (value == null) return;
+
+                ValueValidator.AssertNumberOnLength(value.ToString().Length, 6, "Index");
 
                 _index = value;
             }
@@ -130,7 +131,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public Adress()
         {
-            Index = 0;
+            Index = -1;
             Country = "country";
             City = "city";
             Street = "street";
@@ -155,6 +156,25 @@ namespace ObjectOrientedPractics.Model
             Street = street;
             Building = building;
             Apartment = apartment;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="country"></param>
+        /// <param name="city"></param>
+        /// <param name="street"></param>
+        /// <param name="building"></param>
+        /// <param name="apartment"></param>
+        public Adress(Adress adress)
+        {
+            Index = adress.Index;
+            Country = adress.Country;
+            City = adress.City;
+            Street = adress.Street;
+            Building = adress.Building;
+            Apartment = adress.Apartment;
         }
     }
 }

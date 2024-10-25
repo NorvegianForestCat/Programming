@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Model.Adress adress1 = new Model.Adress();
+            Model.Adress adress2 = new Model.Adress();
             ItemsLabel = new Label();
             label5 = new Label();
             IdLabel = new Label();
@@ -45,7 +45,7 @@
             AddButton = new Button();
             CustomerLabel = new Label();
             CustomersListBox = new ListBox();
-            AdressControl = new AdressControl();
+            adressControl = new AdressControl();
             SelectedItemsPanel.SuspendLayout();
             panel3.SuspendLayout();
             ButtonsPanel.SuspendLayout();
@@ -221,25 +221,26 @@
             CustomersListBox.TabIndex = 6;
             CustomersListBox.SelectedIndexChanged += CustomersListBox_SelectedIndexChanged;
             // 
-            // AdressControl
+            // adressControl
             // 
-            adress1.Apartment = "0";
-            adress1.Building = "building";
-            adress1.City = "city";
-            adress1.Country = "country";
-            adress1.Index = 0;
-            adress1.Street = "street";
-            AdressControl.Address = adress1;
-            AdressControl.Location = new Point(342, 149);
-            AdressControl.Name = "AdressControl";
-            AdressControl.Size = new Size(429, 143);
-            AdressControl.TabIndex = 6;
+            adress2.Apartment = "0";
+            adress2.Building = "building";
+            adress2.City = "city";
+            adress2.Country = "country";
+            adress2.Index = 0;
+            adress2.Street = "street";
+            adressControl.Address = adress2;
+            adressControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            adressControl.Location = new Point(342, 140);
+            adressControl.Name = "adressControl";
+            adressControl.Size = new Size(459, 143);
+            adressControl.TabIndex = 6;
             // 
             // CustomersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(AdressControl);
+            Controls.Add(adressControl);
             Controls.Add(panel3);
             Controls.Add(SelectedItemsPanel);
             Name = "CustomersTab";
@@ -275,6 +276,6 @@
         private Button AddButton;
         private Panel RemoveButtonPanel;
         private Button RemoveButton;
-        private AdressControl AdressControl;
+        private AdressControl adressControl;
     }
 }
