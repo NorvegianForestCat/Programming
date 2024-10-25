@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// 
+    /// Enumeration of categories
     /// </summary>
-    enum Category
+    public enum Category
     {
         Dairy,
         Grocery,
