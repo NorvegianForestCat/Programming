@@ -15,7 +15,13 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Class fields
         /// </summary>
-        private int? _index;
+        public const int INDEX_DIGIT = 6;
+        public const int COUNTRY_LENGTH_LIMIT = 50;
+        public const int CITY_LENGTH_LIMIT = 50;
+        public const int STREET_LENGTH_LIMIT = 100;
+        public const int BUILDING_LENGTH_LIMIT = 10;
+        public const int APARTMENT_LENGTH_LIMIT = 10;
+        private int _index;
         private string _country;
         private string _city;
         private string _street;
@@ -23,132 +29,119 @@ namespace ObjectOrientedPractics.Model
         private string _apartment;
 
         /// <summary>
-        /// 
+        /// Gets and sets index
         /// </summary>
-        public int? Index
+        public int Index
         {
-            get
-            {
-                return _index;
-            }
+            get => _index;
             set
             {
-                if (value == null) return;
-
-                ValueValidator.AssertNumberOnLength(value.ToString().Length, 6, "Index");
-
+                ValueValidator.AssertIntOnDigit(value, INDEX_DIGIT, nameof(Index));
                 _index = value;
             }
         }
+
         /// <summary>
-        /// Gets country string value, returns country
+        /// Gets and sets country
         /// </summary>
         public string Country
         {
-            get
-            {
-                return _country;
-            }
+            get => _country;
             set
             {
-                if (value == null) return;
-                ValueValidator.AssertStringOnLength(value, 50, "Country");
-
+                ValueValidator.AssertStringOnLength(value, COUNTRY_LENGTH_LIMIT, nameof(Country));
                 _country = value;
             }
         }
+
         /// <summary>
-        /// Gets city string value, returns city
+        /// Gets and sets city
         /// </summary>
         public string City
         {
-            get
-            {
-                return _city;
-            }
+            get => _city;
             set
             {
-                if (value == null) return;
-                ValueValidator.AssertStringOnLength(value, 100, "City");
-
+                ValueValidator.AssertStringOnLength(value, CITY_LENGTH_LIMIT, nameof(City));
                 _city = value;
             }
         }
+
         /// <summary>
-        /// Gets street string value, returns street
+        /// Gets and sets street
         /// </summary>
         public string Street
         {
-            get
-            {
-                return _street;
-            }
+            get => _street;
             set
             {
-                if (value == null) return;
-                ValueValidator.AssertStringOnLength(value, 100, "Street");
-
+                ValueValidator.AssertStringOnLength(value, STREET_LENGTH_LIMIT, nameof(Street));
                 _street = value;
             }
         }
+
         /// <summary>
-        /// Gets building string value, returns building
+        /// Gets and sets building number
         /// </summary>
         public string Building
         {
-            get
-            {
-                return _building;
-            }
+            get => _building;
             set
             {
-                if (value == null) return;
-                ValueValidator.AssertStringOnLength(value, 10, "Building");
-
+                ValueValidator.AssertStringOnLength(
+                    value,
+                    BUILDING_LENGTH_LIMIT,
+                    nameof(Building));
                 _building = value;
             }
         }
+
         /// <summary>
-        /// Gets apartament string value, returns apartament
+        /// Gets and sets apartament number
         /// </summary>
         public string Apartment
         {
-            get
-            {
-                return _apartment;
-            }
+            get => _apartment;
             set
             {
-                if (value == null) return;
-                ValueValidator.AssertStringOnLength(value, 10, "Apartment");
-
+                ValueValidator.AssertStringOnLength(
+                    value,
+                    APARTMENT_LENGTH_LIMIT,
+                    nameof(Apartment));
                 _apartment = value;
             }
         }
 
         /// <summary>
-        /// Base constructor without params
+        /// Class constructor <see cref="Adress"/>.
         /// </summary>
         public Adress()
         {
-            Index = -1;
-            Country = "country";
-            City = "city";
-            Street = "street";
-            Building = "building";
-            Apartment = "0";
+            Index = 123456;
+            Country = string.Empty;
+            City = string.Empty;
+            Street = string.Empty;
+            Building = string.Empty;
+            Apartment = string.Empty;
         }
 
         /// <summary>
-        /// Constructor with params
+        /// Class constructor <see cref="Adress"/>.
         /// </summary>
-        /// <param name="index">Adress index</param>
-        /// <param name="country">Adress country</param>
-        /// <param name="city">Adress city</param>
-        /// <param name="street">Adress street</param>
-        /// <param name="building">Adress building</param>
-        /// <param name="apartment">Adress apartament</param>
-        public Adress(int index, string country, string city, string street, string building, string apartment)
+        /// <param name="index">Index</param>
+        /// <param name="country">Country</param>
+        /// <param name="city">City</param>
+        /// <param name="street">Street</param>
+        /// <param name="building">Building munber</param>
+        /// <param name="apartment">Apartemnt number</param>
+        public Adress(
+            int index,
+            string country,
+            string city,
+            string street,
+            string building,
+            string apartment
+            )
         {
             Index = index;
             Country = country;
@@ -156,20 +149,6 @@ namespace ObjectOrientedPractics.Model
             Street = street;
             Building = building;
             Apartment = apartment;
-        }
-
-        /// <summary>
-        /// Constructor of cloning
-        /// </summary>
-        /// <param name="adress">Cloned adress</param>
-        public Adress(Adress adress)
-        {
-            Index = adress.Index;
-            Country = adress.Country;
-            City = adress.City;
-            Street = adress.Street;
-            Building = adress.Building;
-            Apartment = adress.Apartment;
         }
     }
 }

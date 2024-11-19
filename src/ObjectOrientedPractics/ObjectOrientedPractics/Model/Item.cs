@@ -16,24 +16,33 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Class fields
         /// </summary>
-        private readonly int _id;
+        public const int NAME_LENGTH_LIMIT = 200;
+        public const int INFO_LENGTH_LIMIT = 1000;
+        public const double MINIMUM_COST = 0;
+        public const double MAXIMUM_COST = 100000;
+        private readonly int _id = IdGenerator.GetNextId();
         private string _name;
-        private string? _info;
+        private string _info;
         private double _cost;
-        private Category _category;
 
         /// <summary>
-        /// Property Id. Only returns ID.
+        /// Gets and sets category <see cref="Model.Category"/>.
+        /// </summary>
+        public Category Category { get; set; }
+
+        /// <summary>
+        /// Gets ID
         /// </summary>
         public int Id
-        { 
+        {
             get
             {
                 return _id;
-            } 
+            }
         }
+
         /// <summary>
-        /// Property Name. Gets string name and returns name string.
+        /// Gets and sets name
         /// </summary>
         public string Name
         {
@@ -43,31 +52,29 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (string.IsNullOrEmpty(value)) return;
-
-                ValueValidator.AssertStringOnLength(value, 200, "Name");
+                ValueValidator.AssertStringOnLength(value, NAME_LENGTH_LIMIT, nameof(Name));
                 _name = value;
             }
         }
+
         /// <summary>
-        /// Property Info. Gets string info and returns info string.
+        /// Gets and sets information
         /// </summary>
-        public string? Info
+        public string Info
         {
             get
-            { 
+            {
                 return _info;
             }
             set
             {
-                if(string.IsNullOrEmpty(value)) return;
-
-                ValueValidator.AssertStringOnLength(value, 1000, "Info");
+                ValueValidator.AssertStringOnLength(value, INFO_LENGTH_LIMIT, nameof(Info));
                 _info = value;
-            } 
+            }
         }
+
         /// <summary>
-        /// Property Cost. Gets double cost and returns cost double.
+        /// Gets and sets cost
         /// </summary>
         public double Cost
         {
@@ -77,35 +84,28 @@ namespace ObjectOrientedPractics.Model
             }
             set
             {
-                if (!double.IsPositive(value)) return;
-
-                ValueValidator.AssertNumberOnLength(value, 100000.0, "Cost");
+                ValueValidator.AssertDoubleOnLimits(
+                    value, MINIMUM_COST, MAXIMUM_COST, nameof(Cost));
                 _cost = value;
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public Category Category { get; set; }
 
         /// <summary>
-        /// Class constructor without params
+        /// Constructor <see cref="Item"/>.
         /// </summary>
         public Item()
         {
-            Name = "test";
-            Info = "test";
-            Cost = 1.0;
+            Name = string.Empty;
+            Info = string.Empty;
+            Cost = 0;
             Category = Category.Chancellery;
-
-            _id = -1;
         }
 
         /// <summary>
-        /// Class constructor with params
+        /// Constructor <see cref="Item"/>.
         /// </summary>
         /// <param name="name">Item name</param>
-        /// <param name="info">Item desciption</param>
+        /// <param name="info">Item description</param>
         /// <param name="cost">Item cost</param>
         /// <param name="category">Item category</param>
         public Item(string name, string info, double cost, Category category)
@@ -114,8 +114,15 @@ namespace ObjectOrientedPractics.Model
             Info = info;
             Cost = cost;
             Category = category;
+        }
 
-            _id = IdGenerator.GetNextId();
+        public Item(Item item)
+        {
+            _id = item.Id;
+            Name = item.Name;
+            Info = item.Info;
+            Cost = item.Cost;
+            Category = item.Category;
         }
 
         /// <summary>

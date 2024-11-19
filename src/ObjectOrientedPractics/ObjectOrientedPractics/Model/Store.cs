@@ -1,57 +1,31 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
-    /// Provides control entire store elements (items and customers)
+    /// Provides store info
     /// </summary>
-    internal class Store
+    public class Store
     {
         /// <summary>
-        /// Class fields
+        /// gets and sets list if busied ids
         /// </summary>
-        private BindingList<Item> _items;
-        private BindingList<Customer> _customers;
+        public List<int> BusyIds { get; set; } = new List<int>();
 
         /// <summary>
-        /// Gets bindingList of items
+        /// Gets and sets list of <see cref="Item"/>.
         /// </summary>
-        public BindingList<Item> Items
-        {
-
-            get => _items;
-            set
-            {
-                if (value == null) return;
-                _items = value;
-            }
-        }
+        public List<Item> Items { get; set; } = new List<Item>();
 
         /// <summary>
-        /// Gets bindingList of customers
+        /// List of <see cref="Customer"/>.
         /// </summary>
-        public BindingList<Customer> Customers
-        {
-            get => _customers;
-            set
-            {
-                if (value == null) return;
-                _customers = value;
-            }
-        }
+        public List<Customer> Customers { get; set; } = new List<Customer>();
 
-        /// <summary>
-        /// Base constructor
-        /// </summary>
-        public Store() 
+        public Store()
         {
-            Items = new BindingList<Item> { };
-            Customers = new BindingList<Customer> { };
+            IdGenerator.BusyIds = BusyIds;
         }
     }
 }

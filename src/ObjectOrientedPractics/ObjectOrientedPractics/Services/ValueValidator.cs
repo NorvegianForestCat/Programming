@@ -12,47 +12,51 @@ namespace ObjectOrientedPractics.Services
     internal static class ValueValidator
     {
         /// <summary>
-        /// Assertion string with length
+        /// Check string length
         /// </summary>
-        /// <param name="value">String</param>
+        /// <param name="value">Value</param>
         /// <param name="maxLength">Max length</param>
         /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">Throw if not asserted</exception>
         public static void AssertStringOnLength(string value, int maxLength, string propertyName)
         {
             if (value.Length > maxLength)
             {
-                throw new ArgumentException($"{propertyName} must be less than {maxLength} symbols");
+                throw new
+                    ArgumentException($"{propertyName} must be less than {maxLength} syms");
             }
         }
 
         /// <summary>
-        /// Assertion doubles with value
+        /// Check double value
         /// </summary>
-        /// <param name="value">Number</param>
-        /// <param name="maxLength">Max current</param>
+        /// <param name="value">Value</param>
+        /// <param name="minimum">Minimum</param>
+        /// <param name="maximum">Maximum</param>
         /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">Throw if not asserted</exception>
-        public static void AssertNumberOnLength(double value, double maxLength, string propertyName)
+        public static void AssertDoubleOnLimits(double value, double minimum,
+            double maximum, string propertyName)
         {
-            if(value > maxLength)
+            if (value < minimum || value > maximum)
             {
-                throw new ArgumentException($"{propertyName} must be less than {maxLength}");
+                throw new
+                    ArgumentException(
+                    $"{propertyName} not in range from {minimum} to {maximum}.");
             }
         }
 
         /// <summary>
-        /// Assertion int with value
+        /// Check value data
         /// </summary>
-        /// <param name="value">Number</param>
-        /// <param name="maxLength">Max current</param>
+        /// <param name="value">Value</param>
+        /// <param name="digit">Number of digits</param>
         /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">Throw if not asserted</exception>
-        public static void AssertNumberOnLength(int value, int maxLength, string propertyName)
+        public static void AssertIntOnDigit(int value, int digit, string propertyName)
         {
-            if (value > maxLength)
+            if (value.ToString().Length != digit)
             {
-                throw new ArgumentException($"{propertyName} must be less than {maxLength}");
+                throw new
+                    ArgumentException(
+                    $"{propertyName} must consists of {digit} digits");
             }
         }
 
