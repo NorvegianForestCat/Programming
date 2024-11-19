@@ -3,12 +3,12 @@
     partial class MainForm
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,89 +23,169 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            TabControl = new TabControl();
-            ItemsPage = new TabPage();
+            MainTabControl = new TabControl();
+            ItemsTabPage = new TabPage();
             ItemsTab = new View.Tabs.ItemsTab();
             CustomersTabPage = new TabPage();
             CustomersTab = new View.Tabs.CustomersTab();
-            TabControl.SuspendLayout();
-            ItemsPage.SuspendLayout();
+            CartsPage = new TabPage();
+            CartsTab = new View.Tabs.CartsTab();
+            OrdersTabPage = new TabPage();
+            OrdersTab = new View.Tabs.OrdersTab();
+            MainTabControl.SuspendLayout();
+            ItemsTabPage.SuspendLayout();
             CustomersTabPage.SuspendLayout();
+            CartsPage.SuspendLayout();
+            OrdersTabPage.SuspendLayout();
             SuspendLayout();
             // 
-            // TabControl
+            // MainTabControl
             // 
-            TabControl.Controls.Add(ItemsPage);
-            TabControl.Controls.Add(CustomersTabPage);
-            TabControl.Dock = DockStyle.Fill;
-            TabControl.Location = new Point(0, 0);
-            TabControl.Name = "TabControl";
-            TabControl.SelectedIndex = 0;
-            TabControl.Size = new Size(818, 581);
-            TabControl.TabIndex = 0;
+            MainTabControl.Controls.Add(ItemsTabPage);
+            MainTabControl.Controls.Add(CustomersTabPage);
+            MainTabControl.Controls.Add(CartsPage);
+            MainTabControl.Controls.Add(OrdersTabPage);
+            MainTabControl.Dock = DockStyle.Fill;
+            MainTabControl.Location = new Point(0, 0);
+            MainTabControl.Margin = new Padding(4, 3, 4, 3);
+            MainTabControl.Name = "MainTabControl";
+            MainTabControl.SelectedIndex = 0;
+            MainTabControl.Size = new Size(856, 659);
+            MainTabControl.TabIndex = 0;
+            MainTabControl.SelectedIndexChanged += MainTabControl_SelectedIndexChanged;
             // 
-            // ItemsPage
+            // ItemsTabPage
             // 
-            ItemsPage.Controls.Add(ItemsTab);
-            ItemsPage.Location = new Point(4, 24);
-            ItemsPage.Name = "ItemsPage";
-            ItemsPage.Padding = new Padding(3);
-            ItemsPage.Size = new Size(810, 553);
-            ItemsPage.TabIndex = 0;
-            ItemsPage.Text = "Items";
-            ItemsPage.UseVisualStyleBackColor = true;
+            ItemsTabPage.Controls.Add(ItemsTab);
+            ItemsTabPage.Location = new Point(4, 24);
+            ItemsTabPage.Margin = new Padding(4, 3, 4, 3);
+            ItemsTabPage.Name = "ItemsTabPage";
+            ItemsTabPage.Padding = new Padding(4, 3, 4, 3);
+            ItemsTabPage.Size = new Size(848, 631);
+            ItemsTabPage.TabIndex = 0;
+            ItemsTabPage.Text = "Items";
+            ItemsTabPage.UseVisualStyleBackColor = true;
             // 
             // ItemsTab
             // 
             ItemsTab.Dock = DockStyle.Fill;
-            ItemsTab.Location = new Point(3, 3);
+            ItemsTab.Items = null;
+            ItemsTab.Location = new Point(4, 3);
+            ItemsTab.Margin = new Padding(5, 3, 5, 3);
+            ItemsTab.MaximumSize = new Size(1113, 763);
+            ItemsTab.MinimumSize = new Size(726, 467);
             ItemsTab.Name = "ItemsTab";
-            ItemsTab.Size = new Size(804, 547);
+            ItemsTab.Size = new Size(840, 625);
             ItemsTab.TabIndex = 0;
             // 
             // CustomersTabPage
             // 
             CustomersTabPage.Controls.Add(CustomersTab);
             CustomersTabPage.Location = new Point(4, 24);
+            CustomersTabPage.Margin = new Padding(4, 3, 4, 3);
             CustomersTabPage.Name = "CustomersTabPage";
-            CustomersTabPage.Size = new Size(810, 553);
+            CustomersTabPage.Padding = new Padding(4, 3, 4, 3);
+            CustomersTabPage.Size = new Size(848, 631);
             CustomersTabPage.TabIndex = 1;
             CustomersTabPage.Text = "Customers";
             CustomersTabPage.UseVisualStyleBackColor = true;
             // 
             // CustomersTab
             // 
+            CustomersTab.Customers = null;
             CustomersTab.Dock = DockStyle.Fill;
-            CustomersTab.Location = new Point(0, 0);
+            CustomersTab.Location = new Point(4, 3);
+            CustomersTab.Margin = new Padding(5, 3, 5, 3);
+            CustomersTab.MaximumSize = new Size(1167, 808);
+            CustomersTab.MinimumSize = new Size(700, 462);
             CustomersTab.Name = "CustomersTab";
-            CustomersTab.Size = new Size(810, 553);
+            CustomersTab.Size = new Size(840, 625);
             CustomersTab.TabIndex = 0;
+            // 
+            // CartsPage
+            // 
+            CartsPage.Controls.Add(CartsTab);
+            CartsPage.Location = new Point(4, 24);
+            CartsPage.Margin = new Padding(4, 3, 4, 3);
+            CartsPage.Name = "CartsPage";
+            CartsPage.Padding = new Padding(4, 3, 4, 3);
+            CartsPage.Size = new Size(848, 631);
+            CartsPage.TabIndex = 2;
+            CartsPage.Text = "Carts";
+            CartsPage.UseVisualStyleBackColor = true;
+            // 
+            // CartsTab
+            // 
+            CartsTab.Customers = null;
+            CartsTab.Dock = DockStyle.Fill;
+            CartsTab.Items = null;
+            CartsTab.Location = new Point(4, 3);
+            CartsTab.Margin = new Padding(5, 3, 5, 3);
+            CartsTab.MinimumSize = new Size(537, 354);
+            CartsTab.Name = "CartsTab";
+            CartsTab.Size = new Size(840, 625);
+            CartsTab.TabIndex = 0;
+            // 
+            // OrdersTabPage
+            // 
+            OrdersTabPage.Controls.Add(OrdersTab);
+            OrdersTabPage.Location = new Point(4, 24);
+            OrdersTabPage.Margin = new Padding(4, 3, 4, 3);
+            OrdersTabPage.Name = "OrdersTabPage";
+            OrdersTabPage.Padding = new Padding(4, 3, 4, 3);
+            OrdersTabPage.Size = new Size(848, 631);
+            OrdersTabPage.TabIndex = 3;
+            OrdersTabPage.Text = "Orders";
+            OrdersTabPage.UseVisualStyleBackColor = true;
+            // 
+            // OrdersTab
+            // 
+            OrdersTab.Customers = null;
+            OrdersTab.Dock = DockStyle.Fill;
+            OrdersTab.Location = new Point(4, 3);
+            OrdersTab.Margin = new Padding(5, 3, 5, 3);
+            OrdersTab.MinimumSize = new Size(700, 540);
+            OrdersTab.Name = "OrdersTab";
+            OrdersTab.Size = new Size(840, 625);
+            OrdersTab.TabIndex = 0;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(818, 581);
-            Controls.Add(TabControl);
+            ClientSize = new Size(856, 659);
+            Controls.Add(MainTabControl);
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MaximumSize = new Size(1164, 802);
+            MinimumSize = new Size(872, 698);
             Name = "MainForm";
-            Text = "Form1";
-            TabControl.ResumeLayout(false);
-            ItemsPage.ResumeLayout(false);
+            Text = "Object Oriented Practics";
+            FormClosed += MainForm_FormClosed;
+            Load += MainForm_Load;
+            MainTabControl.ResumeLayout(false);
+            ItemsTabPage.ResumeLayout(false);
             CustomersTabPage.ResumeLayout(false);
+            CartsPage.ResumeLayout(false);
+            OrdersTabPage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TabControl TabControl;
-        private TabPage ItemsPage;
+        private System.Windows.Forms.TabControl MainTabControl;
+        private System.Windows.Forms.TabPage ItemsTabPage;
         private View.Tabs.ItemsTab ItemsTab;
-        private TabPage CustomersTabPage;
+        private System.Windows.Forms.TabPage CustomersTabPage;
         private View.Tabs.CustomersTab CustomersTab;
+        private System.Windows.Forms.TabPage CartsPage;
+        private System.Windows.Forms.TabPage OrdersTabPage;
+        private View.Tabs.OrdersTab OrdersTab;
+        private View.Tabs.CartsTab CartsTab;
     }
 }

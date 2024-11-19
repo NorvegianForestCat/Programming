@@ -1,7 +1,9 @@
 ﻿using ObjectOrientedPractics.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,80 +15,89 @@ namespace ObjectOrientedPractics.Model
     public class Customer
     {
         /// <summary>
-        /// Customer fields
+        /// Class fields
         /// </summary>
-        private readonly int _id;
-        private string? _fullname;
-        private Adress _adress;
+        public const int FULLNAME_LENGTH_LIMIT = 200;
+        public const int ADDRESS_LENGTH_LIMIT = 500;
+        private readonly int _id = IdGenerator.GetNextId();
+        private string _fullname;
 
         /// <summary>
-        /// Property Id. Only returns ID.
+        /// Gets id
         /// </summary>
-        public int Id { get; }
-        /// <summary>
-        /// Property Fullname. Gets string fullname and returns fullname string.
-        /// </summary>
-        public string? Fullname
+        public int Id
         {
-            get
-            {
-                return _fullname;
-            }
+            get => _id;
+        }
+
+        /// <summary>
+        /// Gets and sets fullname
+        /// </summary>
+        public string Fullname
+        {
+            get => _fullname;
             set
             {
-                if (value == null) return;
-
-                ValueValidator.AssertStringOnLength(value, 200, "Fullname");
+                ValueValidator.AssertStringOnLength(
+                    value, FULLNAME_LENGTH_LIMIT, nameof(_fullname));
                 _fullname = value;
             }
         }
-        /// <summary>
-        /// Property Adress. Gets string Adress and returns adress string.
-        /// </summary>
-        public Adress Adress
-        {
-            get
-            {
-                return _adress;
-            }
-            set
-            {
-                if (value == null) return;
-                _adress = value;
-            }
-        }
 
         /// <summary>
-        /// Class constructor without params
+        /// Gets and sets adress <see cref="Model.Adress"/>. 
+        /// </summary>
+        public Adress Address { get; set; }
+
+        /// <summary>
+        /// Возвращает и задает корзину покупателя.
+        /// </summary>
+        public Cart Cart { get; set; } = new Cart();
+
+        /// <summary>
+        /// Возвращает и задает список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders { get; set; } = new List<Order>();
+
+        /// <summary>
+        /// Constructor <see cref="Customer"/>.
         /// </summary>
         public Customer()
         {
-            Fullname = "name";
-            Adress = new Adress();
-
-            Id = -1;
+            Fullname = string.Empty;
+            Address = new Adress();
         }
 
         /// <summary>
-        /// Class constructor with params
+        /// Constructor <see cref="Customer"/>.
         /// </summary>
-        /// <param name="fullname">Customer fullname</param>
-        /// <param name="adress">Customer adress</param>
+        /// <param name="fullname">Fullname</param>
+        /// <param name="address">Address<see cref="Model.Adress"/></param>
         public Customer(string fullname, Adress adress)
         {
-            Fullname = fullname;
-            Adress = adress;
+            if (String.IsNullOrEmpty(fullname) || adress == null) return;
 
-            Id = IdGenerator.GetNextId();
+            Fullname = fullname;
+            Address = adress;
         }
 
         /// <summary>
-        /// Ovverided ToString() method.
+        /// Overrided ToString method <see cref="Object.ToString()"/>
         /// </summary>
-        /// <returns>String presentation of customer</returns>
+        /// <returns></returns>
         public override string ToString() 
         {
             return $"{Id}: {Fullname}";
+        }
+
+        /// <summary>
+        /// By-ID constructor
+        /// </summary>
+        /// <param name="id">ID</param>
+        [JsonConstructor]
+        public Customer(int id)
+        {
+            _id = id;
         }
     }
 }

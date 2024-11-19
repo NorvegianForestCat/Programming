@@ -1,233 +1,289 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class ItemsTab : UserControl
     {
-        // class fields
-        private BindingList<Item> _items;
-        private Item? _item;
-        private Form errorMessageForm;
-        private Label errorLabel;
+        /// <summary>
+        /// List of <see cref="Model.Item"/>.
+        /// </summary>
+        private List<Item> _items;
 
         /// <summary>
-        /// Get BindingList<Item>, returns list of items
+        /// Gets and sets list of <see cref="Model.Item"/>.
         /// </summary>
-        public BindingList<Item> Items
+        public List<Item> Items
         {
             get => _items;
             set
             {
                 _items = value;
-                UpdateListBox(_items);
-            }
-        }
-
-        /// <summary>
-        /// Tab constructor
-        /// </summary>
-        public ItemsTab()
-        {
-            // Component initializing
-            _items = new BindingList<Item>();
-
-            errorMessageForm = new Form();
-            errorLabel = new Label();
-            errorLabel.Dock = DockStyle.Fill;
-
-            errorMessageForm.Controls.Add(errorLabel);
-
-            InitializeComponent();
-
-            CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
-        }
-
-        // AddButtom logic
-        private void AddButton_Click(object sender, EventArgs e)
-        {
-            // fool-check
-            if (String.IsNullOrEmpty(NameTextBox.Text) || String.IsNullOrEmpty(CostTextBox.Text) ||
-                String.IsNullOrEmpty(DescriptionTextBox.Text)) return;
-            try
-            {
-                Item item = new Item
-                    (
-                    (string)NameTextBox.Text, (string)DescriptionTextBox.Text, Double.Parse(CostTextBox.Text),
-                    (Category)CategoryComboBox.SelectedItem
-                    );
-                _items.Add(item);
-
-                ItemsListBox.SelectedIndex = -1;
-
-                ItemsListBox.DataSource = _items;
-            }
-            catch (Exception exception)
-            {
-                //if exception
+                if (value != null)
                 {
-                    errorLabel.Text = String.Empty;
-                    errorLabel.Text = exception.Message;
-
-                    errorMessageForm.ShowDialog();
+                    UpdateItemsListBox();
                 }
             }
         }
 
-        // RemoveButton logic
+        /// <summary>
+        /// Class fields
+        /// </summary>
+        private Form errorMessageBox;
+        private Label errorLabel;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ItemsTab()
+        {
+            InitializeComponent();
+
+            CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
+
+            CategoryComboBox.SelectedIndex = -1;
+            WrongCostLabel.Text = string.Empty;
+            WrongNameLabel.Text = string.Empty;
+            WrongDescriptionLabel.Text = string.Empty;
+
+            errorMessageBox = new Form();
+            errorLabel = new Label();
+
+            errorMessageBox.Controls.Add(errorLabel);
+            errorLabel.Dock = DockStyle.Fill;
+
+        }
+
+        /// <summary>
+        /// Update items list box
+        /// </summary>
+        private void UpdateItemsListBox()
+        {
+            ItemsListBox.Items.Clear();
+            for (int i = 0; i < Items.Count; i++)
+            {
+                ItemsListBox.Items.Add(Items[i].Name);
+            }
+        }
+
+        /// <summary>
+        /// Init text boxes
+        /// </summary>
+        /// <param name="selectedIndex">index</param>
+        private void SetTextBoxes(int selectedIndex)
+        {
+            bool isSelectedIndexCorrect = selectedIndex >= 0;
+
+            CostTextBox.Enabled = isSelectedIndexCorrect;
+            NameTextBox.Enabled = isSelectedIndexCorrect;
+            DescriptionTextBox.Enabled = isSelectedIndexCorrect;
+            CategoryComboBox.Enabled = isSelectedIndexCorrect;
+
+            if (isSelectedIndexCorrect)
+            {
+                NameTextBox.Text = Items[ItemsListBox.SelectedIndex].Name;
+                CostTextBox.Text = Items[ItemsListBox.SelectedIndex].Cost.ToString();
+                IdTextBox.Text = Items[ItemsListBox.SelectedIndex].Id.ToString();
+                DescriptionTextBox.Text = Items[ItemsListBox.SelectedIndex].Info;
+                CategoryComboBox.SelectedIndex = (int)Items[ItemsListBox.SelectedIndex].Category;
+            }
+            else
+            {
+                NameTextBox.Text = string.Empty;
+                CostTextBox.Text = string.Empty;
+                IdTextBox.Text = string.Empty;
+                DescriptionTextBox.Text = string.Empty;
+                CategoryComboBox.SelectedIndex = -1;
+            }
+        }
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            Item newItem = new Item();
+            newItem.Name = $"Item{newItem.Id}";
+
+            Items.Add(newItem);
+            ItemsListBox.Items.Add(newItem.Name);
+            ItemsListBox.SelectedIndex = ItemsListBox.Items.Count - 1;
+        }
+
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            // fool-check
-            if (ItemsListBox.SelectedItem == null) return;
+            int removeIndex = ItemsListBox.SelectedIndex;
 
-            _items.Remove((Item)ItemsListBox.SelectedItem);
-            ItemsListBox.SelectedItem = null;
+            if (removeIndex == -1) return;
+
+            ItemsListBox.Items.RemoveAt(removeIndex);
+            Items.RemoveAt(removeIndex);
+
+            if (ItemsListBox.Items.Count <= 0) return;
+
+            if (removeIndex < ItemsListBox.Items.Count)
+            {
+                ItemsListBox.SelectedIndex = removeIndex;
+            }
+            else
+            {
+                ItemsListBox.SelectedIndex = removeIndex - 1;
+            }
         }
 
-        // ItemsListBox logic
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (ItemsListBox.SelectedItem == null) return;
-
-            ClearFields();
-            // Changing fields
-            _item = (Item)ItemsListBox.SelectedItem;
-            IdTextBox.Text = _item.Id.ToString();
-            CostTextBox.Text = _item.Cost.ToString();
-            NameTextBox.Text = _item.Name;
-            DescriptionTextBox.Text = _item.Info;
-            CategoryComboBox.SelectedItem = _item.Category;
-
-            if (ItemsListBox.SelectedIndex == -1)
-            {
-                ClearFields();
-            }
+            SetTextBoxes(ItemsListBox.SelectedIndex);
         }
 
-        // IdTextBox logic
-        private void IdTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // fool-check
-            if (_item == null) return;
-
-            if (_item.Id.ToString() != IdTextBox.Text)
-            {
-                IdTextBox.Text = _item.Id.ToString();
-            }
-        }
-
-        // CostTextBox logic
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (_item == null || CostTextBox.Text == String.Empty || ItemsListBox.SelectedIndex == -1) return;
+            if (ItemsListBox.SelectedIndex < 0)
+            {
+                WrongCostLabel.Text = string.Empty;
+                CostTextBox.BackColor = AppColors.RightInputColor;
+                return;
+            }
+
+            Color currentColor = AppColors.WrongInputColor;
+            double getParse = 0;
+
+            if (!double.TryParse(CostTextBox.Text, out getParse))
+            {
+                WrongCostLabel.Text = "Cost must be a double number.";
+                ShowErrorMessage(WrongCostLabel.Text);
+            }
+
+            WrongCostLabel.Text = string.Empty;
+            currentColor = AppColors.RightInputColor;
+
             try
             {
-                CostTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                _items[ItemsListBox.SelectedIndex].Cost = double.Parse(CostTextBox.Text);
-                UpdateListBox(_items);
+                ValueValidator.AssertDoubleOnLimits(getParse, Item.MINIMUM_COST, Item.MAXIMUM_COST, "Cost");
             }
-            catch (Exception exception)
+            catch (Exception ex) 
             {
-                // if exception
-                CostTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
-
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
-
-                errorMessageForm.ShowDialog();
+                ShowErrorMessage(ex.Message);
+                WrongCostLabel.Text = ex.Message;
+                currentColor= AppColors.WrongInputColor;
             }
+
+            CostTextBox.BackColor = currentColor;
         }
 
-        /// <summary>
-        /// Clearing the fields
-        /// </summary>
-        private void ClearFields()
-        {
-            IdTextBox.Text = String.Empty;
-            CostTextBox.Text = String.Empty;
-            NameTextBox.Text = String.Empty;
-            DescriptionTextBox.Text = String.Empty;
-        }
-
-        /// <summary>
-        /// Updating ListBox
-        /// </summary>
-        /// <param name="list">list for to be updated</param>
-        private void UpdateListBox(BindingList<Item> list)
-        {
-            list.Add(new Item());
-            list.RemoveAt(list.Count - 1);
-
-            ItemsListBox.DataSource = _items;
-        }
-
-        // Clearing selected index
-        private void SelectedItemsPanel_Click(object sender, EventArgs e)
-        {
-            ItemsListBox.SelectedIndex = -1;
-        }
-
-        // NameTextBox logic
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (_item == null || NameTextBox.Text == String.Empty || ItemsListBox.SelectedIndex == -1) return;
+            if (ItemsListBox.SelectedIndex < 0)
+            {
+                WrongNameLabel.Text = string.Empty;
+                NameTextBox.BackColor = AppColors.RightInputColor;
+                return;
+            }
+            Color currentColor = AppColors.WrongInputColor;
+            WrongNameLabel.Text = string.Empty;
+            currentColor = AppColors.RightInputColor;
+
             try
             {
-                NameTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                _items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
-                UpdateListBox(_items);
-            }
-            catch (Exception exception)
-            {
-                // if exception
-                NameTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
+                if (NameTextBox.Text.Length == 0) throw new Exception("Name must be");
 
-                errorMessageForm.ShowDialog();
+                ValueValidator.AssertStringOnLength(NameTextBox.Text, Item.NAME_LENGTH_LIMIT, "Name");
             }
+            catch(Exception ex) 
+            {
+                ShowErrorMessage(ex.Message);
+                WrongCostLabel.Text = ex.Message;
+                currentColor = AppColors.WrongInputColor;
+            }
+
+            NameTextBox.BackColor = currentColor;
         }
 
-        // DescriptionTextBox logic
         private void DescriptionTextBox_TextChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (_item == null || ItemsListBox.SelectedIndex == -1 || DescriptionTextBox.Text == String.Empty) return;
+            if (ItemsListBox.SelectedIndex < 0)
+            {
+                WrongDescriptionLabel.Text = string.Empty;
+                DescriptionTextBox.BackColor = AppColors.RightInputColor;
+                return;
+            }
+
+            Color currentColor = AppColors.WrongInputColor;
+            WrongNameLabel.Text = string.Empty;
+            currentColor = AppColors.RightInputColor;
+
             try
             {
-                DescriptionTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                _items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
-            }
-            catch (Exception exception)
-            {
-                // if exception
-                DescriptionTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
+                if (DescriptionTextBox.Text.Length == 0) throw new Exception("Info must be");
 
-                errorMessageForm.ShowDialog();
+                ValueValidator.AssertStringOnLength(NameTextBox.Text, Item.INFO_LENGTH_LIMIT, "Desciption");
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+                WrongCostLabel.Text = ex.Message;
+                currentColor = AppColors.WrongInputColor;
+            }
+            DescriptionTextBox.BackColor = currentColor;
+        }
+
+        private void NameTextBox_Leave(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex < 0) return;
+
+            if (NameTextBox.BackColor == AppColors.RightInputColor)
+            {
+                Items[ItemsListBox.SelectedIndex].Name = NameTextBox.Text;
+                ItemsListBox.Items[ItemsListBox.SelectedIndex] = NameTextBox.Text;
+            }
+            else
+            {
+                NameTextBox.Text = Items[ItemsListBox.SelectedIndex].Name;
             }
         }
 
-        // CategoryComboBox logic
-        private void CategoryComboBox_SelectedValueChanged(object sender, EventArgs e)
+        private void CostTextBox_Leave(object sender, EventArgs e)
         {
-            // fool-check
-            if (_item == null || ItemsListBox.SelectedIndex == -1 || CategoryComboBox.SelectedItem == null) return;
+            if (ItemsListBox.SelectedIndex < 0) return;
 
-            _items[ItemsListBox.SelectedIndex].Category = (Category)CategoryComboBox.SelectedItem;
+            if (CostTextBox.BackColor == AppColors.RightInputColor)
+            {
+                Items[ItemsListBox.SelectedIndex].Cost = float.Parse(CostTextBox.Text);
+            }
+            CostTextBox.Text = Items[ItemsListBox.SelectedIndex].Cost.ToString();
+        }
+
+        private void DescriptionTextBox_Leave(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex < 0) return;
+
+            if (DescriptionTextBox.BackColor == AppColors.RightInputColor)
+            {
+                Items[ItemsListBox.SelectedIndex].Info = DescriptionTextBox.Text;
+            }
+            else
+            {
+                DescriptionTextBox.Text = Items[ItemsListBox.SelectedIndex].Info;
+            }
+        }
+
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ItemsListBox.SelectedIndex < 0) return;
+
+            Items[ItemsListBox.SelectedIndex].Category = (Category)CategoryComboBox.SelectedIndex;
+        }
+
+        /// <summary>
+        /// Show error messagebox
+        /// </summary>
+        /// <param name="message">Message</param>
+        private void ShowErrorMessage(string message)
+        {
+            errorLabel.Text = "";
+            errorLabel.Text = message;
+            errorMessageBox.ShowDialog();
         }
     }
 }

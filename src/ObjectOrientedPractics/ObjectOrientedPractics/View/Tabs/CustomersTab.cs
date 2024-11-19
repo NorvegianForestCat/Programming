@@ -1,181 +1,195 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Services;
+using ObjectOrientedPractics.View.Controls;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
     public partial class CustomersTab : UserControl
     {
-        // fields
-        private BindingList<Customer> _customers;
-        private Customer? _customer;
-        private Form errorMessageForm;
-        private Label errorLabel;
+        /// <summary>
+        /// Gets and sets <see cref="Customer"/>.
+        /// </summary>
+        private List<Customer> _customers;
 
         /// <summary>
-        /// Gets list of customers, returns list of customers
+        /// Gets and sets list of <see cref="Customer"/>.
         /// </summary>
-        public BindingList<Customer> Customers
+        public List<Customer> Customers
         {
             get => _customers;
             set
             {
                 _customers = value;
-                UpdateListBox(_customers);
+                if (value != null)
+                {
+                    UpdateCustomersListBox();
+                }
             }
         }
 
         /// <summary>
-        /// CustomersTab constructor
+        /// Class fields
+        /// </summary>
+        private Form errorMessageBox;
+        private Label errorLabel;
+
+        /// <summary>
+        /// Constructor
         /// </summary>
         public CustomersTab()
         {
-            // Initializing components
-            _customers = new BindingList<Customer>();
-            errorMessageForm = new Form();
-            errorLabel = new Label();
-            BindingSource source = new BindingSource();
-
-            errorLabel.Dock = DockStyle.Fill;
-
-            errorMessageForm.Controls.Add(errorLabel);
-
             InitializeComponent();
 
-            source.DataSource = _customers;
-            // Attach list to listbox
-            CustomersListBox.DataSource = source;
-            
+            WrongFullNameLabel.Text = string.Empty;
+
+            errorMessageBox = new Form();
+            errorLabel = new Label();
+
+            errorMessageBox.Controls.Add(errorLabel);
+            errorLabel.Dock = DockStyle.Fill;
         }
 
-        // AddButton logic
-        private void AddButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Update customers list box
+        /// </summary>
+        private void UpdateCustomersListBox()
         {
-            // fool-check
-            if (String.IsNullOrEmpty(FullnameTextBox.Text) || adressControl.Address?.Index == -1) return;
-
-            try
+            CustomersListBox.Items.Clear();
+            for (var i = 0; i < Customers.Count; i++)
             {
-                // Create new entity
-                Customer customer = new Customer((string)FullnameTextBox.Text,
-                    new Adress(this.adressControl.Address));
-                _customers.Add(customer);
-
-                CustomersListBox.SelectedIndex = -1;
-            }
-            catch (Exception exception)
-            {
-                // If exception
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
-                errorMessageForm.ShowDialog();
-
+                CustomersListBox.Items.Add(Customers[i].Fullname);
             }
         }
 
-        // RemoveButton logic
-        private void RemoveButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Set text boxes
+        /// </summary>
+        /// <param name="selectedIndex">Item index</param>
+        private void SetTextBoxes(int selectedIndex)
         {
-            // fool-check
-            if (CustomersListBox.SelectedIndex == -1) return;
+            bool isSelectedIndexCorrect = selectedIndex >= 0;
 
-            // Deleting entity
-            _customers.Remove((Customer)CustomersListBox.SelectedItem);
-            CustomersListBox.SelectedItem = null;
+            FullNameTextBox.Enabled = isSelectedIndexCorrect;
+
+            if (isSelectedIndexCorrect)
+            {
+                IdTextBox.Text = Customers[CustomersListBox.SelectedIndex].Id.ToString();
+                FullNameTextBox.Text = Customers[CustomersListBox.SelectedIndex].Fullname;
+                AddressControl.Address = Customers[CustomersListBox.SelectedIndex].Address;
+            }
+            else
+            {
+                FullNameTextBox.Text = string.Empty;
+                IdTextBox.Text = string.Empty;
+                AddressControl.Address = null;
+            }
         }
 
-        // CustomersListBox logic
+        /// <summary>
+        /// Selected index changed
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
         private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (CustomersListBox.SelectedIndex == -1) return;
+            SetTextBoxes(CustomersListBox.SelectedIndex);
+        }
 
-            ClearFields();
-            // Changing textboxes
-            _customer = (Customer)CustomersListBox.SelectedItem;
-            IdTextBox.Text = _customer.Id.ToString();
-            FullnameTextBox.Text = _customer.Fullname.ToString();
-            adressControl.Address = _customer.Adress;
-            adressControl.AdressUpdate();
+        /// <summary>
+        /// AddButton Click
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Args</param>
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            Customer newCustomer = new Customer();
 
-            if (CustomersListBox.SelectedIndex == -1)
+            newCustomer.Fullname = $"#{newCustomer.Id}";
+
+            Customers.Add(newCustomer);
+            CustomersListBox.Items.Add(newCustomer.Fullname);
+            CustomersListBox.SelectedIndex = CustomersListBox.Items.Count - 1;
+        }
+
+        /// <summary>
+        /// Click remove button
+        /// </summary>
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+            int removeIndex = CustomersListBox.SelectedIndex;
+
+            if (removeIndex < 0) return;
+
+            CustomersListBox.Items.RemoveAt(removeIndex);
+            Customers.RemoveAt(removeIndex);
+
+            if (CustomersListBox.Items.Count <= 0) return;
+
+            if (removeIndex < CustomersListBox.Items.Count)
             {
-                ClearFields();
+                CustomersListBox.SelectedIndex = removeIndex;
+            }
+            else
+            {
+                CustomersListBox.SelectedIndex = removeIndex - 1;
             }
         }
 
-        // IdTextBox logic
-        private void IdTextBox_TextChanged(object sender, EventArgs e)
+        private void FullNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            // fool-check
-            if (_customer == null) return;
-
-            // Readonly fielding
-            if (_customer.Id.ToString() != IdTextBox.Text)
+            if (CustomersListBox.SelectedIndex < 0)
             {
-                IdTextBox.Text = _customer.Id.ToString();
+                WrongFullNameLabel.Text = string.Empty;
+                FullNameTextBox.BackColor = AppColors.RightInputColor;
+                return;
             }
-        }
 
-        // FullnameTextBox logic
-        private void FullnameTextBox_TextChanged(object sender, EventArgs e)
-        {
-            // fool-check
-            if (_customer == null || FullnameTextBox.Text == String.Empty || CustomersListBox.SelectedIndex == -1) return;
+            Color currentColor = AppColors.WrongInputColor;
+            WrongFullNameLabel.Text = string.Empty;
+            currentColor = AppColors.RightInputColor;
+
             try
             {
-                FullnameTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                _customers[CustomersListBox.SelectedIndex].Fullname = FullnameTextBox.Text;
-                UpdateListBox(_customers);
+                if (FullNameTextBox.Text.Length == 0) throw new Exception("Name must be");
+
+                ValueValidator.AssertStringOnLength(FullNameTextBox.Text, Customer.FULLNAME_LENGTH_LIMIT, "Name");
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                // if exception
-                FullnameTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ShowErrorMessage(ex.Message);
+                WrongFullNameLabel.Text = ex.Message;
+                currentColor = AppColors.WrongInputColor;
+            }
+            FullNameTextBox.BackColor = currentColor;
+        }
 
-                errorLabel.Text = String.Empty;
-                errorLabel.Text = exception.Message;
+        private void FullNameTextBox_Leave(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex < 0) return;
 
-                errorMessageForm.ShowDialog();
+            if (FullNameTextBox.BackColor == AppColors.RightInputColor)
+            {
+                Customers[CustomersListBox.SelectedIndex].Fullname = FullNameTextBox.Text;
+                CustomersListBox.Items[CustomersListBox.SelectedIndex] = FullNameTextBox.Text;
+            }
+            else
+            {
+                FullNameTextBox.Text = Customers[CustomersListBox.SelectedIndex].Fullname;
             }
         }
 
         /// <summary>
-        /// Clearing fields
+        /// Show error messagebox
         /// </summary>
-        private void ClearFields()
+        /// <param name="message">Message</param>
+        private void ShowErrorMessage(string message)
         {
-            adressControl.Address = new Adress();
-            IdTextBox.Text = String.Empty;
-            FullnameTextBox.Text = String.Empty;
-            adressControl.Clear();
-        }
-
-        /// <summary>
-        /// Updating listbox
-        /// </summary>
-        /// <param name="list">list to be updated</param>
-        private void UpdateListBox(BindingList<Customer> list)
-        {
-            list.Add(new Customer());
-            list.RemoveAt(list.Count - 1);
-
-            CustomersListBox.DataSource = _customers;
-        }
-
-        // Clearing selection index
-        private void SelectedCustomersPanel_Click(object sender, EventArgs e)
-        {
-            //_customer = null;
-            CustomersListBox.SelectedIndex = -1;
-            ClearFields();
+            errorLabel.Text = "";
+            errorLabel.Text = message;
+            errorMessageBox.ShowDialog();
         }
     }
 }

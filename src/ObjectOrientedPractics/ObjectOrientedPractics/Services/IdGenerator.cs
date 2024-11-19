@@ -12,22 +12,36 @@ namespace ObjectOrientedPractics.Services
     internal static class IdGenerator
     {
         /// <summary>
-        /// Class fields
+        /// Gets and sets busy ids list
         /// </summary>
-        private static int _idCounter;
+        public static List<int> BusyIds { get; set; }
 
         /// <summary>
-        /// Property IdCounter. Gets and returns ints.
+        /// Gets and sets counter of Ids
         /// </summary>
-        private static int idCounter { get; set; }
+        private static int Counter { get; set; } = 0;
 
         /// <summary>
-        /// Method generating inline IDs
+        /// Create ID
         /// </summary>
         /// <returns>ID</returns>
         public static int GetNextId()
         {
-            return idCounter++;
+            while (BusyIds.Exists(id => id == Counter))
+            {
+                ++Counter;
+            }
+            BusyIds.Add(Counter);
+            return Counter++;
+        }
+
+        /// <summary>
+        /// Release Current ID
+        /// </summary>
+        /// <param name="id">ID</param>
+        public static void ReleaseId(int id)
+        {
+            BusyIds.Remove(id);
         }
     }
 }
