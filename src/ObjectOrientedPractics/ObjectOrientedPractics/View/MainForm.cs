@@ -33,6 +33,8 @@ namespace ObjectOrientedPractics
             CartsTab.Items = Store.Items;
             CartsTab.Customers = Store.Customers;
             OrdersTab.Customers = Store.Customers;
+            // PriorityOrdersTab.Customers = Store.Customers;
+            // PriorityOrdersTab.Items = Store.Items;
         }
 
         /// <summary>

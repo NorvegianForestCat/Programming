@@ -1,6 +1,6 @@
 ﻿namespace ObjectOrientedPractics.View.Tabs
 {
-    partial class OrdersTab
+    partial class PriorityOrdersTab
     {
         /// <summary> 
         /// Required designer variable.
@@ -56,6 +56,9 @@
             OrderItemsLabel = new Label();
             SelectedOrderLabel = new Label();
             AddressControl = new Controls.AdressControl();
+            AddItemButton = new Button();
+            DeleteItemButton = new Button();
+            ClearCartButton = new Button();
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             MainTableLayoutPanel.SuspendLayout();
             DataPanel.SuspendLayout();
@@ -186,6 +189,9 @@
             // 
             // SelectedOrderPanel
             // 
+            SelectedOrderPanel.Controls.Add(ClearCartButton);
+            SelectedOrderPanel.Controls.Add(DeleteItemButton);
+            SelectedOrderPanel.Controls.Add(AddItemButton);
             SelectedOrderPanel.Controls.Add(PriorityOprionPanel);
             SelectedOrderPanel.Controls.Add(AmountLabel);
             SelectedOrderPanel.Controls.Add(OrderItemsListBox);
@@ -211,7 +217,7 @@
             PriorityOprionPanel.Controls.Add(PriorityOptionLabel);
             PriorityOprionPanel.Controls.Add(DeliveryTimeComboBox);
             PriorityOprionPanel.Controls.Add(DeliveryTimeLabel);
-            PriorityOprionPanel.Location = new Point(240, 3);
+            PriorityOprionPanel.Location = new Point(237, 5);
             PriorityOprionPanel.Margin = new Padding(4, 3, 4, 3);
             PriorityOprionPanel.Name = "PriorityOprionPanel";
             PriorityOprionPanel.Size = new Size(239, 66);
@@ -221,7 +227,7 @@
             // 
             PriorityOptionLabel.AutoSize = true;
             PriorityOptionLabel.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 254);
-            PriorityOptionLabel.Location = new Point(4, 1);
+            PriorityOptionLabel.Location = new Point(-4, 0);
             PriorityOptionLabel.Margin = new Padding(4, 0, 4, 0);
             PriorityOptionLabel.Name = "PriorityOptionLabel";
             PriorityOptionLabel.Size = new Size(87, 13);
@@ -232,6 +238,7 @@
             // 
             DeliveryTimeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             DeliveryTimeComboBox.FormattingEnabled = true;
+            DeliveryTimeComboBox.Items.AddRange(new object[] { "9:00 - 11:00", "11:00 - 13:00", "13:00 - 15:00", "15:00 - 17:00", "17:00 - 19:00", "19:00 - 21:00" });
             DeliveryTimeComboBox.Location = new Point(90, 31);
             DeliveryTimeComboBox.Margin = new Padding(4, 3, 4, 3);
             DeliveryTimeComboBox.Name = "DeliveryTimeComboBox";
@@ -242,7 +249,7 @@
             // DeliveryTimeLabel
             // 
             DeliveryTimeLabel.AutoSize = true;
-            DeliveryTimeLabel.Location = new Point(-4, 35);
+            DeliveryTimeLabel.Location = new Point(2, 35);
             DeliveryTimeLabel.Margin = new Padding(4, 0, 4, 0);
             DeliveryTimeLabel.Name = "DeliveryTimeLabel";
             DeliveryTimeLabel.Size = new Size(81, 15);
@@ -371,20 +378,50 @@
             AddressControl.Address = null;
             AddressControl.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             AddressControl.IsTextBoxesEnabled = true;
-            AddressControl.Location = new Point(4, 138);
+            AddressControl.Location = new Point(4, 134);
             AddressControl.Margin = new Padding(5, 3, 5, 3);
             AddressControl.Name = "AddressControl";
             AddressControl.Size = new Size(472, 158);
             AddressControl.TabIndex = 12;
             // 
-            // OrdersTab
+            // AddItemButton
+            // 
+            AddItemButton.Location = new Point(4, 531);
+            AddItemButton.Name = "AddItemButton";
+            AddItemButton.Size = new Size(75, 23);
+            AddItemButton.TabIndex = 22;
+            AddItemButton.Text = "Add";
+            AddItemButton.UseVisualStyleBackColor = true;
+            AddItemButton.Click += AddItemButton_Click;
+            // 
+            // DeleteItemButton
+            // 
+            DeleteItemButton.Location = new Point(118, 531);
+            DeleteItemButton.Name = "DeleteItemButton";
+            DeleteItemButton.Size = new Size(75, 23);
+            DeleteItemButton.TabIndex = 23;
+            DeleteItemButton.Text = "Delete";
+            DeleteItemButton.UseVisualStyleBackColor = true;
+            DeleteItemButton.Click += DeleteItemButton_Click;
+            // 
+            // ClearCartButton
+            // 
+            ClearCartButton.Location = new Point(245, 531);
+            ClearCartButton.Name = "ClearCartButton";
+            ClearCartButton.Size = new Size(75, 23);
+            ClearCartButton.TabIndex = 24;
+            ClearCartButton.Text = "Clear";
+            ClearCartButton.UseVisualStyleBackColor = true;
+            ClearCartButton.Click += ClearCartButton_Click;
+            // 
+            // PriorityOrdersTab
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(MainTableLayoutPanel);
             Margin = new Padding(4, 3, 4, 3);
             MinimumSize = new Size(817, 577);
-            Name = "OrdersTab";
+            Name = "PriorityOrdersTab";
             Size = new Size(817, 577);
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).EndInit();
             MainTableLayoutPanel.ResumeLayout(false);
@@ -427,5 +464,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FullName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
+        private Button ClearCartButton;
+        private Button DeleteItemButton;
+        private Button AddItemButton;
     }
 }

@@ -9,13 +9,14 @@ namespace ObjectOrientedPractics.View.Tabs
     /// <summary>
     /// Order tab logic
     /// </summary>
-    public partial class OrdersTab : UserControl
+    public partial class PriorityOrdersTab : UserControl
     {
         /// <summary>
         /// Class fields
         /// </summary>
         private bool _isPriorityOrder = false;
         private int _selectedIndex = -1;
+        private Random _random = new Random();
 
         /// <summary>
         /// Gets and sets list of customers
@@ -26,6 +27,11 @@ namespace ObjectOrientedPractics.View.Tabs
         /// Gets list of orders
         /// </summary>
         private List<Order> Orders { get; } = new List<Order>();
+
+        /// <summary>
+        /// Gets list of store items
+        /// </summary>
+        private List<Item> Items { get; } = new List<Item>();
 
         /// <summary>
         /// Gets and sets selected index
@@ -66,7 +72,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// <summary>
         /// Constructor
         /// </summary>
-        public OrdersTab()
+        public PriorityOrdersTab()
         {
             InitializeComponent();
             StatusComboBox.DataSource = Enum.GetValues(typeof(OrderStatus));
@@ -102,7 +108,7 @@ namespace ObjectOrientedPractics.View.Tabs
                     int index = OrdersDataGridView.Rows.Add(
                         order.Id, order.CreationDate, order.Status, customer.Fullname,
                         address, order.Amount);
-                    
+
                     if (order is PriorityOrder)
                     {
                         OrdersDataGridView.Rows[index].Cells[0].Value = "\u2605";
@@ -172,7 +178,10 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void StatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SelectedIndex == -1) return;
+            if (SelectedIndex == -1)
+            {
+                return;
+            }
 
             Orders[SelectedIndex].Status = (OrderStatus)StatusComboBox.SelectedItem;
             OrdersDataGridView[3, SelectedIndex].Value =
@@ -183,8 +192,41 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (SelectedIndex == -1 || !IsPriorityOrder) return;
 
-            PriorityOrder priorityOrder = (PriorityOrder)Orders[SelectedIndex];
+            var priorityOrder = (PriorityOrder)Orders[SelectedIndex];
             priorityOrder.DeliveryTime = (OrderTime)DeliveryTimeComboBox.SelectedIndex;
+        }
+
+        private void AddItemButton_Click(object sender, EventArgs e)
+        {
+            if (Items.Count < 0 || SelectedIndex < 0) return;
+
+            int randomItemIndex = _random.Next(Items.Count);
+
+            Orders[SelectedIndex].Items.Add(Items[randomItemIndex]);
+        }
+
+        private void DeleteItemButton_Click(object sender, EventArgs e)
+        {
+            if (Items.Count < 0 || SelectedIndex < 0) return;
+
+            int selectedIndex = OrderItemsListBox.SelectedIndex;
+
+            Orders[SelectedIndex].Items.RemoveAt(selectedIndex);
+
+            if (selectedIndex >= OrderItemsListBox.Items.Count - 1)
+            {
+                SelectedIndex -= 1;
+            }
+
+            UpdateAllBoxes();
+        }
+
+        private void ClearCartButton_Click(object sender, EventArgs e)
+        {
+            if (SelectedIndex < 0) return;
+
+            Orders[SelectedIndex].Items.Clear();
+            UpdateAllBoxes();
         }
     }
 }

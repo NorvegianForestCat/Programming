@@ -184,16 +184,28 @@ namespace ObjectOrientedPractics.View.Tabs
             if (CurrentCustomer < 0 || CartListBox.Items.Count == 0) return;
 
             List<Item> items = new List<Item>();
+            Order order;
 
             foreach (Item item in Customers[CurrentCustomer].Cart.Items)
             {
                 items.Add(new Item(item));
             }
 
-            var order = new Order(
-                OrderStatus.New,
-                Customers[CurrentCustomer].Address,
-                items);
+            if (Customers[CurrentCustomer].IsPriority)
+            {
+                order = new PriorityOrder(
+                    OrderStatus.New,
+                    Customers[CurrentCustomer].Address,
+                    items);
+            }
+
+            else
+            {
+                order = new Order(
+                    OrderStatus.New,
+                    Customers[CurrentCustomer].Address,
+                    items);
+            }
 
             Customers[CurrentCustomer].Orders.Add(order);
             Customers[CurrentCustomer].Cart.Items.Clear();

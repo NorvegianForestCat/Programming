@@ -20,7 +20,7 @@ namespace ObjectOrientedPractics.Model
         public const int INFO_LENGTH_LIMIT = 1000;
         public const double MINIMUM_COST = 0;
         public const double MAXIMUM_COST = 100000;
-        private readonly int _id = IdGenerator.GetNextId();
+        private readonly int _id;
         private string _name;
         private string _info;
         private double _cost;
@@ -99,6 +99,8 @@ namespace ObjectOrientedPractics.Model
             Info = string.Empty;
             Cost = 0;
             Category = Category.Chancellery;
+
+            _id = IdGenerator.GetNextId();
         }
 
         /// <summary>
@@ -114,6 +116,8 @@ namespace ObjectOrientedPractics.Model
             Info = info;
             Cost = cost;
             Category = category;
+
+            _id = IdGenerator.GetNextId();
         }
 
         public Item(Item item)

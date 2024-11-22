@@ -14,7 +14,7 @@ namespace ObjectOrientedPractics.Services
         /// <summary>
         /// Gets and sets busy ids list
         /// </summary>
-        public static List<int> BusyIds { get; set; }
+        public static List<int> BusyIds { get; set; } = new List<int>();
 
         /// <summary>
         /// Gets and sets counter of Ids
@@ -27,6 +27,7 @@ namespace ObjectOrientedPractics.Services
         /// <returns>ID</returns>
         public static int GetNextId()
         {
+            Counter = 0;
             while (BusyIds.Exists(id => id == Counter))
             {
                 ++Counter;

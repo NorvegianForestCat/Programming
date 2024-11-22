@@ -58,9 +58,10 @@ namespace ObjectOrientedPractics.View.Tabs
         private void UpdateCustomersListBox()
         {
             CustomersListBox.Items.Clear();
-            for (var i = 0; i < Customers.Count; i++)
+
+            foreach (Customer customer in Customers)
             {
-                CustomersListBox.Items.Add(Customers[i].Fullname);
+                CustomersListBox.Items.Add(customer.Fullname);
             }
         }
 
@@ -73,18 +74,21 @@ namespace ObjectOrientedPractics.View.Tabs
             bool isSelectedIndexCorrect = selectedIndex >= 0;
 
             FullNameTextBox.Enabled = isSelectedIndexCorrect;
+            IsPriorityCheckBox.Enabled = isSelectedIndexCorrect;
 
             if (isSelectedIndexCorrect)
             {
                 IdTextBox.Text = Customers[CustomersListBox.SelectedIndex].Id.ToString();
                 FullNameTextBox.Text = Customers[CustomersListBox.SelectedIndex].Fullname;
                 AddressControl.Address = Customers[CustomersListBox.SelectedIndex].Address;
+                IsPriorityCheckBox.Checked = Customers[CustomersListBox.SelectedIndex].IsPriority;
             }
             else
             {
                 FullNameTextBox.Text = string.Empty;
                 IdTextBox.Text = string.Empty;
                 AddressControl.Address = null;
+                IsPriorityCheckBox.Checked = false;
             }
         }
 
@@ -122,6 +126,13 @@ namespace ObjectOrientedPractics.View.Tabs
             int removeIndex = CustomersListBox.SelectedIndex;
 
             if (removeIndex < 0) return;
+
+            IdGenerator.ReleaseId(Customers[removeIndex].Id);
+
+            foreach (Order order in Customers[removeIndex].Orders)
+            {
+                IdGenerator.ReleaseId(order.Id);
+            }
 
             CustomersListBox.Items.RemoveAt(removeIndex);
             Customers.RemoveAt(removeIndex);
@@ -190,6 +201,18 @@ namespace ObjectOrientedPractics.View.Tabs
             errorLabel.Text = "";
             errorLabel.Text = message;
             errorMessageBox.ShowDialog();
+        }
+
+        /// <summary>
+        /// Change priority event
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event arguments</param>
+        private void IsPriorityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CustomersListBox.SelectedIndex < 0) return;
+
+            Customers[CustomersListBox.SelectedIndex].IsPriority = IsPriorityCheckBox.Checked;
         }
     }
 }
