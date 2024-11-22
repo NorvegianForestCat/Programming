@@ -64,9 +64,10 @@ namespace ObjectOrientedPractics.View.Tabs
         private void UpdateItemsListBox()
         {
             ItemsListBox.Items.Clear();
-            for (int i = 0; i < Items.Count; i++)
+
+            foreach (Item item in Items)
             {
-                ItemsListBox.Items.Add(Items[i].Name);
+                ItemsListBox.Items.Add(item.Name);
             }
         }
 
@@ -117,6 +118,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             if (removeIndex == -1) return;
 
+            IdGenerator.ReleaseId(Items[removeIndex].Id);
             ItemsListBox.Items.RemoveAt(removeIndex);
             Items.RemoveAt(removeIndex);
 
@@ -180,6 +182,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 NameTextBox.BackColor = AppColors.RightInputColor;
                 return;
             }
+
             Color currentColor = AppColors.WrongInputColor;
             WrongNameLabel.Text = string.Empty;
             currentColor = AppColors.RightInputColor;

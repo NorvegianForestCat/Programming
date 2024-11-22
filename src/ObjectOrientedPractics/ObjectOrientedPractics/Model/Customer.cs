@@ -19,7 +19,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public const int FULLNAME_LENGTH_LIMIT = 200;
         public const int ADDRESS_LENGTH_LIMIT = 500;
-        private readonly int _id = IdGenerator.GetNextId();
+        private readonly int _id;
         private string _fullname;
 
         /// <summary>
@@ -50,14 +50,19 @@ namespace ObjectOrientedPractics.Model
         public Adress Address { get; set; }
 
         /// <summary>
-        /// Возвращает и задает корзину покупателя.
+        /// Gets and sets customer cart
         /// </summary>
         public Cart Cart { get; set; } = new Cart();
 
         /// <summary>
-        /// Возвращает и задает список заказов покупателя.
+        /// Gets and sets list of customers orders
         /// </summary>
         public List<Order> Orders { get; set; } = new List<Order>();
+
+        /// <summary>
+        /// Gets and sets if customer is VIP
+        /// </summary>
+        public bool IsPriority { get; set; } = false;
 
         /// <summary>
         /// Constructor <see cref="Customer"/>.
@@ -66,6 +71,7 @@ namespace ObjectOrientedPractics.Model
         {
             Fullname = string.Empty;
             Address = new Adress();
+            _id = IdGenerator.GetNextId();
         }
 
         /// <summary>
@@ -79,6 +85,7 @@ namespace ObjectOrientedPractics.Model
 
             Fullname = fullname;
             Address = adress;
+            _id = IdGenerator.GetNextId();
         }
 
         /// <summary>

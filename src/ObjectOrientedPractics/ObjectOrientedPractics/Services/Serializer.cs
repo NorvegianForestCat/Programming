@@ -13,9 +13,7 @@ namespace ObjectOrientedPractics.Services
         /// <summary>
         /// File path
         /// </summary>
-        private static string FilePath { get; } = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "ObjectOrientedPractics\\Serialization.json");
+        private static string FilePath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"ObjectOrientedPractics\\Serialization.json");
 
         /// <summary>
         /// Gets and sets json
