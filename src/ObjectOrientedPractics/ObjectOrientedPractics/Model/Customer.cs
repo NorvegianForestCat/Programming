@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Orders;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -65,6 +67,11 @@ namespace ObjectOrientedPractics.Model
         public bool IsPriority { get; set; } = false;
 
         /// <summary>
+        /// Gets and sets discounts
+        /// </summary>
+        public List<IDiscount> Discounts { get; set; }
+
+        /// <summary>
         /// Constructor <see cref="Customer"/>.
         /// </summary>
         public Customer()
@@ -72,6 +79,9 @@ namespace ObjectOrientedPractics.Model
             Fullname = string.Empty;
             Address = new Adress();
             _id = IdGenerator.GetNextId();
+
+            Discounts = new List<IDiscount>();
+            Discounts.Add(new PointsDiscount());
         }
 
         /// <summary>
@@ -86,6 +96,9 @@ namespace ObjectOrientedPractics.Model
             Fullname = fullname;
             Address = adress;
             _id = IdGenerator.GetNextId();
+
+            Discounts = new List<IDiscount>();
+            Discounts.Add(new PointsDiscount());
         }
 
         /// <summary>

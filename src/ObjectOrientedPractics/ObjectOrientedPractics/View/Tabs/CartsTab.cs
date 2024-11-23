@@ -1,4 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Orders;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -10,9 +12,33 @@ namespace ObjectOrientedPractics.View.Tabs
     public partial class CartsTab : UserControl
     {
         /// <summary>
-        /// Gets and sets current customer number
+        /// Class field
         /// </summary>
-        private int CurrentCustomer { get; set; } = -1;
+        private int _currentCustomer;
+
+        /// <summary>
+        /// Get and set customer
+        /// </summary>
+        private int CurrentCustomer
+        {
+            get => _currentCustomer;
+            set
+            {
+                bool isVisible = value >= 0;
+
+                AmountLabel.Visible = isVisible;
+                TotalLabel.Visible = isVisible;
+                DiscountAmountLabel.Visible = isVisible;
+                AmountHeaderLabel.Visible = isVisible;
+                TotalHeaderLabel.Visible = isVisible;
+                DiscountAmountHeaderLabel.Visible = isVisible;
+                DiscountLabel.Visible = isVisible;
+
+                _currentCustomer = value;
+            }
+        }
+
+        public double DiscountAmount { get; set; }
 
         /// <summary>
         /// Gets and sets list of items
@@ -131,7 +157,7 @@ namespace ObjectOrientedPractics.View.Tabs
             CartListBox.Enabled = cartsData.Count != 0;
             CartListBox.SelectedIndex = nextIndex;
 
-            AmountLabel.Text = Customers[CurrentCustomer].Cart.Amount.ToString();
+            UpdateAmountLabels();
         }
 
         private void AddToCartButton_Click(object sender, System.EventArgs e)
@@ -154,6 +180,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             CurrentCustomer = CustomerComboBox.SelectedIndex;
             UpdateCartListBox();
+            UpdateDiscountsCheckedListBox();
         }
 
         private void RemoveItemButton_Click(object sender, System.EventArgs e)
@@ -196,7 +223,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 order = new PriorityOrder(
                     OrderStatus.New,
                     Customers[CurrentCustomer].Address,
-                    items);
+                    items, DiscountAmount);
             }
 
             else
@@ -204,12 +231,92 @@ namespace ObjectOrientedPractics.View.Tabs
                 order = new Order(
                     OrderStatus.New,
                     Customers[CurrentCustomer].Address,
-                    items);
+                    items, DiscountAmount);
             }
 
             Customers[CurrentCustomer].Orders.Add(order);
+            UpdateCustomerDiscounts(items);
+            UpdateDiscountsCheckedListBox();
             Customers[CurrentCustomer].Cart.Items.Clear();
             UpdateCartListBox();
+        }
+
+        /// <summary>
+        /// Событие при изменении выбора или состояния элемента в 
+        /// <see cref="DiscountsCheckedListBox"/>.
+        /// </summary>
+        /// <param name="sender">Элемент управления, вызвавший событие.</param>
+        /// <param name="e">Данные о событии.</param>
+        private void DiscountsCheckedListBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            UpdateAmountLabels();
+        }
+
+        /// <summary>
+        /// Обновляет скидки покупателя по заданому списку товаров.
+        /// </summary>
+        /// <param name="items">Список товаров.</param>
+        private void UpdateCustomerDiscounts(List<Item> items)
+        {
+            foreach (var discount in Customers[CurrentCustomer].Discounts)
+            {
+                if (DiscountsCheckedListBox.CheckedItems.Contains(discount.Info))
+                {
+                    discount.Apply(items);
+                }
+
+                discount.Update(items);
+            }
+        }
+
+        /// <summary>
+        /// Обновляет данные списка скидок <see cref="DiscountsCheckedListBox"/>. 
+        /// </summary>
+        private void UpdateDiscountsCheckedListBox()
+        {
+            if (Customers.Count == 0 || CurrentCustomer < 0)
+            {
+                DiscountsCheckedListBox.Items.Clear();
+                DiscountsCheckedListBox.Enabled = false;
+                return;
+            }
+
+            DiscountsCheckedListBox.Items.Clear();
+
+            foreach (var discount in Customers[CurrentCustomer].Discounts)
+            {
+                DiscountsCheckedListBox.Items.Add(discount.Info);
+            }
+
+            for (int i = 0; i < DiscountsCheckedListBox.Items.Count; i++)
+            {
+                DiscountsCheckedListBox.SetItemChecked(i, true);
+            }
+
+            AmountLabel.Text = Customers[CurrentCustomer].Cart.Amount.ToString();
+            DiscountsCheckedListBox.Enabled = true;
+            DiscountAmountLabel.Text = "0";
+            TotalLabel.Text = AmountLabel.Text;
+        }
+
+        /// <summary>
+        /// Обновляет текстовые данные.
+        /// </summary>
+        private void UpdateAmountLabels()
+        {
+            DiscountAmount = 0.0;
+
+            foreach (var item in DiscountsCheckedListBox.CheckedItems)
+            {
+                var index = DiscountsCheckedListBox.Items.IndexOf(item);
+                DiscountAmount += Customers[CurrentCustomer].Discounts[index].Calculate(
+                    Customers[CurrentCustomer].Cart.Items);
+            }
+
+            var amount = Customers[CurrentCustomer].Cart.Amount;
+            AmountLabel.Text = amount.ToString();
+            DiscountAmountLabel.Text = DiscountAmount.ToString();
+            TotalLabel.Text = (amount - DiscountAmount).ToString();
         }
     }
 }

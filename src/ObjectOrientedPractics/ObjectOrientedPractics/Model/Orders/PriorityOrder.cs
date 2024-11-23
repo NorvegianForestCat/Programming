@@ -1,6 +1,7 @@
 ﻿using System;
+using ObjectOrientedPractics.Model.Enums;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     /// <summary>
     /// Provides functions for prioritize order
@@ -26,7 +27,7 @@ namespace ObjectOrientedPractics.Model
         public PriorityOrder(
             OrderStatus status,
             Adress adress,
-            List<Item> items) : base(status, adress, items)
+            List<Item> items, double discountAmount) : base(status, adress, items, discountAmount)
         {
 
         }

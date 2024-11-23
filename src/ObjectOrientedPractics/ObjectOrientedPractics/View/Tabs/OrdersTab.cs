@@ -1,4 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Orders;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -96,12 +98,12 @@ namespace ObjectOrientedPractics.View.Tabs
                 address += $"{customer.Address.Street} {customer.Address.Building}, ";
                 address += $"{customer.Address.Apartment}";
 
-                foreach (var order in customer.Orders)
+                foreach (Order order in customer.Orders)
                 {
                     Orders.Add(order);
                     int index = OrdersDataGridView.Rows.Add(
                         order.Id, order.CreationDate, order.Status, customer.Fullname,
-                        address, order.Amount);
+                        address, order.Amount, order.Total);
                     
                     if (order is PriorityOrder)
                     {
@@ -143,6 +145,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 AddressControl.Address = null;
                 OrderItemsListBox.DataSource = new List<string>();
                 AmountLabel.Text = string.Empty;
+                TotalLabel.Text = string.Empty;
                 IsPriorityOrder = false;
             }
             else
@@ -154,6 +157,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 AddressControl.Address = Orders[SelectedIndex].Address;
                 OrderItemsListBox.DataSource = GetItemNames(Orders[SelectedIndex].Items);
                 AmountLabel.Text = Orders[SelectedIndex].Amount.ToString();
+                TotalLabel.Text = Orders[SelectedIndex].Total.ToString();
                 IsPriorityOrder = Orders[SelectedIndex] is PriorityOrder;
             }
         }

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using ObjectOrientedPractics.Services;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace ObjectOrientedPractics.Model
 {
     /// <summary>
     /// Adress information
     /// </summary>
-    public class Adress
+    public class Adress : ICloneable, IEquatable<Item>
     {
         /// <summary>
         /// Class fields
@@ -149,6 +150,48 @@ namespace ObjectOrientedPractics.Model
             Street = street;
             Building = building;
             Apartment = apartment;
+        }
+
+        /// <summary>
+        /// Copy <see cref="Adress"/>.
+        /// </summary>
+        /// <returns>Copy by <see cref="object"/></returns>
+        public object Clone()
+        {
+            return new Adress(
+                this.Index,
+                this.Country,
+                this.City,
+                this.Street,
+                this.Building,
+                this.Apartment);
+        }
+
+        /// <summary>
+        /// Equality with other
+        /// </summary>
+        /// <param name="other"><see cref="Adress"/></param>
+        /// <returns>Bool if equal</returns>
+        public bool Equals(Adress other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            bool result = this.Index == other.Index;
+            result &= this.Country == other.Country;
+            result &= this.City == other.City;
+            result &= this.Street == other.Street;
+            result &= this.Building == other.Building;
+            result &= this.Apartment == other.Apartment;
+
+            return result;
         }
     }
 }

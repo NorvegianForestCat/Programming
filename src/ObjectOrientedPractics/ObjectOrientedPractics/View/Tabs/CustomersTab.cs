@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Orders;
 using ObjectOrientedPractics.Services;
 using ObjectOrientedPractics.View.Controls;
+using ObjectOrientedPractics.View.Pop_ups;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -65,6 +68,33 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+
+        /// <summary>
+        /// Update discount listbox
+        /// </summary>
+        /// <param name="customer">Customer</param>
+        private void UpdateDiscountsListBox(Customer customer)
+        {
+            DiscountsListBox.Items.Clear();
+
+            foreach (IDiscount discount in customer.Discounts)
+            {
+                DiscountsListBox.Items.Add(discount.Info);
+            }
+        }
+
+        /// <summary>
+        /// Update discount listbox
+        /// </summary>
+        public void UpdateDiscountsListBox()
+        {
+            if (CustomersListBox.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            UpdateDiscountsListBox(Customers[CustomersListBox.SelectedIndex]);
+        }
         /// <summary>
         /// Set text boxes
         /// </summary>
@@ -75,6 +105,8 @@ namespace ObjectOrientedPractics.View.Tabs
 
             FullNameTextBox.Enabled = isSelectedIndexCorrect;
             IsPriorityCheckBox.Enabled = isSelectedIndexCorrect;
+            DiscountsListBox.Enabled = isSelectedIndexCorrect;
+            AddDiscountButton.Enabled = isSelectedIndexCorrect;
 
             if (isSelectedIndexCorrect)
             {
@@ -82,6 +114,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 FullNameTextBox.Text = Customers[CustomersListBox.SelectedIndex].Fullname;
                 AddressControl.Address = Customers[CustomersListBox.SelectedIndex].Address;
                 IsPriorityCheckBox.Checked = Customers[CustomersListBox.SelectedIndex].IsPriority;
+                UpdateDiscountsListBox(Customers[CustomersListBox.SelectedIndex]);
             }
             else
             {
@@ -89,6 +122,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 IdTextBox.Text = string.Empty;
                 AddressControl.Address = null;
                 IsPriorityCheckBox.Checked = false;
+                DiscountsListBox.Items.Clear();
             }
         }
 
@@ -213,6 +247,45 @@ namespace ObjectOrientedPractics.View.Tabs
             if (CustomersListBox.SelectedIndex < 0) return;
 
             Customers[CustomersListBox.SelectedIndex].IsPriority = IsPriorityCheckBox.Checked;
+        }
+
+        private void AddDiscountButton_Click(object sender, EventArgs e)
+        {
+            AddDiscountPopUp addDiscountPopUp = new AddDiscountPopUp(Customers[CustomersListBox.SelectedIndex]);
+
+            if (addDiscountPopUp.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            IDiscount discount = new PercentDiscount(addDiscountPopUp.Category);
+
+            Customers[CustomersListBox.SelectedIndex].Discounts.Add(discount);
+            UpdateDiscountsListBox(Customers[CustomersListBox.SelectedIndex]);
+        }
+
+        private void RemoveDiscountButton_Click(object sender, EventArgs e)
+        {
+            int removedIndex = DiscountsListBox.SelectedIndex;
+
+            Customers[CustomersListBox.SelectedIndex].Discounts.RemoveAt(
+                DiscountsListBox.SelectedIndex);
+
+            UpdateDiscountsListBox(Customers[CustomersListBox.SelectedIndex]);
+
+            if (removedIndex >= DiscountsListBox.Items.Count)
+            {
+                DiscountsListBox.SelectedIndex = removedIndex - 1;
+            }
+            else
+            {
+                DiscountsListBox.SelectedIndex = removedIndex;
+            }
+        }
+
+        private void DiscountsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RemoveDiscountButton.Enabled = DiscountsListBox.SelectedIndex > 0;
         }
     }
 }

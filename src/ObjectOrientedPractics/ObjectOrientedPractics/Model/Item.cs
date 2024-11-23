@@ -1,4 +1,6 @@
-﻿using ObjectOrientedPractics.Services;
+﻿using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Representation of item
     /// </summary>
-    public class Item
+    public class Item : ICloneable, IEquatable<Item>, IComparable<Item>
     {
         /// <summary>
         /// Class fields
@@ -26,7 +28,7 @@ namespace ObjectOrientedPractics.Model
         private double _cost;
 
         /// <summary>
-        /// Gets and sets category <see cref="Model.Category"/>.
+        /// Gets and sets category <see cref="Enums.Category"/>
         /// </summary>
         public Category Category { get; set; }
 
@@ -120,13 +122,14 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextId();
         }
 
-        public Item(Item item)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">ID</param>
+        [JsonConstructor]
+        public Item(int id)
         {
-            _id = item.Id;
-            Name = item.Name;
-            Info = item.Info;
-            Cost = item.Cost;
-            Category = item.Category;
+            _id = id;
         }
 
         /// <summary>
@@ -136,6 +139,62 @@ namespace ObjectOrientedPractics.Model
         public override string ToString() 
         {
             return $"{Id}: {Name} - {Cost}";
+        }
+
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <returns>Copy <see cref="object"/>.</returns>
+        public object Clone()
+        {
+            var item = new Item(this.Id);
+            item.Name = this.Name;
+            item.Info = this.Info;
+            item.Cost = this.Cost;
+            item.Category = this.Category;
+            return item;
+        }
+
+        /// <summary>
+        /// Equallity with other object
+        /// </summary>
+        /// <param name="other"><see cref="Item"/></param>
+        /// <returns>Bool, equal is</returns>
+        public bool Equals(Item other)
+        {
+            if (other == null) return false;
+
+            if (object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return this.Id == other.Id;
+        }
+
+        /// <summary>
+        /// Comparing with other
+        /// </summary>
+        /// <param name="other"><see cref="Item"/></param>
+        /// <returns>
+        /// 0 - equal;
+        /// 1 - Greater than other;
+        /// -1 - Less tahn other;
+        /// </returns>
+        public int CompareTo(Item other)
+        {
+            if (this.Cost == other.Cost)
+            {
+                return 0;
+            }
+            else if (this.Cost > other.Cost)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

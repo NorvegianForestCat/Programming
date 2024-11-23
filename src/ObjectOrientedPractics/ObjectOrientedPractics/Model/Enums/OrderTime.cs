@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Enums
 {
     /// <summary>
     /// Enum of delivery time

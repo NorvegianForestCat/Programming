@@ -1,15 +1,16 @@
 ﻿using Newtonsoft.Json;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     /// <summary>
     /// Provides order data
     /// </summary>
-    public class Order
+    public class Order : IEquatable<Order>
     {
         /// <summary>
         /// Class fields
@@ -50,6 +51,22 @@ namespace ObjectOrientedPractics.Model
         public List<Item> Items { get; set; }
 
         /// <summary>
+        /// Order discount
+        /// </summary>
+        public double DiscountAmount { get; }
+
+        /// <summary>
+        /// Gets total price
+        /// </summary>
+        public double Total
+        {
+            get
+            {
+                return Amount - DiscountAmount;
+            }
+        }
+
+        /// <summary>
         /// Gets and sets 
         /// </summary>
         public double Amount
@@ -69,6 +86,7 @@ namespace ObjectOrientedPractics.Model
             Status = OrderStatus.New;
             Address = new Adress();
             Items = new List<Item>();
+            DiscountAmount = 0;
         }
 
         /// <summary>
@@ -78,12 +96,13 @@ namespace ObjectOrientedPractics.Model
         /// <param name="address">Adress</param>
         /// <param name="items">Items list</param>
         /// <param name="creationDate">Date of creation</param>
-        public Order(OrderStatus status, Adress address, List<Item> items)
+        public Order(OrderStatus status, Adress address, List<Item> items, double discountAmount)
         {
             _id = IdGenerator.GetNextId();
             Status = status;
             Address = address;
             Items = items;
+            DiscountAmount = discountAmount;
         }
 
         /// <summary>
@@ -91,9 +110,30 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="id">ID</param>
         [JsonConstructor]
-        public Order(int id)
+        public Order(int id, double discountAmount)
         {
             _id = id;
+            DiscountAmount = discountAmount;
+        }
+
+        /// <summary>
+        /// Is equal with?
+        /// </summary>
+        /// <param name="other"><see cref="Order"/></param>
+        /// <returns>bool if equal</returns>
+        public bool Equals(Order other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return this.Id == other.Id;
         }
     }
 }
