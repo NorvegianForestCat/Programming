@@ -25,6 +25,7 @@ namespace ObjectOrientedPractics.Services
         /// </summary>
         static Serializer()
         {
+
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
             try
             {

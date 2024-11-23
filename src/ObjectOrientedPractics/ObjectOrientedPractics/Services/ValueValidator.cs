@@ -60,5 +60,41 @@ namespace ObjectOrientedPractics.Services
             }
         }
 
+        /// <summary>
+        /// Check value data
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="minimum">Minimum limit</param>
+        /// <param name="propertyName">Property name</param>
+        public static void AssertIntOnLowerLimit(int value, int minimum, string propertyName)
+        {
+            if (value < minimum)
+            {
+                throw new
+                    ArgumentException(
+                    $"{propertyName} must be greater than {minimum}");
+            }
+        }
+
+        /// <summary>
+        /// Check values in range
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="minimum">Min limit</param>
+        /// <param name="maximum">Max limit</param>
+        /// <param name="propertyName">Property name</param>
+        public static void AssertIntOnLimits(
+            int value,
+            int minimum,
+            int maximum,
+            string propertyName)
+        {
+            if (value < minimum || value > maximum)
+            {
+                throw new
+                    ArgumentException(
+                    $"{propertyName} not in range from {minimum} to {maximum}");
+            }
+        }
     }
 }

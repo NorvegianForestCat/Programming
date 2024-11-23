@@ -32,6 +32,7 @@
             this.ButtonPanel = new System.Windows.Forms.TableLayoutPanel();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
+            this.AddRandomButton = new System.Windows.Forms.Button();
             this.ItemsListBox = new System.Windows.Forms.ListBox();
             this.ItemsLabel = new System.Windows.Forms.Label();
             this.SelectedItemLabel = new System.Windows.Forms.Label();
@@ -77,6 +78,7 @@
             this.ButtonPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.ButtonPanel.Controls.Add(this.RemoveButton, 1, 0);
             this.ButtonPanel.Controls.Add(this.AddButton, 0, 0);
+            this.ButtonPanel.Controls.Add(this.AddRandomButton, 2, 0);
             this.ButtonPanel.Location = new System.Drawing.Point(3, 496);
             this.ButtonPanel.Name = "ButtonPanel";
             this.ButtonPanel.RowCount = 1;
@@ -348,6 +350,7 @@
         private System.Windows.Forms.Label WrongNameLabel;
         private System.Windows.Forms.Label WrongCostLabel;
         private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
+        private System.Windows.Forms.Button AddRandomButton;
         private System.Windows.Forms.Label CategoryLabel;
         private System.Windows.Forms.ComboBox CategoryComboBox;
     }
