@@ -9,8 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="ModelView\" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <WarningsAsErrors>1591</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 </Project>
