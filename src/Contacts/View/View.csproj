@@ -8,10 +8,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="ModelView\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <WarningsAsErrors>1591</WarningsAsErrors>
   </PropertyGroup>
