@@ -3,13 +3,21 @@ using View.Model;
 
 namespace View.ModelView
 {
-    /*
-    - предоставлять свойства Name, PhoneNumber и Email для привязки со стороны MainView; 
-    - экземпляр контакта Contact, в котором должна храниться вся актуальная информация с пользовательского интерфейса. 
-     */
+    /// <summary>
+    /// ViewModel between main window and Model.
+    /// </summary>
     class MainVM : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Contact object.
+        /// Gets and sets object of class <see cref="View.Model.Contact"/>.
+        /// </summary>
         public Contact Contact { get; set; }
+        /// <summary>
+        /// Contact name.
+        /// Gets and sets object's name of class <see cref="View.Model.Contact"/>
+        /// as a string.
+        /// </summary>
         public string Name
         {
             get => Contact.Name;
@@ -21,6 +29,11 @@ namespace View.ModelView
                 }
             }
         }
+        /// <summary>
+        /// Contact phone number.
+        /// Gets and sets object's phone number of class 
+        /// <see cref="View.Model.Contact"/> as a string.
+        /// </summary>
         public string PhoneNumber
         {
             get => Contact.PhoneNumber;
@@ -32,6 +45,11 @@ namespace View.ModelView
                 }
             }
         }
+        /// <summary>
+        /// Contact email.
+        /// Gets and sets object's email of class <see cref="View.Model.Contact"/>
+        /// as a string.
+        /// </summary>
         public string Email
         {
             get => Contact.Email;
@@ -44,8 +62,14 @@ namespace View.ModelView
             }
         }
 
+        /// <summary>
+        /// Changing property value event.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Initializing <see cref="MainVM"/> object without parameters.
+        /// </summary>
         public MainVM()
         {
             Contact = new Contact();
