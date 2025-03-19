@@ -8,8 +8,17 @@
     /// </remarks>
     class Contact
     {
-        private string _name;        
+        /// <summary>
+        /// String field storing contact name
+        /// </summary>
+        private string _name;
+        /// <summary>
+        /// String field storing contact phone number
+        /// </summary>
         private string _phoneNumber;
+        /// <summary>
+        /// String field storing contact e-mail
+        /// </summary>
         private string _email;
 
         /// <summary>
