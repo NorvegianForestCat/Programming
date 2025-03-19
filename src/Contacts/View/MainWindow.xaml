@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Contacts" Height="400" Width="500">
+    <Grid  Margin="15px">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="31"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Header="Edit Contact" Grid.Column="0" Grid.Row="0" Margin="3px">
+            <StackPanel>
+                <Label Content="Name:" Margin="3px"></Label>
+                <TextBox Margin="3px">Смирнов Юрий</TextBox>
+                <Label Content="Phone Number:" Margin="3px"></Label>
+                <TextBox Margin="3px">+7-913-111-22-23</TextBox>
+                <Label Content="Email:" Margin="3px"></Label>
+                <TextBox Margin="3px">yuri.smirnov@no.mail</TextBox>
+            </StackPanel>
+        </GroupBox>
 
+        <GroupBox Header="Read Contact" Grid.Column="1" Grid.Row="0" Margin="3px">
+            <StackPanel>
+                <Label Content="Name:" Margin="3px"></Label>
+                <Label Margin="3px"></Label>
+                <Label Content="Phone Number:" Margin="3px"></Label>
+                <Label Margin="3px"></Label>
+                <Label Content="Email:" Margin="3px"></Label>
+                <Label Margin="3px"></Label>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Grid.Column="1" Content="Save" 
+                    Height="25px" Width="75px" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalContentAlignment="Center"
+                    Margin="3px"/>
+            <Button Grid.Column="1" Content="Load" 
+                    Height="25px" Width="75px" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalContentAlignment="Center"
+                    Margin="3px"/>
+        </StackPanel>
     </Grid>
 </Window>
