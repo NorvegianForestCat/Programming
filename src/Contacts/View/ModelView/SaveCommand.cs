@@ -9,14 +9,15 @@ namespace View.ModelView
     /// Save data from into command.
     /// </summary>
     /// <remarks>
-    /// It is implementation of <see cref="https://en.wikipedia.org/wiki/Command_pattern">Command</see> Pattern.
+    /// It is implementation of <seealso href="https://en.wikipedia.org/wiki/Command_pattern">Command</seealso> Pattern.
     /// </remarks>
-    class SaveCommand : ICommand
+    public class SaveCommand : ICommand
     {
         /// <summary>
         /// User contact private property.
         /// </summary>
         private Contact _contact { get; set; }
+
         /// <summary>
         /// <see cref="Model.Services.ContactSerializer"/> object.
         /// </summary>
