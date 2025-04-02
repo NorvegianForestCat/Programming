@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="Contacts" Height="400" Width="500">
+        Title="Contacts" Height="400" Width="500"
+        Icon="/Resources/ContactsApp_96x96.ico"
+        >
     <Grid  Margin="15px">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>

@@ -6,12 +6,13 @@ namespace View.ModelView
     /// <summary>
     /// ViewModel between main window and Model.
     /// </summary>
-    class MainVM : INotifyPropertyChanged
+    public class MainVM : INotifyPropertyChanged
     {
         /// <summary>
         /// <see cref="ModelView.SaveCommand"/> object.
         /// </summary>
         private SaveCommand? _saveCommand;
+
         /// <summary>
         /// <see cref="ModelView.LoadCommand"/> object.
         /// </summary>
@@ -22,6 +23,7 @@ namespace View.ModelView
         /// Gets and sets object of class <see cref="View.Model.Contact"/>.
         /// </summary>
         public Contact Contact { get; set; }
+
         /// <summary>
         /// Save Command Property.
         /// Gets <see cref="ModelView.SaveCommand"/> command object.
@@ -33,6 +35,7 @@ namespace View.ModelView
                 return _saveCommand ?? (_saveCommand = new SaveCommand(Contact));
             }
         }
+
         /// <summary>
         /// Save Command Property.
         /// Gets <see cref="ModelView.LoadCommand"/> command object.
@@ -44,6 +47,7 @@ namespace View.ModelView
                 return _loadCommand ?? (_loadCommand = new LoadCommand(this));
             }
         }
+
         /// <summary>
         /// Contact name.
         /// Gets and sets object's name of class <see cref="View.Model.Contact"/>
@@ -61,6 +65,7 @@ namespace View.ModelView
                 }
             }
         }
+
         /// <summary>
         /// Contact phone number.
         /// Gets and sets object's phone number of class 
@@ -78,6 +83,7 @@ namespace View.ModelView
                 }
             }
         }
+
         /// <summary>
         /// Contact email.
         /// Gets and sets object's email of class <see cref="View.Model.Contact"/>
