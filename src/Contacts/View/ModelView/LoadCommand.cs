@@ -9,20 +9,20 @@ namespace View.ModelView
     /// Load data from file command.
     /// </summary>
     /// <remarks>
-    /// It is implementation of <see cref="https://en.wikipedia.org/wiki/Command_pattern">Command</see> Pattern.
+    /// It is implementation of <seealso href="https://en.wikipedia.org/wiki/Command_pattern">Command</seealso> Pattern.
     /// </remarks>
-    class LoadCommand : ICommand
+    public class LoadCommand : ICommand
     {
         /// <summary>
         /// <see cref="Model.Services.ContactSerializer"/> object.
         /// </summary>
         private ContactSerializer _serializer { get; set; }
+
         /// <summary>
         /// <see cref="ModelView.MainVM"/> ViewModel object.
         /// </summary>
         /// <remarks>
-        /// It is part of 
-        /// <see cref="https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm">MVVM</see> 
+        /// It is part of <seealso href="https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm">MVVM</seealso>
         /// architectural pattern.
         /// </remarks>
         private MainVM _mainVM { get; set; }

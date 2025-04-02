@@ -9,13 +9,14 @@ namespace View.Model.Services
     /// <remarks>
     /// Class has methods for saving and loading data from MyDocuments/Contacts/contacts.json file.
     /// </remarks>
-    class ContactSerializer
+    public class ContactSerializer
     {
         /// <summary>
         /// Path to json directory.
         /// </summary>
         private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             + @"\Contacts";
+
         /// <summary>
         /// Name of json file.
         /// </summary>
