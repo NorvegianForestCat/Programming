@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="Contacts" Height="400" Width="500">
+        Title="Contacts" Height="400" Width="500"
+        Icon="/Resources/ContactsApp_96x96.ico"
+        >
     <Grid  Margin="15px">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -30,11 +32,11 @@
         <GroupBox Header="Read Contact" Grid.Column="1" Grid.Row="0" Margin="3px">
             <StackPanel>
                 <Label Content="Name:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Name}"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Name}"/>
                 <Label Content="Phone Number:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=PhoneNumber}"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding PhoneNumber}"/>
                 <Label Content="Email:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Email}" VerticalAlignment="Center"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Email}" VerticalAlignment="Center"/>
             </StackPanel>
         </GroupBox>
 
