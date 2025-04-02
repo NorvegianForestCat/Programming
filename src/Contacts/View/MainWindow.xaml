@@ -18,23 +18,23 @@
         
         <GroupBox Header="Edit Contact" Grid.Column="0" Grid.Row="0" Margin="3px">
             <StackPanel>
-                <Label Content="Name:" Margin="3px"></Label>
-                <TextBox Margin="3px">Смирнов Юрий</TextBox>
-                <Label Content="Phone Number:" Margin="3px"></Label>
-                <TextBox Margin="3px">+7-913-111-22-23</TextBox>
-                <Label Content="Email:" Margin="3px"></Label>
-                <TextBox Margin="3px">yuri.smirnov@no.mail</TextBox>
+                <Label Content="Name:" Height="26px" Margin="3px"/>
+                <TextBox Margin="3px" Height="26px" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Phone Number:" Height="26px" Margin="3px"/>
+                <TextBox Margin="3px" Height="26px" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Email:" Height="26px" Margin="3px"/>
+                <TextBox Margin="3px" Height="26px" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </GroupBox>
 
         <GroupBox Header="Read Contact" Grid.Column="1" Grid.Row="0" Margin="3px">
             <StackPanel>
-                <Label Content="Name:" Margin="3px"></Label>
-                <Label Margin="3px"></Label>
-                <Label Content="Phone Number:" Margin="3px"></Label>
-                <Label Margin="3px"></Label>
-                <Label Content="Email:" Margin="3px"></Label>
-                <Label Margin="3px"></Label>
+                <Label Content="Name:" Height="26px" Margin="3px"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Name}"/>
+                <Label Content="Phone Number:" Height="26px" Margin="3px"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=PhoneNumber}"/>
+                <Label Content="Email:" Height="26px" Margin="3px"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Email}" VerticalAlignment="Center"/>
             </StackPanel>
         </GroupBox>
 
@@ -44,13 +44,17 @@
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
                     HorizontalContentAlignment="Center"
-                    Margin="3px"/>
+                    Margin="3px"
+                    Command="{Binding SaveCommand}"
+                    />
             <Button Grid.Column="1" Content="Load" 
                     Height="25px" Width="75px" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Bottom" 
                     HorizontalContentAlignment="Center"
-                    Margin="3px"/>
+                    Margin="3px"
+                    Command="{Binding LoadCommand}"
+                    />
         </StackPanel>
     </Grid>
 </Window>
