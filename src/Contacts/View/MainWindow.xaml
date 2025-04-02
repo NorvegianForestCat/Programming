@@ -30,11 +30,11 @@
         <GroupBox Header="Read Contact" Grid.Column="1" Grid.Row="0" Margin="3px">
             <StackPanel>
                 <Label Content="Name:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Name}"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Name}"/>
                 <Label Content="Phone Number:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=PhoneNumber}"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding PhoneNumber}"/>
                 <Label Content="Email:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Email}" VerticalAlignment="Center"/>
+                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Email}" VerticalAlignment="Center"/>
             </StackPanel>
         </GroupBox>
 
