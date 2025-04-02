@@ -6,12 +6,16 @@ namespace View.Model.Services
     /// <summary>
     /// Service class for serializing contact data.
     /// </summary>
+    /// <remarks>
+    /// Class has methods for saving and loading data from MyDocuments/Contacts/contacts.json file.
+    /// </remarks>
     class ContactSerializer
     {
         /// <summary>
         /// Path to json directory.
         /// </summary>
-        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Contacts";
+        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            + @"\Contacts";
         /// <summary>
         /// Name of json file.
         /// </summary>
@@ -41,17 +45,20 @@ namespace View.Model.Services
         /// <summary>
         /// Deserialization of <see cref="View.Model.Contact"/> object onto JSON-object.
         /// </summary>
-        /// <returns>Deserialized <see cref="View.Model.Contact"/> object.</returns>
+        /// <returns>
+        /// Deserialized <see cref="View.Model.Contact"/> object.
+        /// </returns>
         public Contact ContactLoad()
         {
             string jsonContact = string.Empty;
 
             using (StreamReader reader = new StreamReader(_path + _jsonFile))
             {
-                jsonContact = reader.ReadLine();
+                jsonContact = reader.ReadLine() ?? string.Empty;
             }
 
-            Contact contact = JsonConvert.DeserializeObject<Contact>(jsonContact) ?? new Contact();
+            Contact contact = JsonConvert.DeserializeObject<Contact>(jsonContact) 
+                ?? new Contact();
 
             return contact;
         }
