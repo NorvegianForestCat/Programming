@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Collections.ObjectModel;
 using View.Model;
+using View.Model.Services;
 
 namespace View.ModelView
 {
@@ -9,90 +11,64 @@ namespace View.ModelView
     class MainVM : INotifyPropertyChanged
     {
         /// <summary>
-        /// <see cref="ModelView.SaveCommand"/> object.
+        /// <see cref="ModelView.DelegateCommand"/> object for saving.
         /// </summary>
-        private SaveCommand? _saveCommand;
+        private DelegateCommand? _saveCommand;
         /// <summary>
-        /// <see cref="ModelView.LoadCommand"/> object.
+        /// <see cref="ModelView.DelegateCommand"/> object for loading.
         /// </summary>
-        private LoadCommand? _loadCommand;
+        private DelegateCommand? _loadCommand;
 
         /// <summary>
-        /// Contact object.
-        /// Gets and sets object of class <see cref="View.Model.Contact"/>.
+        /// Contact objects collection.
+        /// Gets and sets objects of class <see cref="View.Model.Contact"/>.
         /// </summary>
-        public Contact Contact { get; set; }
+        public ObservableCollection<Contact> Contacts { get; set; }
+        /// <summary>
+        /// Gets and sets serializer.
+        /// </summary>
+        public ContactSerializer ContactSerializer { get; set; }
         /// <summary>
         /// Save Command Property.
-        /// Gets <see cref="ModelView.SaveCommand"/> command object.
+        /// Gets <see cref="ModelView.DelegateCommand"/> command object for saving.
         /// </summary>
-        public SaveCommand SaveCommand
+        public DelegateCommand SaveCommand
         {
             get
             {
-                return _saveCommand ?? (_saveCommand = new SaveCommand(Contact));
+                return _saveCommand ?? (_saveCommand = new DelegateCommand(obj =>
+                {
+                    ContactSerializer.ContactsSave(Contacts);
+                }));
             }
         }
         /// <summary>
-        /// Save Command Property.
-        /// Gets <see cref="ModelView.LoadCommand"/> command object.
+        /// Load Command Property.
+        /// Gets <see cref="ModelView.DelegateCommand"/> command object for loading.
         /// </summary>
-        public LoadCommand LoadCommand
+        public DelegateCommand LoadCommand
         {
             get
             {
-                return _loadCommand ?? (_loadCommand = new LoadCommand(this));
-            }
-        }
-        /// <summary>
-        /// Contact name.
-        /// Gets and sets object's name of class <see cref="View.Model.Contact"/>
-        /// as a string.
-        /// </summary>
-        public string Name
-        {
-            get => Contact.Name;
-            set
-            {
-                if (value != null)
+                return _loadCommand ?? (_loadCommand = new DelegateCommand(obj =>
                 {
-                    Contact.Name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
-            }
-        }
-        /// <summary>
-        /// Contact phone number.
-        /// Gets and sets object's phone number of class 
-        /// <see cref="View.Model.Contact"/> as a string.
-        /// </summary>
-        public string PhoneNumber
-        {
-            get => Contact.PhoneNumber;
-            set
-            {
-                if (value != null)
-                {
-                    Contact.PhoneNumber = value;
-                    OnPropertyChanged(nameof(PhoneNumber));
-                }
-            }
-        }
-        /// <summary>
-        /// Contact email.
-        /// Gets and sets object's email of class <see cref="View.Model.Contact"/>
-        /// as a string.
-        /// </summary>
-        public string Email
-        {
-            get => Contact.Email;
-            set
-            {
-                if (value != null)
-                {
-                    Contact.Email = value;
-                    OnPropertyChanged(nameof(Email));
-                }
+                    try
+                    {
+                        var loadedContacts = ContactSerializer.ContactsLoad();
+                        if (loadedContacts != null)
+                        {
+                            Contacts.Clear();
+                            foreach (var contact in loadedContacts)
+                            {
+                                Contacts.Add(contact);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        Contacts.Clear();
+                    }
+                }));
             }
         }
 
@@ -106,7 +82,9 @@ namespace View.ModelView
         /// </summary>
         public MainVM()
         {
-            Contact = new Contact();
+            Contacts = new ObservableCollection<Contact>();
+            ContactSerializer = new ContactSerializer();
+            LoadCommand.Execute(Contacts);
         }
 
         /// <summary>

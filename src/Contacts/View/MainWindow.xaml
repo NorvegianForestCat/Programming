@@ -61,7 +61,8 @@
                 VerticalAlignment="Stretch"
                 Grid.Row="1"
                 Margin="3"
-                ItemTemplate="{StaticResource contactTemplate}"/>
+                ItemTemplate="{StaticResource contactTemplate}"
+                ItemsSource="{Binding Contacts}"/>
             <StackPanel Orientation="Horizontal" Grid.Row="2">
                 <Button Content="Add"/>
                 <Button
