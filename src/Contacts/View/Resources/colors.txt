@@ -1,0 +1,6 @@
+#0090FF - Синий (Accent Blue)
+#5B5B5B - Темно-серый (Dark Gray)
+#F5F5FF - Светло-синий (Accent Blue Background)
+#FАF5F5 - Светло-красный (Accent Red Background)
+#F5F5F5 - Светло-серый для панели с кнопками OK и Cancel (Button Panel Background)
+#FFFFFF - Белый (Form Background)
