@@ -1,23 +1,24 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
 namespace View.ViewModel
 {
     /// <summary>
-    /// Implements the conversion of bool to Visibility.
+    /// Реализует преобразование bool в Visibility.
     /// </summary>
     public class BoolToVisibilityConverter : IValueConverter
     {
         /// <summary>
-        /// Converts the value that came from the binding to the type,
-        /// which is understood by the binding receiver.
+        /// Преобразует пришедшее от привязки значение в тип,
+        /// который понимается приемником привязки.
         /// </summary>
-        /// <param name="value">The value to be converted.</param>
-        /// <param name="targetType">The type to convert the value to.</param>
-        /// <param name="parameter">Auxiliary parameter.</param>
-        /// <param name="culture">The current culture of the application.</param>
-        /// <returns>The converted value.</returns>
+        /// <param name="value">Значение, которое надо преобразовать.</param>
+        /// <param name="targetType">Тип, к которому надо преобразовать значение value.</param>
+        /// <param name="parameter">Вспомогательный параметр.</param>
+        /// <param name="culture">Текущая культура приложения.</param>
+        /// <returns>Преобразованное значение.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
@@ -29,14 +30,14 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Converts the value received from the binding receiver into a type
-        /// that is understood by the binding.
+        /// Преобразует пришедшее от приемника привязки значение в тип,
+        /// который понимается привязкой.
         /// </summary>
-        /// <param name="value">The value to be converted.</param>
-        /// <param name="targetType">The type to convert the value to.</param>
-        /// <param name="parameter">Auxiliary parameter.</param>
-        /// <param name="culture">The current culture of the application.</param>
-        /// <returns>The converted value.</returns>
+        /// <param name="value">Значение, которое надо преобразовать.</param>
+        /// <param name="targetType">Тип, к которому надо преобразовать значение value.</param>
+        /// <param name="parameter">Вспомогательный параметр.</param>
+        /// <param name="culture">Текущая культура приложения.</param>
+        /// <returns>Преобразованное значение.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;

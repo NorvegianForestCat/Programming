@@ -1,29 +1,29 @@
-﻿using System.Collections.ObjectModel;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.ObjectModel;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace View.Model.Services
 {
     /// <summary>
-    /// Serializes the Contact class.
+    /// Сериализует класс Contact.
     /// </summary>
     public class ContactSerializer
     {
         /// <summary>
-        /// The path in the data folder.
+        /// Путь к папке с данными.
         /// </summary>
-        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) 
-            + @"\Contacts";
+        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Contacts";
 
         /// <summary>
-        /// The name of the data file.
+        /// Название файла с данными.
         /// </summary>
         private string _file = @"\contacts.json";
 
         /// <summary>
-        /// Method for saving contacts.
+        /// Метод для сохранения контактов.
         /// </summary>
-        /// <param name="contacts">Saved contacts</param>
+        /// <param name="contacts">Сохраняемые контакты</param>
         public void SaveContacts(ObservableCollection<Contact> contacts)
         {
             string jsonContacts = JsonConvert.SerializeObject(contacts);
@@ -32,21 +32,21 @@ namespace View.Model.Services
                 Directory.CreateDirectory(_path);
             }
 
-            using(StreamWriter streamWriter = new StreamWriter(_path + _file))
+            using (StreamWriter streamWriter = new StreamWriter(_path + _file))
             {
                 streamWriter.WriteLine(jsonContacts);
             }
         }
 
         /// <summary>
-        /// Method for downloading contacts from a file.
+        /// Метод для загрузки контактов из файла.
         /// </summary>
-        /// <returns>Downloaded contacts</returns>
+        /// <returns>Загруженные контакты</returns>
         public ObservableCollection<Contact> LoadContact()
         {
             string readContacts = String.Empty;
-         
-            using(StreamReader streamReader = new StreamReader(_path + _file))
+
+            using (StreamReader streamReader = new StreamReader(_path + _file))
             {
                 readContacts = streamReader.ReadLine();
             }
