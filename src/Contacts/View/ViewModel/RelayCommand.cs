@@ -4,22 +4,22 @@ using System.Windows.Input;
 namespace View.ViewModel
 {
     /// <summary>
-    /// Implements a command execution class.
+    /// Реализует класс выполнения команд.
     /// </summary>
     public class RelayCommand : ICommand
     {
         /// <summary>
-        /// Defines the method to be called when this command is invoked.
+        /// Определяет метод, вызываемый при вызове данной команды.
         /// </summary>
-        private Action<object> execute;
+        private Action<object> _execute;
 
         /// <summary>
-        /// Determines whether the command can be executed in the current state.
+        /// Определяет, может ли команда выполняться в текущем состоянии.
         /// </summary>
-        private Func<object, bool> canExecute;
+        private Func<object, bool> _canExecute;
 
         /// <summary>
-        /// Occurs when the command manager detects a change in the command source.
+        /// Происходит, когда диспетчер команд обнаруживает изменение источника команды.
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
@@ -28,18 +28,18 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Creates an instance of the <see cref="RelayCommand"/> class.
+        /// Создаёт экземпляр класса  <see cref="RelayCommand"/>.
         /// </summary>
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            this.execute = execute;
-            this.canExecute = canExecute;
+            this._execute = execute;
+            this._canExecute = canExecute;
         }
 
         /// <summary>
-        /// Determines whether the command can be executed in the current state.
+        /// Определяет, может ли команда выполняться в текущем состоянии.
         /// </summary>
-        /// <param name="parameter">The data used by this command.</param>
+        /// <param name="parameter">Данные, используемые данной командой.</param>
         /// <returns>true</returns>
         public bool CanExecute(object parameter)
         {
@@ -47,12 +47,12 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Defines the method to be called when calling this command.
+        /// Определяет метод, вызываемый при вызове данной команды.
         /// </summary>
-        /// <param name="parameter">The data used by this command.</param>
+        /// <param name="parameter">Данные, используемые данной командой.</param>
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            this._execute(parameter);
         }
     }
 }

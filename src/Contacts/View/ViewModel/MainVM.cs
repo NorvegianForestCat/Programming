@@ -1,64 +1,74 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using View.Model;
 using View.Model.Services;
 
 namespace View.ViewModel
 {
     /// <summary>
-    /// Implements a representation model.
+    /// Реализует модель представления.
     /// </summary>
     public class MainVM : INotifyPropertyChanged
     {
         /// <summary>
-        /// The command to save a contact.
+        /// Команда сохранения контакта.
         /// </summary>
         private RelayCommand _saveCommand;
+
         /// <summary>
-        /// The contact upload command.
+        /// Команда загрузки контакта.
         /// </summary>
         private RelayCommand _loadCommand;
+
         /// <summary>
-        /// The command to add a contact.
+        /// Команда добавления контакта.
         /// </summary>
         private RelayCommand _addCommand;
+
         /// <summary>
-        /// Contact editing command.
+        /// Команда редактирования контакта.
         /// </summary>
         private RelayCommand _editCommand;
+
         /// <summary>
-        /// The contact deletion command.
+        /// Команда удаления контакта.
         /// </summary>
         private RelayCommand _removeCommand;
+
         /// <summary>
-        /// The command to apply changes.
+        /// Команда применения изменений.
         /// </summary>
         private RelayCommand _applyCommand;
+
         /// <summary>
-        /// The undo command.
+        /// Команда отмены изменений.
         /// </summary>
         private RelayCommand _cancelCommand;
+
         /// <summary>
-        /// Current contact.
+        /// Текущий контакт.
         /// </summary>
         private Contact _currentContact;
+
         /// <summary>
-        /// The contact being edited.
+        /// Редактируемый контакт.
         /// </summary>
         private Contact _editContact;
 
         /// <summary>
-        /// Returns and sets the contact list.
+        /// Возвращает и задаёт список контактов.
         /// </summary>
         public ObservableCollection<Contact> Contacts { get; set; }
 
         /// <summary>
-        /// Returns and sets the contract serializer.
+        /// Возвращает и задаёт сериализатор контакта.
         /// </summary>
         public ContactSerializer ContactSerializer { get; set; }
 
         /// <summary>
-        /// Returns and sets the current contact.
+        /// Возвращает и задаёт текущий контакт.
         /// </summary>
         public Contact CurrentContact
         {
@@ -71,16 +81,15 @@ namespace View.ViewModel
                 _currentContact = value;
                 OnPropertyChanged(nameof(CurrentContact));
                 OnPropertyChanged(nameof(IsEnabled));
-
                 EditContact = null;
-                OnPropertyChanged(nameof(Visibility));
+                OnPropertyChanged(nameof(ApplyIsVisible));
                 OnPropertyChanged(nameof(IsReadOnly));
                 UpdateEditContact();
             }
         }
 
         /// <summary>
-        /// Returns and sets the contact to be edited.
+        /// Возвращает и задаёт редактируемый контакт.
         /// </summary>
         public Contact EditContact
         {
@@ -92,11 +101,16 @@ namespace View.ViewModel
             {
                 _editContact = value;
                 OnPropertyChanged(nameof(EditContact));
+                OnPropertyChanged(nameof(ApplyIsEnabled));
+                if (_editContact != null)
+                {
+                    _editContact.PropertyChanged += EditContact_PropertyChanged;
+                }
             }
         }
 
         /// <summary>
-        /// The command to save a contact.
+        /// Команда сохранения контакта.
         /// </summary>
         public RelayCommand SaveCommand
         {
@@ -110,7 +124,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// The contact upload command.
+        /// Команда загрузки контакта.
         /// </summary>
         public RelayCommand LoadCommand
         {
@@ -139,7 +153,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// The command to add a contact.
+        /// Команда добавления контакта.
         /// </summary>
         public RelayCommand AddCommand
         {
@@ -149,15 +163,14 @@ namespace View.ViewModel
                 {
                     LoadCommand.Execute(Contacts);
                     EditContact = new Contact("", "", "");
-
                     OnPropertyChanged(nameof(IsReadOnly));
-                    OnPropertyChanged(nameof(Visibility));
+                    OnPropertyChanged(nameof(ApplyIsVisible));
                 }));
             }
         }
 
         /// <summary>
-        /// Contact editing command.
+        /// Команда редактирования контакта.
         /// </summary>
         public RelayCommand EditCommand
         {
@@ -166,13 +179,13 @@ namespace View.ViewModel
                 return _editCommand ?? (_editCommand = new RelayCommand(obj =>
                 {
                     OnPropertyChanged(nameof(IsReadOnly));
-                    OnPropertyChanged(nameof(Visibility));
+                    OnPropertyChanged(nameof(ApplyIsVisible));
                 }));
             }
         }
 
         /// <summary>
-        /// The contact deletion command.
+        /// Команда удаления контакта.
         /// </summary>
         public RelayCommand RemoveCommand
         {
@@ -200,7 +213,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// The command to apply changes.
+        /// Команда применения изменений.
         /// </summary>
         public RelayCommand ApplyCommand
         {
@@ -227,7 +240,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// The Undo command.
+        /// Команда Отмены изменений.
         /// </summary>
         public RelayCommand CancelCommand
         {
@@ -241,7 +254,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Returns whether it is read-only.
+        /// Возвращает, только ли на чтение.
         /// </summary>
         public bool IsReadOnly
         {
@@ -252,7 +265,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Returns whether it is available.
+        /// Возвращает, доступно ли.
         /// </summary>
         public bool IsEnabled
         {
@@ -263,9 +276,20 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Returns visibility.
+        /// Возвращает, доступно ли применение.
         /// </summary>
-        public bool Visibility
+        public bool ApplyIsEnabled
+        {
+            get
+            {
+                return EditContact != null && string.IsNullOrWhiteSpace(EditContact.Error);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает видимость.
+        /// </summary>
+        public bool ApplyIsVisible
         {
             get
             {
@@ -274,12 +298,12 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Event triggered when data is changed.
+        /// Событие, срабатывающее при изменении данных.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Creates an instance of the <see cref="MainVM"/> class.
+        /// Создаёт экземпляр класса <see cref="MainVM"/>.
         /// </summary>
         public MainVM()
         {
@@ -290,7 +314,7 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Updates the contact being edited.
+        /// Обновляет редактируемый контакт.
         /// </summary>
         public void UpdateEditContact()
         {
@@ -305,12 +329,20 @@ namespace View.ViewModel
         }
 
         /// <summary>
-        /// Notifies the system of a property change. 
+        /// Вызов проверки, должна ли быть доступна кнопка Apply.
         /// </summary>
-        /// <param name="property">The</param> property
-        public void OnPropertyChanged(string property)
+        private void EditContact_PropertyChanged(object sender, EventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            OnPropertyChanged(nameof(ApplyIsEnabled));
+        }
+
+        /// <summary>
+        /// Извещает систему об изменении свойства. 
+        /// </summary>
+        /// <param name="prop">Свойство</param>
+        public void OnPropertyChanged(string prop)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
