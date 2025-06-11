@@ -20,7 +20,7 @@
                     Width="30"
                     Height="30"
                     Margin="3"
-                    Source="user.png"/>
+                    Source="/Resources/user.png"/>
                 <StackPanel Margin="3" Grid.Column="1">
                     <TextBlock
                     FontSize="12"

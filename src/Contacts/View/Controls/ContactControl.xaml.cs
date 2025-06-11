@@ -11,7 +11,7 @@ namespace View.Controls
     public partial class ContactControl : UserControl
     {
         /// <summary>
-        /// 
+        /// Логика элемента ContactControl
         /// </summary>
         public ContactControl()
         {
@@ -19,7 +19,7 @@ namespace View.Controls
         }
 
         /// <summary>
-        /// Регулярное выражение.
+        /// Регулярное выражение для валидации номера телефона.
         /// </summary>
         Regex regex = new Regex(@"^[0-9\s\+\-\(\)]");
 
@@ -39,6 +39,7 @@ namespace View.Controls
             if (e.DataObject.GetDataPresent(typeof(string)))
             {
                 string text = (string)e.DataObject.GetData(typeof(string));
+
                 if (!regex.IsMatch(text))
                 {
                     e.CancelCommand();

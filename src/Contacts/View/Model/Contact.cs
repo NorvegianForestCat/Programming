@@ -12,17 +12,15 @@ namespace View.Model
         /// ФИО контакта.
         /// </summary>
         private string _name;
-
         /// <summary>
         /// Номер телефона контакта.
         /// </summary>
         private string _phone;
-
         /// <summary>
         /// Почта контакта.
         /// </summary>
         private string _email;
-
+        
         /// <summary>
         /// Возвращает и задаёт ФИО контакта. Не может быть длиннее 100 символов.
         /// </summary>
@@ -38,7 +36,6 @@ namespace View.Model
                 OnPropertyChanged(nameof(Name));
             }
         }
-
         /// <summary>
         /// Возвращает и задаёт номер телефона контакта. Не может быть длиннее 100 символов.
         /// </summary>
@@ -54,7 +51,6 @@ namespace View.Model
                 OnPropertyChanged(nameof(Phone));
             }
         }
-
         /// <summary>
         /// Возвращает и задаёт почту контакта. Не может быть длиннее 100 символов.
         /// </summary>
