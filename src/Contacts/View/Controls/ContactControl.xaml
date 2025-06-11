@@ -29,7 +29,7 @@
             Height="100"
             VerticalAlignment="Top"
             Margin="5,34"
-            Source="/user.png"/>
+            Source="/Resources/user.png"/>
         <StackPanel Margin="5" Grid.Column="1">
             <Label Content="Name:" Height="26"/>
             <TextBox
