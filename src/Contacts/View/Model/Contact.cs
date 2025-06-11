@@ -1,28 +1,30 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace View.Model
 {
     /// <summary>
-    /// Stores information about the contact.
+    /// Хранит информацию о контакте.
     /// </summary>
-    public class Contact : INotifyPropertyChanged
+    public class Contact : INotifyPropertyChanged, IDataErrorInfo
     {
         /// <summary>
-        /// Full name of the contact.
+        /// ФИО контакта.
         /// </summary>
         private string _name;
 
         /// <summary>
-        /// The contact's phone number.
+        /// Номер телефона контакта.
         /// </summary>
         private string _phone;
+
         /// <summary>
-        /// Contact's email address.
+        /// Почта контакта.
         /// </summary>
         private string _email;
-        
+
         /// <summary>
-        /// Returns and sets the contact's full name. It cannot be longer than 100 characters.
+        /// Возвращает и задаёт ФИО контакта. Не может быть длиннее 100 символов.
         /// </summary>
         public string Name
         {
@@ -32,17 +34,13 @@ namespace View.Model
             }
             set
             {
-                if (value.Length > 100 || value == null)
-                {
-                    throw new ArgumentException();
-                }
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
         /// <summary>
-        /// Returns and sets the contact's phone number. It cannot be longer than 100 characters.
+        /// Возвращает и задаёт номер телефона контакта. Не может быть длиннее 100 символов.
         /// </summary>
         public string Phone
         {
@@ -52,17 +50,13 @@ namespace View.Model
             }
             set
             {
-                if (value.Length > 100 || value == null)
-                {
-                    throw new ArgumentException();
-                }
                 _phone = value;
                 OnPropertyChanged(nameof(Phone));
             }
         }
 
         /// <summary>
-        /// Returns and sets the contact's email address. It cannot be longer than 100 characters.
+        /// Возвращает и задаёт почту контакта. Не может быть длиннее 100 символов.
         /// </summary>
         public string Email
         {
@@ -72,27 +66,69 @@ namespace View.Model
             }
             set
             {
-                if (value.Length > 100 || value == null)
-                {
-                    throw new ArgumentException();
-                }
                 _email = value;
                 OnPropertyChanged(nameof(Email));
             }
         }
 
         /// <summary>
-        /// Event triggered when data is changed.
+        /// Получение ошибки.
+        /// </summary>
+        /// <param name="columnName">Свойство, в котором возникла ошибка</param>
+        /// <returns>Текст ошибки.</returns>
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case nameof(Name):
+                        if (string.IsNullOrEmpty(Name) || Name.Length > 100)
+                        {
+                            error = "Name length must be > 0 and <= 100";
+                        }
+                        break;
+                    case nameof(Phone):
+                        if (string.IsNullOrEmpty(Phone) || Phone.Length > 100)
+                        {
+                            error = "Phone can contains only digits and symbols '+()- '. Example: 7 (999) 111-22-33";
+                        }
+                        break;
+                    case nameof(Email):
+                        if (string.IsNullOrEmpty(Email) || Email.Length > 100 || !Email.Contains("@"))
+                        {
+                            error = "Name length must be > 0, <= 100 and contains the symbol '@'";
+                        }
+                        break;
+                }
+                return error;
+            }
+        }
+
+        /// <summary>
+        /// Полученная ошибка.
+        /// </summary>
+        public string Error
+        {
+            get
+            {
+                return this[nameof(Name)] + this[nameof(Phone)] + this[nameof(Email)];
+            }
+        }
+
+        /// <summary>
+        /// Событие, срабатывающее при изменении данных.
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Creates an instance of the <see cref="Contact"/> class.
+        /// Создаёт экземпляр класса <see cref="Contact"/>.
         /// </summary>
-        /// <param name="name">Contact's full name. It cannot be longer than 100 characters.</param>
-        /// <param name="phone">The contact's phone number. It cannot be longer than 100 characters.</param>
-        /// <param name="email">Contact's email address. It cannot be longer than 100 characters.</param>
-        public Contact(string name = "Name Surname", string phone = "+0123456789", string email = "mail@no.mail")
+        /// <param name="name">ФИО контакта. Не может быть длиннее 100 символов.</param>
+        /// <param name="phone">Номер телефона контакта. Не может быть длиннее 100 символов.</param>
+        /// <param name="email">Email контакта. Не может быть длиннее 100 символов.</param>
+        public Contact(string name = "Смирнов Юрий", string phone = "+7-913-111-22-33", string email = "yuri.smirnov@no.mail")
         {
             Name = name;
             Phone = phone;
@@ -100,17 +136,17 @@ namespace View.Model
         }
 
         /// <summary>
-        /// Empty constructor
+        /// Создаёт экземпляр класса <see cref="Contact"/>.
         /// </summary>
         public Contact() { }
 
         /// <summary>
-        /// Notifies the system of a property change. 
+        /// Извещает систему об изменении свойства. 
         /// </summary>
-        /// <param name="property">The</param> property
-        public void OnPropertyChanged(string property)
+        /// <param name="prop">Свойство</param>
+        public void OnPropertyChanged(string prop)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
