@@ -11,6 +11,7 @@ namespace View.Model
         /// Full name of the contact.
         /// </summary>
         private string _name;
+
         /// <summary>
         /// The contact's phone number.
         /// </summary>
@@ -39,6 +40,7 @@ namespace View.Model
                 OnPropertyChanged(nameof(Name));
             }
         }
+
         /// <summary>
         /// Returns and sets the contact's phone number. It cannot be longer than 100 characters.
         /// </summary>
@@ -58,6 +60,7 @@ namespace View.Model
                 OnPropertyChanged(nameof(Phone));
             }
         }
+
         /// <summary>
         /// Returns and sets the contact's email address. It cannot be longer than 100 characters.
         /// </summary>
