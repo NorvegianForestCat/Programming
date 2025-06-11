@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources/ContactsApp_96x96.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,7 +22,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contacts\" />
-    <Folder Include="Resources\" />
+    <None Remove="Resources/user.png" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Model\Services\Converters\" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

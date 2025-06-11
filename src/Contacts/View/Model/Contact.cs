@@ -1,107 +1,113 @@
-﻿namespace View.Model
+﻿using System.ComponentModel;
+
+namespace View.Model
 {
     /// <summary>
-    /// Class for containing contact info.
+    /// Stores information about the contact.
     /// </summary>
-    /// <remarks>
-    /// Class has name, phone number and e-mail info.
-    /// </remarks>
-    class Contact
+    public class Contact : INotifyPropertyChanged
     {
         /// <summary>
-        /// String field storing contact name
+        /// Full name of the contact.
         /// </summary>
         private string _name;
         /// <summary>
-        /// String field storing contact phone number
+        /// The contact's phone number.
         /// </summary>
-        private string _phoneNumber;
+        private string _phone;
         /// <summary>
-        /// String field storing contact e-mail
+        /// Contact's email address.
         /// </summary>
         private string _email;
-
+        
         /// <summary>
-        /// Contact name.
-        /// Gets contact name as a not-null-string, returns contact 
-        /// name as a string.
+        /// Returns and sets the contact's full name. It cannot be longer than 100 characters.
         /// </summary>
         public string Name
         {
-            get => _name;
+            get
+            {
+                return _name;
+            }
             set
             {
-                if(value == null)
+                if (value.Length > 100 || value == null)
                 {
-                    throw new ArgumentException($"{value} is not valid value");
+                    throw new ArgumentException();
                 }
-
                 _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
         /// <summary>
-        /// Contact phone number
-        /// Gets contact phone number as a not-null-string, returns contact 
-        /// phone number as a string.
+        /// Returns and sets the contact's phone number. It cannot be longer than 100 characters.
         /// </summary>
-        public string PhoneNumber
+        public string Phone
         {
-            get => _phoneNumber;
+            get
+            {
+                return _phone;
+            }
             set
             {
-                if (value == null)
+                if (value.Length > 100 || value == null)
                 {
-                    throw new ArgumentException($"{value} is not valid value");
+                    throw new ArgumentException();
                 }
-
-                _phoneNumber = value;
+                _phone = value;
+                OnPropertyChanged(nameof(Phone));
             }
         }
         /// <summary>
-        /// Contact e-email
-        /// Gets contact e-mail as a not-null-string, returns contact e-mail 
-        /// as a string.
+        /// Returns and sets the contact's email address. It cannot be longer than 100 characters.
         /// </summary>
         public string Email
         {
-            get => _email;
+            get
+            {
+                return _email;
+            }
             set
             {
-                if (value == null)
+                if (value.Length > 100 || value == null)
                 {
-                    throw new ArgumentException($"{value} is not valid value");
+                    throw new ArgumentException();
                 }
-
                 _email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
 
         /// <summary>
-        /// Initialize new <see cref="Contact"/> instance without parameters.
+        /// Event triggered when data is changed.
         /// </summary>
-        public Contact()
-        {
-            Name = "base";
-            PhoneNumber = "+0123456789";
-            Email = "email@email.com";
-        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         /// <summary>
-        /// Initialize new <see cref="Contact"/> instance with parameters.
+        /// Creates an instance of the <see cref="Contact"/> class.
         /// </summary>
-        /// <param name="name">
-        /// Contact name
-        /// </param>
-        /// <param name="phoneNumber">
-        /// Contact phone number
-        /// </param>
-        /// <param name="email">
-        /// Contact e-mailS
-        /// </param>
-        public Contact(string name, string phoneNumber, string email)
+        /// <param name="name">Contact's full name. It cannot be longer than 100 characters.</param>
+        /// <param name="phone">The contact's phone number. It cannot be longer than 100 characters.</param>
+        /// <param name="email">Contact's email address. It cannot be longer than 100 characters.</param>
+        public Contact(string name = "Name Surname", string phone = "+0123456789", string email = "mail@no.mail")
         {
             Name = name;
-            PhoneNumber = phoneNumber;
+            Phone = phone;
             Email = email;
+        }
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public Contact() { }
+
+        /// <summary>
+        /// Notifies the system of a property change. 
+        /// </summary>
+        /// <param name="property">The</param> property
+        public void OnPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }
