@@ -1,67 +1,58 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace View.Model.Services
 {
     /// <summary>
-    /// Service class for serializing contact data.
+    /// Serializes the Contact class.
     /// </summary>
-    /// <remarks>
-    /// Class has methods for saving and loading data from MyDocuments/Contacts/contacts.json file.
-    /// </remarks>
     public class ContactSerializer
     {
         /// <summary>
-        /// Path to json directory.
+        /// The path in the data folder.
         /// </summary>
-        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        private string _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) 
             + @"\Contacts";
 
         /// <summary>
-        /// Name of json file.
+        /// The name of the data file.
         /// </summary>
-        private string _jsonFile = @"\contacts.json";
+        private string _file = @"\contacts.json";
 
         /// <summary>
-        /// Serialization of <see cref="View.Model.Contact"/> object into JSON-object.
+        /// Method for saving contacts.
         /// </summary>
-        /// <param name="contact">
-        /// <see cref="View.Model.Contact"/> object.
-        /// </param>
-        public void ContactSave(Contact contact)
+        /// <param name="contacts">Saved contacts</param>
+        public void SaveContacts(ObservableCollection<Contact> contacts)
         {
-            string jsonContact = JsonConvert.SerializeObject(contact);
-
-            if(!Directory.Exists(_path))
+            string jsonContacts = JsonConvert.SerializeObject(contacts);
+            if (!Directory.Exists(_path))
             {
                 Directory.CreateDirectory(_path);
             }
 
-            using (StreamWriter writer = new StreamWriter(_path + _jsonFile))
+            using(StreamWriter streamWriter = new StreamWriter(_path + _file))
             {
-                writer.WriteLine(jsonContact);
+                streamWriter.WriteLine(jsonContacts);
             }
         }
 
         /// <summary>
-        /// Deserialization of <see cref="View.Model.Contact"/> object onto JSON-object.
+        /// Method for downloading contacts from a file.
         /// </summary>
-        /// <returns>
-        /// Deserialized <see cref="View.Model.Contact"/> object.
-        /// </returns>
-        public Contact ContactLoad()
+        /// <returns>Downloaded contacts</returns>
+        public ObservableCollection<Contact> LoadContact()
         {
-            string jsonContact = string.Empty;
-
-            using (StreamReader reader = new StreamReader(_path + _jsonFile))
+            string readContacts = String.Empty;
+         
+            using(StreamReader streamReader = new StreamReader(_path + _file))
             {
-                jsonContact = reader.ReadLine() ?? string.Empty;
+                readContacts = streamReader.ReadLine();
             }
-
-            Contact contact = JsonConvert.DeserializeObject<Contact>(jsonContact) 
-                ?? new Contact();
-
-            return contact;
+            
+            ObservableCollection<Contact> contacts = JsonConvert.DeserializeObject<ObservableCollection<Contact>>(readContacts);
+            return contacts;
         }
     }
 }
