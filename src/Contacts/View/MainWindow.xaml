@@ -6,56 +6,107 @@
         xmlns:local="clr-namespace:View.ViewModel" xmlns:Controls="clr-namespace:View.Controls" x:Class="Contacts.MainWindow"
         d:DataContext="{d:DesignInstance Type={x:Type local:MainVM}}"
         mc:Ignorable="d"
-        Title="Contacts" Height="400" Width="500">
-    <Grid  Margin="15px">
+        Title="Contacts" Height="500" Width="770" MinHeight="500" MinWidth="770">
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="VisibilityConverter"/>
+        <DataTemplate x:Key="contactTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Column="0"
+                    Width="30"
+                    Height="30"
+                    Margin="3"
+                    Source="user.png"/>
+                <StackPanel Margin="3" Grid.Column="1">
+                    <TextBlock
+                    FontSize="12"
+                    FontWeight="SemiBold"
+                    Text="{Binding Name}"/>
+                    <TextBlock
+                    FontSize="10"
+                    Text="{Binding Phone}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Background="#f8f8f8">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="Width" Value="75"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Padding" Value="0,5,0,0"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" MinWidth="256"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="31"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <GroupBox Header="Edit Contact" Grid.Column="0" Grid.Row="0" Margin="3px">
-            <StackPanel>
-                <Label Content="Name:" Height="26px" Margin="3px"/>
-                <TextBox Margin="3px" Height="26px" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Phone Number:" Height="26px" Margin="3px"/>
-                <TextBox Margin="3px" Height="26px" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Email:" Height="26px" Margin="3px"/>
-                <TextBox Margin="3px" Height="26px" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+        <GridSplitter
+            Grid.Column="1"
+            ShowsPreview="False" 
+            Width="3"
+            Background="White"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Stretch" />
+        <Grid Grid.Column="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Margin="3">
+                <Label Content="Find:" Width="40"/>
+                <TextBox/>
+            </DockPanel>
+            <ListBox
+                ItemsSource="{Binding Contacts}"
+                VerticalAlignment="Stretch"
+                Grid.Row="1"
+                Margin="3"
+                SelectedItem="{Binding CurrentContact, Mode=TwoWay}"
+                ItemTemplate="{StaticResource contactTemplate}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <Button Content="Add" Command="{Binding AddCommand}"/>
+                <Button
+                    Content="Edit"
+                    Command="{Binding EditCommand}"
+                    IsEnabled="{Binding IsEnabled}"/>
+                <Button
+                    Content="Remove"
+                    Command="{Binding RemoveCommand}"
+                    IsEnabled="{Binding IsEnabled}"/>
             </StackPanel>
-        </GroupBox>
-
-        <GroupBox Header="Read Contact" Grid.Column="1" Grid.Row="0" Margin="3px">
-            <StackPanel>
-                <Label Content="Name:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Name}"/>
-                <Label Content="Phone Number:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=PhoneNumber}"/>
-                <Label Content="Email:" Height="26px" Margin="3px"/>
-                <TextBlock Margin="6, 3, 6, 3" Height="26px" Text="{Binding Path=Email}" VerticalAlignment="Center"/>
-            </StackPanel>
-        </GroupBox>
-
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Grid.Column="1" Content="Save" 
-                    Height="25px" Width="75px" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Bottom" 
-                    HorizontalContentAlignment="Center"
-                    Margin="3px"
-                    Command="{Binding SaveCommand}"
-                    />
-            <Button Grid.Column="1" Content="Load" 
-                    Height="25px" Width="75px" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Bottom" 
-                    HorizontalContentAlignment="Center"
-                    Margin="3px"
-                    Command="{Binding LoadCommand}"
-                    />
-        </StackPanel>
+        </Grid>
+        <Grid Background="White" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Controls:ContactControl
+                Grid.ColumnSpan="2"
+                DataContext="{Binding Mode=OneWay}"
+                VerticalAlignment="Top"/>
+            <WrapPanel Margin="2,220,0,0" Grid.Column="1">
+                <Button
+                    Content="Apply"
+                    Command="{Binding ApplyCommand}"
+                    HorizontalAlignment="Left"
+                    Visibility="{Binding Visibility, Converter={StaticResource VisibilityConverter}}"/>
+                <Button
+                    Content="Cancel"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0"
+                    Visibility="{Binding Visibility, Converter={StaticResource VisibilityConverter}}"/>
+            </WrapPanel>
+        </Grid>
     </Grid>
 </Window>
