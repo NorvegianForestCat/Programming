@@ -16,52 +16,43 @@ namespace View.ViewModel
         /// Команда сохранения контакта.
         /// </summary>
         private RelayCommand _saveCommand;
-
         /// <summary>
         /// Команда загрузки контакта.
         /// </summary>
         private RelayCommand _loadCommand;
-
         /// <summary>
         /// Команда добавления контакта.
         /// </summary>
         private RelayCommand _addCommand;
-
         /// <summary>
         /// Команда редактирования контакта.
         /// </summary>
         private RelayCommand _editCommand;
-
         /// <summary>
         /// Команда удаления контакта.
         /// </summary>
         private RelayCommand _removeCommand;
-
         /// <summary>
         /// Команда применения изменений.
         /// </summary>
         private RelayCommand _applyCommand;
-
         /// <summary>
         /// Команда отмены изменений.
         /// </summary>
         private RelayCommand _cancelCommand;
-
         /// <summary>
         /// Текущий контакт.
         /// </summary>
         private Contact _currentContact;
-
         /// <summary>
         /// Редактируемый контакт.
         /// </summary>
         private Contact _editContact;
-
+        
         /// <summary>
         /// Возвращает и задаёт список контактов.
         /// </summary>
         public ObservableCollection<Contact> Contacts { get; set; }
-
         /// <summary>
         /// Возвращает и задаёт сериализатор контакта.
         /// </summary>
@@ -81,13 +72,13 @@ namespace View.ViewModel
                 _currentContact = value;
                 OnPropertyChanged(nameof(CurrentContact));
                 OnPropertyChanged(nameof(IsEnabled));
+
                 EditContact = null;
                 OnPropertyChanged(nameof(ApplyIsVisible));
                 OnPropertyChanged(nameof(IsReadOnly));
                 UpdateEditContact();
             }
         }
-
         /// <summary>
         /// Возвращает и задаёт редактируемый контакт.
         /// </summary>
@@ -102,6 +93,7 @@ namespace View.ViewModel
                 _editContact = value;
                 OnPropertyChanged(nameof(EditContact));
                 OnPropertyChanged(nameof(ApplyIsEnabled));
+
                 if (_editContact != null)
                 {
                     _editContact.PropertyChanged += EditContact_PropertyChanged;
@@ -122,7 +114,6 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
         /// Команда загрузки контакта.
         /// </summary>
@@ -151,7 +142,6 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
         /// Команда добавления контакта.
         /// </summary>
@@ -168,7 +158,6 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
         /// Команда редактирования контакта.
         /// </summary>
@@ -183,7 +172,6 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
         /// Команда удаления контакта.
         /// </summary>
@@ -211,7 +199,6 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
         /// Команда применения изменений.
         /// </summary>
@@ -238,9 +225,8 @@ namespace View.ViewModel
                 }));
             }
         }
-
         /// <summary>
-        /// Команда Отмены изменений.
+        /// Команда отмены изменений.
         /// </summary>
         public RelayCommand CancelCommand
         {
@@ -252,7 +238,7 @@ namespace View.ViewModel
                 }));
             }
         }
-
+        
         /// <summary>
         /// Возвращает, только ли на чтение.
         /// </summary>
@@ -263,7 +249,6 @@ namespace View.ViewModel
                 return EditContact == null;
             }
         }
-
         /// <summary>
         /// Возвращает, доступно ли.
         /// </summary>
@@ -274,7 +259,6 @@ namespace View.ViewModel
                 return CurrentContact != null;
             }
         }
-
         /// <summary>
         /// Возвращает, доступно ли применение.
         /// </summary>
@@ -285,7 +269,6 @@ namespace View.ViewModel
                 return EditContact != null && string.IsNullOrWhiteSpace(EditContact.Error);
             }
         }
-
         /// <summary>
         /// Возвращает видимость.
         /// </summary>
@@ -339,10 +322,10 @@ namespace View.ViewModel
         /// <summary>
         /// Извещает систему об изменении свойства. 
         /// </summary>
-        /// <param name="prop">Свойство</param>
-        public void OnPropertyChanged(string prop)
+        /// <param name="property">Свойство</param>
+        public void OnPropertyChanged(string property)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }
