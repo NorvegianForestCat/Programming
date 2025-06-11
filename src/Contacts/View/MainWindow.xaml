@@ -94,18 +94,19 @@
                 Grid.ColumnSpan="2"
                 DataContext="{Binding Mode=OneWay}"
                 VerticalAlignment="Top"/>
-            <WrapPanel Margin="2,220,0,0" Grid.Column="1">
+            <WrapPanel Margin="5,220,0,0" Grid.Column="1">
                 <Button
                     Content="Apply"
                     Command="{Binding ApplyCommand}"
                     HorizontalAlignment="Left"
-                    Visibility="{Binding Visibility, Converter={StaticResource VisibilityConverter}}"/>
+                    Visibility="{Binding ApplyIsVisible, Converter={StaticResource VisibilityConverter}}"
+                    IsEnabled="{Binding ApplyIsEnabled}"/>
                 <Button
                     Content="Cancel"
                     Command="{Binding CancelCommand}"
                     HorizontalAlignment="Left"
                     Margin="10,0,0,0"
-                    Visibility="{Binding Visibility, Converter={StaticResource VisibilityConverter}}"/>
+                    Visibility="{Binding ApplyIsVisible, Converter={StaticResource VisibilityConverter}}"/>
             </WrapPanel>
         </Grid>
     </Grid>
