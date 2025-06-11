@@ -1,20 +1,20 @@
 ﻿using System.Windows;
-using View.ModelView;
+using View.ViewModel;
 
-namespace View;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace Contacts
 {
     /// <summary>
-    /// Initializing main window object
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-
-        DataContext = new MainVM();
+        /// <summary>
+        /// Main Window logic.
+        /// </summary>
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = new MainVM();
+        }
     }
 }
