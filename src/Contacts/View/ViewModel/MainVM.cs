@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace View.ViewModel
     /// <summary>
     /// Реализует модель представления.
     /// </summary>
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : ObservableObject
     {
         /// <summary>
         /// Команда сохранения контакта.
