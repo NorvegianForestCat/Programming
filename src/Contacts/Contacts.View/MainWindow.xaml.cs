@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using View.ViewModel;
+using Contacts.ViewModel;
 
-namespace Contacts
+namespace Contacts.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

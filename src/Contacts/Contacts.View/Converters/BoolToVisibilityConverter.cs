@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace View.ViewModel
+namespace Contacts.View.Converters
 {
     /// <summary>
     /// Реализует преобразование bool в Visibility.

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace View.Controls
+namespace Contacts.View.Controls
 {
     /// <summary>
     /// Логика взаимодействия для ContactControl.xaml

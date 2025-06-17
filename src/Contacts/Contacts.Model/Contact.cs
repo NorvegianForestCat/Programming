@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace View.Model
+namespace Contacts.Model
 {
     /// <summary>
     /// Хранит информацию о контакте.

@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", "{C3822F06-7A7C-457C-9F36-8C47E805D166}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.View", "Contacts.View\Contacts.View.csproj", "{C3822F06-7A7C-457C-9F36-8C47E805D166}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Model", "Contacts.Model\Contacts.Model.csproj", "{1F7656AD-CDDA-451A-937F-CDB50E1C8189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.ViewModel", "Contacts.ViewModel\Contacts.ViewModel.csproj", "{AD286723-3D10-4052-B5D2-B492A26EF4AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C3822F06-7A7C-457C-9F36-8C47E805D166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3822F06-7A7C-457C-9F36-8C47E805D166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3822F06-7A7C-457C-9F36-8C47E805D166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F7656AD-CDDA-451A-937F-CDB50E1C8189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7656AD-CDDA-451A-937F-CDB50E1C8189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7656AD-CDDA-451A-937F-CDB50E1C8189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7656AD-CDDA-451A-937F-CDB50E1C8189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD286723-3D10-4052-B5D2-B492A26EF4AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD286723-3D10-4052-B5D2-B492A26EF4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD286723-3D10-4052-B5D2-B492A26EF4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD286723-3D10-4052-B5D2-B492A26EF4AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

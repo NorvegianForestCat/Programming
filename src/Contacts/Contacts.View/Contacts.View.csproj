@@ -23,17 +23,20 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   
   <ItemGroup>
     <Folder Include="Controls\" />
-    <Folder Include="Model\Services\Converters\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   
   <PropertyGroup>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Contacts.ViewModel\Contacts.ViewModel.csproj" />
+  </ItemGroup>
   
   <ItemGroup>
     <Resource Include="Resources\icon.ico">
