@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace View.ViewModel
+namespace View.Model.OUTDATED
 {
     /// <summary>
     /// Реализует класс выполнения команд.
