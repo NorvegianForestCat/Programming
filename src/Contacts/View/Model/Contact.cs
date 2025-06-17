@@ -109,13 +109,7 @@ namespace View.Model
         /// <summary>
         /// Полученная ошибка.
         /// </summary>
-        public string Error
-        {
-            get
-            {
-                return this[nameof(Name)] + this[nameof(Phone)] + this[nameof(Email)];
-            }
-        }
+        public string Error =>  this[nameof(Name)] + this[nameof(Phone)] + this[nameof(Email)];
 
         /// <summary>
         /// Событие, срабатывающее при изменении данных.
