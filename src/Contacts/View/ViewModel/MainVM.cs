@@ -21,43 +21,15 @@ namespace View.ViewModel
         /// </summary>
         [ObservableProperty]
         private Contact _editContact;
-        
-        /// <summary>
-        /// Команда сохранения контакта.
-        /// </summary>
-        public RelayCommand SaveCommand;
-        /// <summary>
-        /// Команда загрузки контакта.
-        /// </summary>
-        public RelayCommand LoadCommand { get; }
-        /// <summary>
-        /// Команда добавления контакта.
-        /// </summary>
-        public RelayCommand AddCommand { get; }
-        /// <summary>
-        /// Команда редактирования контакта.
-        /// </summary>
-        public RelayCommand EditCommand { get; }
-        /// <summary>
-        /// Команда удаления контакта.
-        /// </summary>
-        public RelayCommand RemoveCommand { get; }
-        /// <summary>
-        /// Команда применения изменений.
-        /// </summary>
-        public RelayCommand ApplyCommand { get; }
-        /// <summary>
-        /// Команда отмены изменений.
-        /// </summary>
-        public RelayCommand CancelCommand { get; }
+
         /// <summary>
         /// Возвращает и задаёт список контактов.
         /// </summary>
-        public ObservableCollection<Contact> Contacts { get; }
+        public ObservableCollection<Contact> Contacts { get; } = new();
         /// <summary>
         /// Возвращает и задаёт сериализатор контакта.
         /// </summary>
-        public ContactSerializer ContactSerializer { get; }
+        public ContactSerializer ContactSerializer { get; } = new();
 
         /// <summary>
         /// Возвращает, только ли на чтение.
@@ -81,18 +53,7 @@ namespace View.ViewModel
         /// </summary>
         public MainVM()
         {
-            Contacts = new ObservableCollection<Contact>();
-            ContactSerializer = new ContactSerializer();
-            SaveCommand = new RelayCommand(Save);
-            LoadCommand = new RelayCommand(Load);
-            AddCommand = new RelayCommand(Add);
-            EditCommand = new RelayCommand(Edit);
-            RemoveCommand = new RelayCommand(Remove);
-            ApplyCommand = new RelayCommand(Apply);
-            CancelCommand = new RelayCommand(Cancel);
-
-            //LoadCommand.Execute(Contacts);
-            //OnPropertyChanged(nameof(IsReadOnly));
+            Load();
         }
 
         /// <summary>
@@ -110,7 +71,9 @@ namespace View.ViewModel
             }
         }
 
+        [RelayCommand]
         private void Save() => ContactSerializer.SaveContacts(Contacts);
+        [RelayCommand]
         private void Load()
         {
             try
@@ -130,22 +93,28 @@ namespace View.ViewModel
                 Contacts.Clear();
             }
         }
+        [RelayCommand]
         private void Add()
         {
+            Load();
             EditContact = new Contact("", "", "");
-            Edit();
+            OnPropertyChanged(nameof(IsReadOnly));
+            OnPropertyChanged(nameof(ApplyIsVisible));
         }
+        [RelayCommand]
         private void Edit()
         {
             OnPropertyChanged(nameof(IsReadOnly));
             OnPropertyChanged(nameof(ApplyIsVisible));
         }
+        [RelayCommand]
         private void Remove()
         {
             int index = Contacts.IndexOf(CurrentContact);
 
             Contacts.Remove(CurrentContact);
-            SaveCommand.Execute(Contacts);
+            //SaveCommand.Execute(Contacts);
+            Save();
 
             if (index < Contacts.Count)
             {
@@ -160,6 +129,7 @@ namespace View.ViewModel
                 CurrentContact = null;
             }
         }
+        [RelayCommand]
         private void Apply() 
         {
             if (IsEnabled)
@@ -168,10 +138,10 @@ namespace View.ViewModel
                 CurrentContact.Phone = EditContact.Phone;
                 CurrentContact.Email = EditContact.Email;
 
-                Contact currentContact = CurrentContact;
+                /*Contact currentContact = CurrentContact;
                 
                 CurrentContact = null;
-                CurrentContact = currentContact;
+                CurrentContact = currentContact;*/
             }
             else
             {
@@ -179,8 +149,10 @@ namespace View.ViewModel
                 CurrentContact = Contacts.Last();
             }
 
-            SaveCommand.Execute(Contacts);
+            //SaveCommand.Execute(Contacts);
+            Save();
         }
+        [RelayCommand]
         private void Cancel() 
         {
             CurrentContact = null;
@@ -199,6 +171,7 @@ namespace View.ViewModel
         {
             OnPropertyChanged(nameof(EditContact));
             OnPropertyChanged(nameof(ApplyIsEnabled));
+            
             if (_editContact != null)
             {
                 _editContact.PropertyChanged += EditContact_PropertyChanged;
