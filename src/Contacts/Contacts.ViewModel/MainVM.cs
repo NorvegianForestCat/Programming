@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using View.Model;
-using View.Model.Services;
+using Contacts.Model;
+using Contacts.Model.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace View.ViewModel
+namespace Contacts.ViewModel
 {
     /// <summary>
     /// Реализует модель представления.
