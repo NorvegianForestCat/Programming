@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 
-namespace View.Model.Services
+namespace Contacts.Model.Services
 {
     /// <summary>
     /// Сериализует класс Contact.
