@@ -1,202 +1,211 @@
-﻿using Programming.Model.Geometry;
-using Programming.Model;
+﻿using Programming.Model;
+using Programming.Model.Geometry;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Programming.View.Panels
 {
     /// <summary>
-    /// Custom user control for film panel
+    /// A user control for managing and displaying a collection of films.
+    /// Allows viewing, editing film properties, and finding the film with the highest rating.
     /// </summary>
     public partial class FilmPanel : UserControl
     {
-        /// <summary>
-        /// Nessesary fields
-        /// </summary>
-        private Film[] _films;
-        private Film _currentFilm;
-        private const int _numberOfFilms = 5;
-        private Random rand;
+        private readonly Film[] _films;
+        private Film _currentFilm = null!;
+        private const int NumberOfFilms = 5;
+        private readonly Random _random = new();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="FilmPanel"/> class.
+        /// Populates the film list with random test data.
         /// </summary>
         public FilmPanel()
         {
             InitializeComponent();
-            _films = new Film[_numberOfFilms]; // Initialize films array
-            rand = new Random();
 
+            _films = new Film[NumberOfFilms];
 
-            // Filling films array and "linked" each with filmsListBox element
-            for (int i = 0; i < _numberOfFilms; i++)
+            for (int i = 0; i < NumberOfFilms; i++)
             {
-                string filmTitle = "B:MCS";
-                string filmGenre = "Music";
-                int filmDuration = rand.Next(600);
-                int filmYear = rand.Next(1901, DateTime.Now.Year + 1);
-                double filmRating = rand.Next(10) + (rand.NextDouble());
+                var title = $"B:MCS {i + 1}";
+                var genre = GetRandomGenre();
+                var duration = _random.Next(60, 180);
+                var year = _random.Next(1901, DateTime.Now.Year + 1);
+                var rating = Math.Round(_random.NextDouble() * 10, 1);
 
-                _films[i] = new Film(filmTitle, filmGenre, filmDuration, filmYear, filmRating);
+                _films[i] = new Film(title, genre, duration, year, rating);
                 filmsListBox.Items.Add($"Film {i + 1}");
             }
+
+            filmsListBox.SelectedIndex = 0;
         }
 
         /// <summary>
-        /// Event handling filmsListBox_SelectedIndexChanged
+        /// Handles selection change in the films list. Updates UI fields with selected film's data.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void filmsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Fools-check
             if (filmsListBox.SelectedIndex < 0) return;
 
-            // Choose a correct film following selected
             _currentFilm = _films[filmsListBox.SelectedIndex];
+            UpdateUiFromCurrentFilm();
+        }
 
-            // Filling fields of object
-            titleTextBox.Text = _currentFilm.Title;
-            genreTextBox.Text = _currentFilm.Genre;
+        /// <summary>
+        /// Updates all text boxes to reflect the current film's properties.
+        /// </summary>
+        private void UpdateUiFromCurrentFilm()
+        {
+            titleTextBox.Text = _currentFilm.Title ?? string.Empty;
+            genreTextBox.Text = _currentFilm.Genre.ToString();
             durationTextBox.Text = _currentFilm.Duration.ToString();
             releaseYearTextBox.Text = _currentFilm.ReleaseYear.ToString();
-            ratingTextBox.Text = _currentFilm.Rating.ToString();
+            ratingTextBox.Text = _currentFilm.Rating.ToString("F1");
         }
 
         /// <summary>
-        /// Event handling filmsListBox_SelectedIndexChanged
+        /// Handles changes to the title text box. Updates the current film's title.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
-        private void genreTextBox_TextChanged(object sender, EventArgs e)
-        {
-            _currentFilm.Genre = genreTextBox.Text; // Collecting genre value
-        }
-
-        /// <summary>
-        /// Event handling filmsListBox_SelectedIndexChanged
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void titleTextBox_TextChanged(object sender, EventArgs e)
         {
-            _currentFilm.Title = titleTextBox.Text; // Collecting title value
+            _currentFilm.Title = titleTextBox.Text;
         }
 
         /// <summary>
-        /// Event handling filmsListBox_SelectedIndexChanged
+        /// Handles changes to the genre text box. Attempts to parse input as <see cref="Genre"/>.
+        /// Invalid input is ignored.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
+        private void genreTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (Enum.TryParse<Genre>(genreTextBox.Text, true, out var genre))
+            {
+                _currentFilm.Genre = genre;
+                ClearErrorStyle(genreTextBox);
+            }
+            else
+            {
+                ApplyErrorStyle(genreTextBox);
+            }
+        }
+
+        /// <summary>
+        /// Handles changes to the duration text box. Validates input as positive integer.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void durationTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Error-checker
-            try
+            if (int.TryParse(durationTextBox.Text, out int duration) && duration > 0)
             {
-                _currentFilm.Duration = int.Parse(durationTextBox.Text); // Collecting duration value
-
-                // Changing TextBox color to white
-                if (durationTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
-                {
-                    durationTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                }
+                _currentFilm.Duration = duration;
+                ClearErrorStyle(durationTextBox);
             }
-            catch
+            else
             {
-                // Changing TextBox color to LightPink
-                durationTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ApplyErrorStyle(durationTextBox);
             }
         }
 
         /// <summary>
-        /// Event handling releaseYearTextBox_TextChanged
+        /// Handles changes to the release year text box. Validates input within reasonable range.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void releaseYearTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Error-checker
-            try
+            if (int.TryParse(releaseYearTextBox.Text, out int year) &&
+                year >= 1900 && year <= DateTime.Now.Year + 1)
             {
-                _currentFilm.ReleaseYear = int.Parse(releaseYearTextBox.Text); // Collecting release year value
-
-                // Changing TextBox color to white
-                if (releaseYearTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
-                {
-                    releaseYearTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                }
+                _currentFilm.ReleaseYear = year;
+                ClearErrorStyle(releaseYearTextBox);
             }
-            catch
+            else
             {
-                // Changing TextBox color to LightPink
-                releaseYearTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ApplyErrorStyle(releaseYearTextBox);
             }
         }
 
         /// <summary>
-        /// Event handling ratingTextBox_TextChanged
+        /// Handles changes to the rating text box. Validates input between 0.0 and 10.0.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void ratingTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Error-checker
-            try
+            if (double.TryParse(ratingTextBox.Text, out double rating) &&
+                rating >= 0.0 && rating <= 10.0)
             {
-                _currentFilm.Rating = double.Parse(ratingTextBox.Text); // Collecting rating value
-
-                // Changing TextBox color to white
-                if (ratingTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
-                {
-                    ratingTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                }
+                _currentFilm.Rating = rating;
+                ClearErrorStyle(ratingTextBox);
             }
-            catch
+            else
             {
-                // Changing TextBox color to LightPink
-                ratingTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ApplyErrorStyle(ratingTextBox);
             }
         }
 
         /// <summary>
-        /// Find film with max rating
+        /// Applies error visual style (pink background) to a text box.
         /// </summary>
-        /// <param name="filmArray">Array of films</param>
-        /// <returns>Rating</returns>
-        private int FindFilmWithMaxRating(Film[] filmArray)
+        /// <param name="textBox">The text box to highlight.</param>
+        private static void ApplyErrorStyle(TextBox textBox)
         {
-            double maxRating = filmArray[0].Rating;
-            int maxRatingIndex = 0;
-
-            // Finding max rating index
-            for (int i = 0; i < filmArray.Length; i++)
-            {
-                if (filmArray[i].Rating >= maxRating)
-                {
-                    maxRating = filmArray[i].Rating;
-                    maxRatingIndex = i;
-                }
-            }
-
-            return maxRatingIndex;
+            textBox.BackColor = System.Drawing.Color.LightPink;
         }
 
         /// <summary>
-        /// Event handling filmFindButton_Click
+        /// Resets the background color of a text box to default (white).
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="textBox">The text box to reset.</param>
+        private static void ClearErrorStyle(TextBox textBox)
+        {
+            textBox.BackColor =  System.Drawing.Color.White;
+        }
+
+        /// <summary>
+        /// Finds the index of the film with the highest rating.
+        /// </summary>
+        /// <param name="filmArray">The array of films to search.</param>
+        /// <returns>The index of the film with the maximum rating.</returns>
+        /// <exception cref="ArgumentException">Thrown when the array is null or empty.</exception>
+        private static int FindFilmWithMaxRating(Film[] filmArray)
+        {
+            if (filmArray == null || filmArray.Length == 0)
+                throw new ArgumentException("Film array cannot be null or empty.", nameof(filmArray));
+
+            return filmArray
+                .Select((film, index) => new { film.Rating, index })
+                .OrderByDescending(x => x.Rating)
+                .First().index;
+        }
+
+        /// <summary>
+        /// Handles click on the "Find Best Film" button. Selects the film with the highest rating.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void filmFindButton_Click(object sender, EventArgs e)
         {
-            int maxRatingIndex = FindFilmWithMaxRating(_films); // Found max rating index
-            filmsListBox.SelectedIndex = maxRatingIndex; // Changing index of selected element
+            int maxRatingIndex = FindFilmWithMaxRating(_films);
+            filmsListBox.SelectedIndex = maxRatingIndex;
+        }
+
+        /// <summary>
+        /// Returns a random value from the <see cref="Genre"/> enumeration.
+        /// </summary>
+        /// <returns>A random genre.</returns>
+        private Genre GetRandomGenre()
+        {
+            var genres = Enum.GetValues<Genre>();
+            return genres[_random.Next(genres.Length)];
         }
     }
 }
