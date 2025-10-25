@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Season of year enumeration
+/// Season of year enumeration.
 /// </summary>
 public enum Season
 {

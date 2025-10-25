@@ -1,50 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Programming.Model;
 
 namespace Programming.View.Panels
 {
     /// <summary>
-    /// Custom user control for weekday panel
+    /// A user control that validates and parses a weekday name entered by the user.
+    /// Displays confirmation with the day's name and numeric value if valid; otherwise, shows an error message.
     /// </summary>
     public partial class WeekdayPanel : UserControl
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="WeekdayPanel"/> class.
+        /// Clears the result label on startup.
         /// </summary>
         public WeekdayPanel()
         {
             InitializeComponent();
-
-            weekdayValidLabel.Text = String.Empty; // Clear the label for selected weekday
+            weekdayValidLabel.Text = string.Empty;
         }
 
         /// <summary>
-        /// Event handling parseWeekdayButton click
+        /// Handles click on the "Parse Weekday" button. Attempts to parse the input as a <see cref="Weekday"/>.
+        /// Updates the result label with success or error message.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void parseWeekdayButton_Click(object sender, EventArgs e)
         {
-            // Fool-check
-            if (weekdayValueTextBox.Text == String.Empty) return;
+            string input = weekdayValueTextBox.Text?.Trim();
 
-            // Validating entered text in WeekdayValuetextBox by occurence in Weekday enum
-            if (Enum.TryParse(weekdayValueTextBox.Text, out Weekday enteredDay) && Enum.IsDefined(typeof(Weekday), enteredDay))
+            if (string.IsNullOrEmpty(input))
             {
-                // Changing a text according to entered day
-                weekdayValidLabel.Text = $"Это день недели ({enteredDay.ToString()} = {(int)enteredDay})";
+                weekdayValidLabel.Text = "Please enter a weekday name.";
+                return;
+            }
+
+            if (Enum.TryParse<Weekday>(input, ignoreCase: true, out var enteredDay))
+            {
+                int value = (int)(object)enteredDay;
+                weekdayValidLabel.Text = $"It's a weekday ({enteredDay} = {value})";
             }
             else
             {
-                // "This object does not exist" message
-                weekdayValidLabel.Text = "Нет такого дня недели";
+                weekdayValidLabel.Text = "No such weekday exists.";
             }
         }
     }

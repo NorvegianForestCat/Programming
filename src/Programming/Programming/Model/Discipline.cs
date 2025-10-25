@@ -51,8 +51,7 @@ namespace Programming.Model
             get => _score;
             set
             {
-                // Проверяем диапазон: 1–5 (оценки)
-                Validator.AssertValueInRange(value, 1, 6, nameof(Score)); // [1, 5] → min=1, max=6 (exclusive)
+                Validator.AssertValueInRange(value, 1, 6, nameof(Score));
                 _score = value;
             }
         }

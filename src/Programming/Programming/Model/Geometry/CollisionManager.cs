@@ -1,52 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Programming.Model.Geometry
+﻿namespace Programming.Model.Geometry
 {
     /// <summary>
-    /// Provides functions for collisions
+    /// Provides static methods to detect collisions between geometric shapes.
     /// </summary>
     static class CollisionManager
     {
         /// <summary>
-        /// Rectangle collision
+        /// Determines whether two rectangles are colliding using axis-aligned bounding box (AABB) collision detection.
+        /// Rectangles are defined by their center point, width, and length (height).
         /// </summary>
-        /// <param name="rectangular1">Rectangle</param>
-        /// <param name="rectangular2">Rectanlge</param>
-        /// <returns>Is collision?</returns>
+        /// <param name="rectangular1">The first rectangle. Must not be null.</param>
+        /// <param name="rectangular2">The second rectangle. Must not be null.</param>
+        /// <returns><see langword="true"/> if the rectangles overlap; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when either rectangle is <see langword="null"/>.</exception>
         public static bool IsCollision(Rectangular rectangular1, Rectangular rectangular2)
         {
-            if (Math.Abs(rectangular1.Center.X - rectangular2.Center.X) < Math.Abs(rectangular1.Width / 2 + rectangular2.Width / 2) &
-               Math.Abs(rectangular1.Center.Y - rectangular2.Center.Y) < Math.Abs(rectangular1.Length / 2 + rectangular2.Length / 2))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (rectangular1 == null)
+                throw new ArgumentNullException(nameof(rectangular1));
+            if (rectangular2 == null)
+                throw new ArgumentNullException(nameof(rectangular2));
+
+            double dx = Math.Abs(rectangular1.Center.X - rectangular2.Center.X);
+            double dy = Math.Abs(rectangular1.Center.Y - rectangular2.Center.Y);
+
+            double widthSum = (rectangular1.Width + rectangular2.Width) / 2;
+            double heightSum = (rectangular1.Length + rectangular2.Length) / 2;
+
+            return dx < widthSum && dy < heightSum;
         }
 
         /// <summary>
-        /// Ring collision
+        /// Determines whether two rings (annuli) are colliding by checking distance between centers.
+        /// Collision occurs if the distance between centers is less than the sum of external radii.
         /// </summary>
-        /// <param name="rectangular1">Ring</param>
-        /// <param name="rectangular2">Ring</param>
-        /// <returns>Is collision?</returns>
+        /// <param name="ring1">The first ring. Must not be null.</param>
+        /// <param name="ring2">The second ring. Must not be null.</param>
+        /// <returns><see langword="true"/> if the rings overlap; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when either ring is <see langword="null"/>.</exception>
         public static bool IsCollision(Ring ring1, Ring ring2)
         {
-            double C = Math.Sqrt(Math.Pow(Math.Abs(ring1.Center.X - ring2.Center.X), 2) - Math.Pow(Math.Abs(ring1.Center.Y - ring2.Center.Y), 2));
-            if (C < ring1.ExternalRadius + ring2.ExternalRadius)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (ring1 == null)
+                throw new ArgumentNullException(nameof(ring1));
+            if (ring2 == null)
+                throw new ArgumentNullException(nameof(ring2));
+
+            double dx = ring1.Center.X - ring2.Center.X;
+            double dy = ring1.Center.Y - ring2.Center.Y;
+            double distance = Math.Sqrt(dx * dx + dy * dy);
+
+            return distance < (ring1.ExternalRadius + ring2.ExternalRadius);
         }
     }
 }

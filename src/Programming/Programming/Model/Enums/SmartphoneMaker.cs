@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Smartphone manufactories enumeration
+/// Smartphone manufactories enumeration.
 /// </summary>
 public enum SmartphoneMaker
 {

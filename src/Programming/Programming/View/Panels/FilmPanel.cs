@@ -39,6 +39,7 @@ namespace Programming.View.Panels
                 filmsListBox.Items.Add($"Film {i + 1}");
             }
 
+            // Выбираем первый фильм
             filmsListBox.SelectedIndex = 0;
         }
 
@@ -79,13 +80,13 @@ namespace Programming.View.Panels
 
         /// <summary>
         /// Handles changes to the genre text box. Attempts to parse input as <see cref="Genre"/>.
-        /// Invalid input is ignored.
+        /// Invalid input is ignored and visual error style is applied.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">Event arguments.</param>
         private void genreTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (Enum.TryParse<Genre>(genreTextBox.Text, true, out var genre))
+            if (Enum.TryParse<Genre>(genreTextBox.Text, ignoreCase: true, out var genre))
             {
                 _currentFilm.Genre = genre;
                 ClearErrorStyle(genreTextBox);
@@ -134,7 +135,7 @@ namespace Programming.View.Panels
         }
 
         /// <summary>
-        /// Handles changes to the rating text box. Validates input between 0.0 and 10.0.
+        /// Handles changes to the rating text box. Validates input between 0.0 and 10.0 inclusive.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">Event arguments.</param>
@@ -167,7 +168,7 @@ namespace Programming.View.Panels
         /// <param name="textBox">The text box to reset.</param>
         private static void ClearErrorStyle(TextBox textBox)
         {
-            textBox.BackColor =  System.Drawing.Color.White;
+            textBox.BackColor = System.Drawing.Color.White;
         }
 
         /// <summary>

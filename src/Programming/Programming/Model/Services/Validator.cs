@@ -1,100 +1,110 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Programming.Model.Services
+﻿namespace Programming.Model.Services
 {
     /// <summary>
-    /// Provide validation functions
+    /// Provides a collection of static methods for validating common data constraints.
+    /// All methods throw an <see cref="ArgumentException"/> if validation fails.
+    /// Null values are typically ignored (treated as valid) unless otherwise specified.
     /// </summary>
-    static class Validator
+    public static class Validator
     {
         /// <summary>
-        /// Assertion on positive value
+        /// Ensures the specified integer value is positive (greater than zero).
+        /// A null value is considered valid and does not throw an exception.
         /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">If assertion is not passed</exception>
-        public static void AssertOnPositiveValue(int? value, string propertyName)
+        /// <param name="value">The nullable integer to validate.</param>
+        /// <param name="parameterName">The name of the parameter being validated, used in error messages.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the value is not null and is less than or equal to zero.
+        /// </exception>
+        public static void AssertOnPositiveValue(int? value, string parameterName)
         {
-            if (value == null) return;
-
-            if (value < 0)
+            if (value.HasValue && value <= 0)
             {
-                throw new ArgumentException($"{propertyName} must be greater than 0");
+                throw new ArgumentException($"{parameterName} must be greater than zero.", parameterName);
             }
         }
 
         /// <summary>
-        /// Assertion on positive value
+        /// Ensures the specified double value is positive (greater than zero).
+        /// A null value is considered valid and does not throw an exception.
         /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">If assertion is not passed</exception>
-        public static void AssertOnPositiveValue(double? value, string propertyName)
+        /// <param name="value">The nullable double to validate.</param>
+        /// <param name="parameterName">The name of the parameter being validated, used in error messages.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the value is not null and is less than or equal to zero.
+        /// </exception>
+        public static void AssertOnPositiveValue(double? value, string parameterName)
         {
-            if (value == null) return;
-
-            if (value < 0.0)
+            if (value.HasValue && value <= 0.0)
             {
-                throw new ArgumentException($"{propertyName} must be greater than 0");
+                throw new ArgumentException($"{parameterName} must be greater than zero.", parameterName);
             }
         }
 
         /// <summary>
-        /// Assertion on positive value in range
+        /// Ensures the specified integer value is within the specified range (inclusive of min, exclusive of max).
+        /// A null value is considered valid and does not throw an exception.
         /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="max">Max value</param>
-        /// <param name="min">Min value</param>
-        /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">If assertion is not passed</exception>
-        public static void AssertValueInRange(int? value, int min, int max, string propertyName)
+        /// <param name="value">The nullable integer to validate.</param>
+        /// <param name="min">The minimum allowed value (inclusive).</param>
+        /// <param name="max">The maximum allowed value (exclusive).</param>
+        /// <param name="parameterName">The name of the parameter being validated.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the value is not null and is outside the specified range.
+        /// </exception>
+        public static void AssertValueInRange(int? value, int min, int max, string parameterName)
         {
-            if (value == null) return;
-
-            if (value < min || value > max)
-            {
-                throw new ArgumentException($"{propertyName} must be in range between {min} and {max}");
-            }
-        }
-
-        /// <summary>
-        /// Assertion on positive value in range
-        /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="max">Max value</param>
-        /// <param name="min">Min value</param>
-        /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">If assertion is not passed</exception>
-        public static void AssertValueInRange(double? value, double min, double max, string propertyName)
-        {
-            if (value == null) return;
+            if (!value.HasValue) return;
 
             if (value < min || value >= max)
             {
-                throw new ArgumentException($"{propertyName} must be in range between {min} and {max}");
+                throw new ArgumentException(
+                    $"{parameterName} must be in the range [{min}, {max}). Received: {value}.",
+                    parameterName);
             }
         }
 
         /// <summary>
-        /// Assertion on contains latin letters only
+        /// Ensures the specified double value is within the specified range (inclusive of min, exclusive of max).
+        /// A null value is considered valid and does not throw an exception.
         /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="propertyName">Property name</param>
-        /// <exception cref="ArgumentException">If assertion is not passed</exception>
-        public static void AssertStringContainsOnlyLetters(string? value, string propertyName)
+        /// <param name="value">The nullable double to validate.</param>
+        /// <param name="min">The minimum allowed value (inclusive).</param>
+        /// <param name="max">The maximum allowed value (exclusive).</param>
+        /// <param name="parameterName">The name of the parameter being validated.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the value is not null and is outside the specified range.
+        /// </exception>
+        public static void AssertValueInRange(double? value, double min, double max, string parameterName)
         {
-            if (value == null) return;
+            if (!value.HasValue) return;
 
-            foreach (char letter in value.ToUpper())
+            if (value < min || value >= max)
             {
-                if (letter < 65 || letter > 90)
-                {
-                    throw new ArgumentException($"{propertyName} must consists of only latin letters");
-                }
+                throw new ArgumentException(
+                    $"{parameterName} must be in the range [{min}, {max}). Received: {value:F2}.",
+                    parameterName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures the specified string contains only Latin letters (A–Z, a–z).
+        /// A null or empty string is considered valid.
+        /// </summary>
+        /// <param name="value">The string to validate.</param>
+        /// <param name="parameterName">The name of the parameter being validated, used in error messages.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the string is not null and contains non-letter or non-Latin characters.
+        /// </exception>
+        public static void AssertStringContainsOnlyLetters(string? value, string parameterName)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            if (!value.All(c => char.IsLetter(c) && ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))))
+            {
+                throw new ArgumentException(
+                    $"{parameterName} must contain only Latin letters (A–Z, a–z). Found invalid character(s).",
+                    parameterName);
             }
         }
     }
