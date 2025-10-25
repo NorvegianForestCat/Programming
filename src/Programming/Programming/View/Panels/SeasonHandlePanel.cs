@@ -1,60 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Programming.View.Panels
+﻿namespace Programming.View.Panels
 {
     /// <summary>
-    /// Custom user control for season panel
+    /// A user control that allows users to select a season and receive visual or message-based feedback.
+    /// The background color changes according to the selected season, and a descriptive message is shown.
     /// </summary>
     public partial class SeasonHandlePanel : UserControl
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="SeasonHandlePanel"/> class.
+        /// Populates the combo box with all values from the <see cref="Season"/> enumeration.
         /// </summary>
         public SeasonHandlePanel()
         {
             InitializeComponent();
 
-            chooseSeasonComboBox.DataSource = Enum.GetValues(typeof(Season)); // Filling a season ComboBox
+            chooseSeasonComboBox.DataSource = Enum.GetValues<Season>();
         }
 
         /// <summary>
-        /// Event handling chooseSeasonButton click
+        /// Handles click on the "Choose Season" button. Displays a message and updates the background color
+        /// based on the selected season.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void chooseSeasonButton_Click(object sender, EventArgs e)
         {
-            // Fool-check
-            if (chooseSeasonComboBox.SelectedItem == null) return;
+            if (chooseSeasonComboBox.SelectedItem is not Season selectedSeason)
+                return;
 
-            // Performing some operations according to selected season 
-            switch (chooseSeasonComboBox.SelectedItem)
+            ShowSeasonMessage(selectedSeason);
+            UpdateBackgroundColor(selectedSeason);
+        }
+
+        /// <summary>
+        /// Displays a friendly message based on the selected season.
+        /// </summary>
+        /// <param name="season">The selected season.</param>
+        private void ShowSeasonMessage(Season season)
+        {
+            string message = season switch
             {
-                case Season.Summer:
-                    // Showing a message box with some text (Ура! Солнце!)
-                    MessageBox.Show("Ура! Солнце!");
-                    break;
-                case Season.Winter:
-                    // Showing a message box with some text (Бррр! Холодно!)
-                    MessageBox.Show("Бррр! Холодно!");
-                    break;
-                case Season.Fall:
-                    // Changing background color by according color (#e29c45)
-                    MessageBox.Show("Leaves..");
-                    break;
-                case Season.Spring:
-                    // Changing background color by according color (#559c45)
-                    MessageBox.Show("Leaves!");
-                    break;
-            }
+                Season.Summer => "Hooray! Sunshine!",
+                Season.Winter => "Brrr! It's cold!",
+                Season.Spring => "Spring is in the air! Leaves are growing.",
+                Season.Fall => "Autumn leaves are falling...",
+                _ => "Unknown season."
+            };
+
+            MessageBox.Show(message, $"Season: {season}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Updates the background color of the panel to reflect the selected season.
+        /// </summary>
+        /// <param name="season">The selected season.</param>
+        private void UpdateBackgroundColor(Season season)
+        {
+            BackColor = season switch
+            {
+                Season.Summer => System.Drawing.Color.FromArgb(255, 255, 220), // Light yellow
+                Season.Winter => System.Drawing.Color.FromArgb(230, 240, 255), // Light blue
+                Season.Spring => System.Drawing.Color.FromArgb(180, 220, 180), // Light green
+                Season.Fall => System.Drawing.Color.FromArgb(226, 156, 69),   // Amber (#e29c45)
+                _ => SystemColors.Control
+            };
         }
     }
 }

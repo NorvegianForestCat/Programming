@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Enumeration of days of weeks
+/// Enumeration of days of weeks.
 /// </summary>
 public enum Weekday
 {

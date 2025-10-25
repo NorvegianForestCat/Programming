@@ -1,96 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Programming.View.Panels
+﻿namespace Programming.View.Panels
 {
     /// <summary>
-    /// Custom user control for enumerations panel
+    /// A user control that allows browsing available enumerations and viewing their members and underlying integer values.
+    /// The left list displays enum types; the right list shows all values of the selected enum.
     /// </summary>
     public partial class EnumerationsPanel : UserControl
     {
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="EnumerationsPanel"/> class.
         /// </summary>
         public EnumerationsPanel()
         {
             InitializeComponent();
-
-            enumsListBox.SelectedIndex = 0; // Set a base element for enums list
+            enumsListBox.SelectedIndex = 0;
         }
 
         /// <summary>
-        /// Event handling enumsListBox_SelectedIndexChanged
+        /// Handles selection change in the enums list. Populates the value list with members of the selected enum.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void enumsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Choosing enum for showing it's elements in values list by existed enums list
-            switch (enumsListBox.SelectedIndex)
+            if (enumsListBox.SelectedIndex == -1) return;
+
+            Type enumType = GetSelectedEnumType();
+            if (enumType != null && Enum.GetValues(enumType).Length > 0)
             {
-                case 0:
-                    // Select enum Color and fill values its enum elements
-                    InitializeValueListBox(new Color());
-                    break;
-
-                case 1:
-                    // Select enum EducationForm and fill values its enum elements
-                    InitializeValueListBox(new EducationForm());
-                    break;
-
-                case 2:
-                    // Select enum Genre and fill values its enum elements
-                    InitializeValueListBox(new Genre());
-                    break;
-
-                case 3:
-                    // Select enum Season and fill values its enum elements
-                    InitializeValueListBox(new Season());
-                    break;
-
-                case 4:
-                    // Select enum SmartphoneMaker and fill values its enum elements
-                    InitializeValueListBox(new SmartphoneMaker());
-                    break;
-
-                case 5:
-                    // Select enum Weekday and fill values its enum elements
-                    InitializeValueListBox(new Weekday());
-                    break;
+                InitializeValueListBox(Enum.GetValues(enumType).GetValue(0) as Enum);
             }
         }
 
         /// <summary>
-        /// Initializing value listBox
+        /// Maps the currently selected index in <see cref="enumsListBox"/> to its corresponding enum type.
         /// </summary>
-        /// <param name="selectedEnum">Enum</param>
+        /// <returns>The <see cref="Type"/> of the selected enum, or <see langword="null"/> if invalid.</returns>
+        private Type? GetSelectedEnumType()
+        {
+            return enumsListBox.SelectedIndex switch
+            {
+                0 => typeof(Color),
+                1 => typeof(EducationForm),
+                2 => typeof(Genre),
+                3 => typeof(Season),
+                4 => typeof(SmartphoneMaker),
+                5 => typeof(Weekday),
+                _ => null
+            };
+        }
+
+        /// <summary>
+        /// Populates the <see cref="valueListBox"/> with all members of the specified enumeration.
+        /// </summary>
+        /// <param name="selectedEnum">An instance of the enum whose values will be displayed. Used to determine the type.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="selectedEnum"/> is <see langword="null"/>.</exception>
         private void InitializeValueListBox(Enum selectedEnum)
         {
-            valueListBox.Items.Clear(); // Clear values list from existed values
+            if (selectedEnum is null)
+                throw new ArgumentNullException(nameof(selectedEnum));
 
-            // Filling values list by new values from selectedEnum
-            foreach (Enum enumElement in Enum.GetValues(selectedEnum.GetType()))
+            valueListBox.Items.Clear();
+
+            foreach (var value in Enum.GetValues(selectedEnum.GetType()).Cast<Enum>())
             {
-                valueListBox.Items.Add(enumElement);
+                valueListBox.Items.Add(value);
             }
+
+            valueListBox.SelectedIndex = -1;
+            intValueTextBox.Clear();
         }
 
         /// <summary>
-        /// Event handling enumsListBox_SelectedIndexChanged
+        /// Handles selection change in the value list. Displays the underlying integer value of the selected enum member.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void valueListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Writing an int representation of selected enum element
-            intValueTextBox.Text = ((int)valueListBox.SelectedItem).ToString();
+            if (valueListBox.SelectedItem is Enum selectedEnum)
+            {
+                intValueTextBox.Text = ((int)(object)selectedEnum).ToString();
+            }
+            else
+            {
+                intValueTextBox.Clear();
+            }
         }
     }
 }

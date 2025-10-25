@@ -1,162 +1,163 @@
-﻿using Programming.Model.Geometry;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Programming.Model.Geometry;
 
 namespace Programming.View.Panels
 {
     /// <summary>
-    /// Custom user control for rectangle panel
+    /// A user control for managing and displaying a collection of rectangles.
+    /// Allows viewing, editing rectangle properties, and finding the rectangle with maximum width.
     /// </summary>
     public partial class RectanglePanel : UserControl
     {
-        /// <summary>
-        /// Nessesary fields
-        /// </summary>
-        private const int _numberOfRectangles = 5;
-        private Rectangular[] _rectangles;
-        private Rectangular _currentRectangle;
-        private Random rand;
+        private const int NumberOfRectangles = 5;
+        private readonly Rectangular[] _rectangles;
+        private Rectangular _currentRectangle = null!;
+        private readonly Random _random = new();
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the <see cref="RectanglePanel"/> class.
+        /// Populates the rectangle list with random test data.
         /// </summary>
         public RectanglePanel()
         {
             InitializeComponent();
 
-            _rectangles = new Rectangular[_numberOfRectangles]; // Initialize rectangulars array
-            rand = new Random(); // Create a Random object
+            _rectangles = new Rectangular[NumberOfRectangles];
 
-            // Filling rectangular array and "linked" each with rectangleListBox element
-            for (int i = 0; i < _numberOfRectangles; i++)
+            for (int i = 0; i < NumberOfRectangles; i++)
             {
-                _rectangles[i] = new Rectangular(rand.Next(100), rand.Next(100), 1, 1, "White");
+                var length = _random.Next(10, 200);
+                var width = _random.Next(10, 200);
+                var x = _random.Next(50, 300);
+                var y = _random.Next(50, 300);
+                var color = "White";
+
+                _rectangles[i] = new Rectangular(length, width, x, y, color);
                 rectangleListBox.Items.Add($"Rectangular {i + 1}");
             }
+
+            // Выбираем первый элемент по умолчанию
+            rectangleListBox.SelectedIndex = 0;
         }
 
         /// <summary>
-        /// Event handling rectangleListBox_SelectedIndexChanged
+        /// Handles selection change in the rectangle list. Updates UI fields with selected rectangle's data.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void rectangleListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Fools-check
             if (rectangleListBox.SelectedIndex < 0) return;
 
-            // Choose a correct rectangle following selected
             _currentRectangle = _rectangles[rectangleListBox.SelectedIndex];
-
-            // Filling fields of object
-            lengthTextBox.Text = _currentRectangle.Length.ToString();
-            widthTextBox.Text = _currentRectangle.Width.ToString();
-            rectColorTextBox.Text = _currentRectangle.Color.ToString();
-            rectangleCenterTextBox.Text = _currentRectangle.Center.ToString();
-            rectangleIDTextBox.Text = _currentRectangle.ID.ToString();
-
-            MessageBox.Show(CollisionManager.IsCollision(_currentRectangle, _rectangles[0]).ToString());
+            UpdateUiFromCurrentRectangle();
         }
 
         /// <summary>
-        /// Event handling lengthTextBox_TextChanged
+        /// Updates all text boxes to reflect the current rectangle's properties.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        private void UpdateUiFromCurrentRectangle()
+        {
+            lengthTextBox.Text = ((int)_currentRectangle.Length).ToString();
+            widthTextBox.Text = ((int)_currentRectangle.Width).ToString();
+            rectColorTextBox.Text = _currentRectangle.Color ?? string.Empty;
+            rectangleCenterTextBox.Text = $"({(int)_currentRectangle.Center.X}, {(int)_currentRectangle.Center.Y})";
+            rectangleIDTextBox.Text = _currentRectangle.ID.ToString();
+        }
+
+        /// <summary>
+        /// Handles changes to the length text box. Validates input as positive integer.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void lengthTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Error-checker
-            try
+            if (int.TryParse(lengthTextBox.Text, out int value) && value > 0)
             {
-                _currentRectangle.Length = int.Parse(lengthTextBox.Text); // Collecting length value
-
-                // Changing TextBox color to white
-                if (lengthTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
-                {
-                    lengthTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                }
+                _currentRectangle.Length = value;
+                ApplyValidStyle(lengthTextBox);
             }
-            catch
+            else
             {
-                // Changing TextBox color to LightPink
-                lengthTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ApplyErrorStyle(lengthTextBox);
             }
         }
 
         /// <summary>
-        /// Event handling widthTextBox_TextChanged
+        /// Handles changes to the width text box. Validates input as positive integer.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void widthTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Error-checker
-            try
+            if (int.TryParse(widthTextBox.Text, out int value) && value > 0)
             {
-                _currentRectangle.Width = int.Parse(widthTextBox.Text); // Collecting width value
-
-                // Changing TextBox color to white
-                if (widthTextBox.BackColor != ColorTranslator.FromHtml("#FFFFFF"))
-                {
-                    widthTextBox.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                }
+                _currentRectangle.Width = value;
+                ApplyValidStyle(widthTextBox);
             }
-            catch
+            else
             {
-                // Changing TextBox color to LightPink
-                widthTextBox.BackColor = ColorTranslator.FromHtml("#FFB6C1");
+                ApplyErrorStyle(widthTextBox);
             }
         }
 
         /// <summary>
-        /// Event handling rectColorTextBox_TextChanged
+        /// Handles changes to the color text box. Updates the rectangle's color.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void rectColorTextBox_TextChanged(object sender, EventArgs e)
         {
-            _currentRectangle.Color = rectColorTextBox.Text; // Collecting color value
+            _currentRectangle.Color = rectColorTextBox.Text;
+            // Цвет не валидируется — допускается любое значение
         }
 
         /// <summary>
-        /// Find Rectangle with max width
+        /// Applies error visual style (pink background) to a text box.
         /// </summary>
-        /// <param name="rectangularArray">Array of rectangles</param>
-        /// <returns>Index</returns>
-        private int FindRectangleWithMaxWidth(Rectangular[] rectangularArray)
+        /// <param name="textBox">The text box to highlight.</param>
+        private static void ApplyErrorStyle(TextBox textBox)
         {
-            double maxWidth = rectangularArray[0].Width;
-            int maxWidthIndex = 0;
-
-            // Finding max width index
-            for (int i = 0; i < rectangularArray.Length; i++)
-            {
-                if (rectangularArray[i].Width >= maxWidth)
-                {
-                    maxWidth = rectangularArray[i].Width;
-                    maxWidthIndex = i;
-                }
-            }
-
-            return maxWidthIndex;
+            textBox.BackColor = System.Drawing.Color.LightPink;
         }
 
         /// <summary>
-        /// Event handling rectFindButton_Click
+        /// Resets the background color of a text box to default (white).
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="textBox">The text box to reset.</param>
+        private static void ApplyValidStyle(TextBox textBox)
+        {
+            textBox.BackColor = System.Drawing.Color.White;
+        }
+
+        /// <summary>
+        /// Finds the index of the rectangle with the maximum width.
+        /// </summary>
+        /// <param name="rectangularArray">The array of rectangles to search.</param>
+        /// <returns>The index of the rectangle with the maximum width.</returns>
+        /// <exception cref="ArgumentException">Thrown when the array is null or empty.</exception>
+        private static int FindRectangleWithMaxWidth(Rectangular[] rectangularArray)
+        {
+            if (rectangularArray == null || rectangularArray.Length == 0)
+                throw new ArgumentException("Rectangle array cannot be null or empty.", nameof(rectangularArray));
+
+            return rectangularArray
+                .Select((rect, index) => new { rect.Width, index })
+                .OrderByDescending(x => x.Width)
+                .First().index;
+        }
+
+        /// <summary>
+        /// Handles click on the "Find Largest Width" button. Selects the rectangle with maximum width.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void rectFindButton_Click(object sender, EventArgs e)
         {
-            int maxWidthIndex = FindRectangleWithMaxWidth(_rectangles); // Found max width index
-            rectangleListBox.SelectedIndex = maxWidthIndex; // Changing index of selected element
+            int maxWidthIndex = FindRectangleWithMaxWidth(_rectangles);
+            rectangleListBox.SelectedIndex = maxWidthIndex;
         }
     }
 }

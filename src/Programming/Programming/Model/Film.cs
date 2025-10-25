@@ -151,7 +151,7 @@ namespace Programming.Model
                    Genre == other.Genre &&
                    Duration == other.Duration &&
                    ReleaseYear == other.ReleaseYear &&
-                   Math.Abs(Rating - other.Rating) < 1e-6; // Для double
+                   Math.Abs(Rating - other.Rating) < 1e-6;
         }
 
         /// <summary>

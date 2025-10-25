@@ -57,7 +57,7 @@ namespace Programming.Model
         {
             SongName = "Wind of Changes";
             ArtistName = "Scorpions";
-            DurationInSeconds = 311; // ~5:11
+            DurationInSeconds = 311;
         }
 
         /// <summary>
