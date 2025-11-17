@@ -14,12 +14,12 @@ namespace ObjectOrientedPractics.View.Controls
         /// <summary>
         /// Class fields
         /// </summary>
-        private Adress _address;
+        private Address _address;
 
         /// <summary>
         /// Gets and sets <see cref="Model.Address"/>.
         /// </summary>
-        public Adress Address
+        public Address Address
         {
             get => _address;
             set
@@ -93,7 +93,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (!IsControlEnabled) return;
 
-            if (PostIndexTextBox.Text.Length == Adress.INDEX_DIGIT &&
+            if (PostIndexTextBox.Text.Length == Address.INDEX_DIGIT &&
                                 int.TryParse(PostIndexTextBox.Text, out var temp))
             {
                 WrongInputLabel.Text = string.Empty;
@@ -110,7 +110,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (!IsControlEnabled) return;
 
-            if (CountryTextBox.Text.Length <= Adress.COUNTRY_LENGTH_LIMIT)
+            if (CountryTextBox.Text.Length <= Address.COUNTRY_LENGTH_LIMIT)
             {
                 WrongInputLabel.Text = string.Empty;
                 CountryTextBox.BackColor = AppColors.RightInputColor;
@@ -126,7 +126,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (!IsControlEnabled) return;
 
-            if (CityTextBox.Text.Length <= Adress.CITY_LENGTH_LIMIT)
+            if (CityTextBox.Text.Length <= Address.CITY_LENGTH_LIMIT)
             {
                 WrongInputLabel.Text = string.Empty;
                 CityTextBox.BackColor = AppColors.RightInputColor;
@@ -142,7 +142,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (!IsControlEnabled) return;
 
-            if (StreetTextBox.Text.Length <= Adress.STREET_LENGTH_LIMIT)
+            if (StreetTextBox.Text.Length <= Address.STREET_LENGTH_LIMIT)
             {
                 WrongInputLabel.Text = string.Empty;
                 StreetTextBox.BackColor = AppColors.RightInputColor;
@@ -157,7 +157,7 @@ namespace ObjectOrientedPractics.View.Controls
         private void BuildingTextBox_TextChanged(object sender, EventArgs e)
         {
             if (!IsControlEnabled) return;
-            if (BuildingTextBox.Text.Length <= Adress.BUILDING_LENGTH_LIMIT)
+            if (BuildingTextBox.Text.Length <= Address.BUILDING_LENGTH_LIMIT)
             {
                 WrongInputLabel.Text = string.Empty;
                 BuildingTextBox.BackColor = AppColors.RightInputColor;
@@ -173,7 +173,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (!IsControlEnabled) return;
 
-            if (ApartmentTextBox.Text.Length <= Adress.APARTMENT_LENGTH_LIMIT)
+            if (ApartmentTextBox.Text.Length <= Address.APARTMENT_LENGTH_LIMIT)
             {
                 WrongInputLabel.Text = string.Empty;
                 ApartmentTextBox.BackColor = AppColors.RightInputColor;
